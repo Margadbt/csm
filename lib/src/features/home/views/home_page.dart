@@ -1,0 +1,55 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/home/views/widgets/header_widget.dart';
+import 'package:csm/src/widgets/input_with_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/home_cubit.dart';
+
+@RoutePage()
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final TextEditingController _trackCodeController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF02010A),
+      body: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: BlocBuilder<HomeCubit, int>(
+            builder: (context, count) => Column(children: [
+              const Header(
+                profile: true,
+                settings: true,
+              ),
+              const SizedBox(
+                height: 14,
+              ),
+              InputWithButton(
+                controller: _trackCodeController,
+                placeholder: 'Track Code...',
+                prefixIconPath: Assets.images.package.path,
+                buttonIconPath: Assets.images.plus.path,
+                onTap: () {},
+              )
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _trackCodeController.dispose(); // Dispose of the controller when the widget is disposed
+    super.dispose();
+  }
+}
