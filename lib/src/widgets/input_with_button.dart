@@ -1,4 +1,5 @@
 import 'package:csm/src/widgets/icon_button.dart';
+import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -27,8 +28,8 @@ class InputWithButton extends StatelessWidget {
           child: Container(
             height: 50,
             decoration: BoxDecoration(
-              border: Border.all(color: const Color(0x1affffff), width: 1),
-              color: const Color(0xFF0C0C1C), // Background color
+              border: Border.all(color: AppColors.cardStroke, width: 1),
+              color: AppColors.secondaryBg, // Background color
               borderRadius: BorderRadius.circular(25),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -54,7 +55,12 @@ class InputWithButton extends StatelessWidget {
 
         const SizedBox(width: 12), // Space between input and button
 
-        ButtonIcon(imagePath: buttonIconPath, onTap: onTap, color: const Color(0xFFEDCDFF))
+        ButtonIcon(
+          imagePath: buttonIconPath,
+          onTap: onTap,
+          color: AppColors.primary,
+          iconColor: Colors.black,
+        )
       ],
     );
   }

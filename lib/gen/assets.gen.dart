@@ -15,6 +15,12 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/completed.svg
+  SvgGenImage get completed => const SvgGenImage('assets/images/completed.svg');
+
+  /// File path: assets/images/delievery.svg
+  SvgGenImage get delievery => const SvgGenImage('assets/images/delievery.svg');
+
   /// File path: assets/images/package.svg
   SvgGenImage get package => const SvgGenImage('assets/images/package.svg');
 
@@ -25,12 +31,27 @@ class $AssetsImagesGen {
   AssetGenImage get profile =>
       const AssetGenImage('assets/images/profile.jpeg');
 
+  /// File path: assets/images/received.svg
+  SvgGenImage get received => const SvgGenImage('assets/images/received.svg');
+
   /// File path: assets/images/settingsIcon.svg
   SvgGenImage get settingsIcon =>
       const SvgGenImage('assets/images/settingsIcon.svg');
 
+  /// File path: assets/images/warehouse.svg
+  SvgGenImage get warehouse => const SvgGenImage('assets/images/warehouse.svg');
+
   /// List of all assets
-  List<dynamic> get values => [package, plus, profile, settingsIcon];
+  List<dynamic> get values => [
+        completed,
+        delievery,
+        package,
+        plus,
+        profile,
+        received,
+        settingsIcon,
+        warehouse
+      ];
 }
 
 class Assets {
