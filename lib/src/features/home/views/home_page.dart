@@ -3,9 +3,11 @@ import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
 import 'package:csm/src/widgets/package_card.dart';
+import 'package:csm/src/widgets/status_chips.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../widgets/text.dart';
 import '../cubit/home_cubit.dart';
 
 @RoutePage()
@@ -42,6 +44,10 @@ class _HomePageState extends State<HomePage> {
                 buttonIconPath: Assets.images.plus.path,
                 onTap: () {},
               ),
+              const SizedBox(height: 30),
+              Align(alignment: Alignment.centerLeft, child: text(value: "Ачааны төлөвүүд:", fontWeight: FontWeight.bold)),
+              const SizedBox(height: 12),
+              const StatusChips(),
               const SizedBox(height: 30),
               const PackageCard(
                 trackCode: 'J1123123123',

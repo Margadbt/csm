@@ -7,6 +7,7 @@ Text text({required String value, double fontSize = 14, TextAlign align = TextAl
     style: TextStyle(
       fontFamily: fontFamily ?? FontFamily.comfortaa,
       fontWeight: fontWeight,
+      height: 1.2,
       fontSize: fontSize,
       color: color ?? const Color(0xFFFFFFFF),
       overflow: TextOverflow.ellipsis,
