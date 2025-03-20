@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
+import 'package:csm/src/features/profile/views/profile_page.dart';
 import 'package:csm/src/widgets/bottom_nav_bar_button.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:csm/utils/math_utils.dart';
@@ -35,7 +36,7 @@ class HomePage extends StatelessWidget {
                     ? const HomeTabPage(key: ValueKey(0)) // Use ValueKey for smooth transition
                     : state.homeScreenIndex == 1
                         ? const PackagesPage(key: ValueKey(1)) // Same for PackagesPage
-                        : const SizedBox(),
+                        : const ProfilePage(key: ValueKey(2)),
               ),
               buildBottomNavBar(context: context, state: state),
             ],

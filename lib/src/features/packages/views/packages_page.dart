@@ -1,13 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
-import 'package:csm/src/widgets/bottom_nav_bar_button.dart';
 import 'package:csm/src/widgets/package_card.dart';
-import 'package:csm/src/widgets/status_chips.dart';
 import 'package:csm/theme/colors.dart';
-import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
-import '../../../widgets/text.dart';
 
 @RoutePage()
 class PackagesPage extends StatefulWidget {
