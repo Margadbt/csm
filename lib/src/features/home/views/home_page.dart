@@ -19,14 +19,27 @@ class HomePage extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.background,
-          body: Stack(children: [
-            state.homeScreenIndex == 0
-                ? const HomeTabPage()
-                : state.homeScreenIndex == 1
-                    ? const PackagesPage()
-                    : const SizedBox(),
-            buildBottomNavBar(context: context, state: state)
-          ]),
+          body: Stack(
+            children: [
+              // Wrap the content with AnimatedSwitcher for smooth opacity transition
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150), // Adjust duration to control the speed of the fade
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  // Create a fade transition
+                  return FadeTransition(
+                    opacity: animation,
+                    child: child,
+                  );
+                },
+                child: state.homeScreenIndex == 0
+                    ? const HomeTabPage(key: ValueKey(0)) // Use ValueKey for smooth transition
+                    : state.homeScreenIndex == 1
+                        ? const PackagesPage(key: ValueKey(1)) // Same for PackagesPage
+                        : const SizedBox(),
+              ),
+              buildBottomNavBar(context: context, state: state),
+            ],
+          ),
         );
       },
     );
@@ -66,7 +79,7 @@ class HomePage extends StatelessWidget {
               selected: state.homeScreenIndex == 2,
               icon: Assets.images.profileIcon.path,
               onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(context, 1);
+                context.read<HomeCubit>().changeHomeScreenIndex(context, 2); // Change to correct index
               },
             ),
           ],
