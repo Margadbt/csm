@@ -36,7 +36,7 @@ class _PackagesPageState extends State<PackagesPage> {
                   icon: Assets.images.package.path,
                   title: "Ачаанууд",
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 12),
                 const PackageCard(
                   trackCode: 'J1123123123',
                   date: '2025/02/14',
