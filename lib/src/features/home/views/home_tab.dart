@@ -38,7 +38,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                   settings: true,
                 ),
                 const SizedBox(
-                  height: 14,
+                  height: 12,
                 ),
                 InputWithButton(
                   controller: _trackCodeController,

@@ -20,8 +20,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final List<Map<String, dynamic>> profileItems = [
     {"title": "Хэрэглэгчийн бүртгэл", "onTap": () {}},
-    {"title": "Хяналт", "onTap": () {}},
-    {"title": "Багц", "onTap": () {}},
+    {"title": "Холбоо барих", "onTap": () {}},
+    {"title": "Хаягийн жагсаалт", "onTap": () {}},
+    {"title": "Карго холбох", "onTap": () {}},
   ];
 
   @override
@@ -39,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Assets.images.profileIcon.path,
                   title: "Хэрэглэгч",
                 ),
+                const SizedBox(height: 12),
                 MyCard(
                   padding: 20,
                   child: Column(
