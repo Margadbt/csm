@@ -21,6 +21,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/delievery.svg
   SvgGenImage get delievery => const SvgGenImage('assets/images/delievery.svg');
 
+  /// File path: assets/images/home.svg
+  SvgGenImage get home => const SvgGenImage('assets/images/home.svg');
+
   /// File path: assets/images/package.svg
   SvgGenImage get package => const SvgGenImage('assets/images/package.svg');
 
@@ -30,6 +33,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/profile.jpeg
   AssetGenImage get profile =>
       const AssetGenImage('assets/images/profile.jpeg');
+
+  /// File path: assets/images/profileIcon.svg
+  SvgGenImage get profileIcon =>
+      const SvgGenImage('assets/images/profileIcon.svg');
 
   /// File path: assets/images/received.svg
   SvgGenImage get received => const SvgGenImage('assets/images/received.svg');
@@ -45,9 +52,11 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         completed,
         delievery,
+        home,
         package,
         plus,
         profile,
+        profileIcon,
         received,
         settingsIcon,
         warehouse

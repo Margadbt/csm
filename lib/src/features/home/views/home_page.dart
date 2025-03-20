@@ -1,80 +1,77 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
-import 'package:csm/src/features/home/views/widgets/header_widget.dart';
-import 'package:csm/src/widgets/input_with_button.dart';
-import 'package:csm/src/widgets/package_card.dart';
-import 'package:csm/src/widgets/status_chips.dart';
+import 'package:csm/src/features/home/views/home_tab.dart';
+import 'package:csm/src/features/packages/views/packages_page.dart';
+import 'package:csm/src/widgets/bottom_nav_bar_button.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../widgets/text.dart';
 import '../cubit/home_cubit.dart';
 
 @RoutePage()
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final TextEditingController _trackCodeController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: BlocBuilder<HomeCubit, int>(
-            builder: (context, count) => Column(children: [
-              const Header(
-                profile: true,
-                settings: true,
-              ),
-              const SizedBox(
-                height: 14,
-              ),
-              InputWithButton(
-                controller: _trackCodeController,
-                placeholder: 'Track Code...',
-                prefixIconPath: Assets.images.package.path,
-                buttonIconPath: Assets.images.plus.path,
-                onTap: () {},
-              ),
-              const SizedBox(height: 30),
-              Align(alignment: Alignment.centerLeft, child: text(value: "Ачааны төлөвүүд:", fontWeight: FontWeight.bold)),
-              const SizedBox(height: 12),
-              const StatusChips(),
-              const SizedBox(height: 30),
-              const PackageCard(
-                trackCode: 'J1123123123',
-                date: '2025/02/14',
-                description: "Blue shirt",
-                status: PackageStatus.inWarehouse,
-                id: '1',
-              ),
-              const SizedBox(height: 30),
-              const PackageCard(
-                trackCode: 'J1123123123',
-                date: '2025/02/14',
-                description: "Blue pants",
-                amount: "12,000₮",
-                status: PackageStatus.delivery,
-                id: '1',
-              ),
-            ]),
-          ),
-        ),
-      ),
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: Stack(children: [
+            state.homeScreenIndex == 0
+                ? const HomeTabPage()
+                : state.homeScreenIndex == 1
+                    ? const PackagesPage()
+                    : const SizedBox(),
+            buildBottomNavBar(context: context, state: state)
+          ]),
+        );
+      },
     );
   }
 
-  @override
-  void dispose() {
-    _trackCodeController.dispose(); // Dispose of the controller when the widget is disposed
-    super.dispose();
+  Widget buildBottomNavBar({required BuildContext context, required HomeState state}) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      left: 0,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        margin: EdgeInsets.symmetric(vertical: 25, horizontal: size.width / 3.5),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColors.cardStroke, width: 1),
+          color: AppColors.secondaryBg,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            NavButtonIcon(
+              selected: state.homeScreenIndex == 0,
+              icon: Assets.images.home.path,
+              onTap: () {
+                context.read<HomeCubit>().changeHomeScreenIndex(context, 0);
+              },
+            ),
+            NavButtonIcon(
+              selected: state.homeScreenIndex == 1,
+              icon: Assets.images.package.path,
+              onTap: () {
+                context.read<HomeCubit>().changeHomeScreenIndex(context, 1);
+              },
+            ),
+            NavButtonIcon(
+              selected: state.homeScreenIndex == 2,
+              icon: Assets.images.profileIcon.path,
+              onTap: () {
+                context.read<HomeCubit>().changeHomeScreenIndex(context, 1);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

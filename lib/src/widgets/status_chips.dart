@@ -23,7 +23,7 @@ class StatusChips extends StatelessWidget {
             _buildStatusChip(
               icon: Assets.images.received.path,
               label: "Салбарт ирсэн",
-              color: AppColors.green,
+              color: AppColors.yellow,
             ),
             _buildStatusChip(
               icon: Assets.images.delievery.path,
@@ -33,7 +33,7 @@ class StatusChips extends StatelessWidget {
             _buildStatusChip(
               icon: Assets.images.completed.path,
               label: "Хүргэгдсэн",
-              color: AppColors.yellow,
+              color: AppColors.green,
             ),
           ],
         ),
@@ -46,7 +46,7 @@ class StatusChips extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: Container(
           height: 50,
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(200),
             color: color,
@@ -61,7 +61,7 @@ class StatusChips extends StatelessWidget {
                   BlendMode.srcIn, // Ensures the color replaces the original SVG color
                 ),
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               SizedBox(child: text(value: label.split(' ').join('\n'), maxLine: 2, fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black))
             ],
           )),

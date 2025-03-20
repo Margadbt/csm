@@ -38,8 +38,8 @@ class PackageCard extends StatelessWidget {
       case PackageStatus.received:
         return {
           'icon': Assets.images.received.path,
-          'color': AppColors.green,
-          'buttonColor': AppColors.green,
+          'color': AppColors.yellow,
+          'buttonColor': AppColors.yellow,
         };
       case PackageStatus.delivery:
         return {
@@ -50,8 +50,8 @@ class PackageCard extends StatelessWidget {
       case PackageStatus.completed:
         return {
           'icon': Assets.images.completed.path,
-          'color': AppColors.yellow,
-          'buttonColor': AppColors.yellow,
+          'color': AppColors.green,
+          'buttonColor': AppColors.green,
         };
       default:
         return {

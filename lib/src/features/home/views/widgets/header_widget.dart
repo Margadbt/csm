@@ -1,11 +1,12 @@
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/widgets/icon_button.dart';
+import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:flutter/material.dart';
 
 class Header extends StatelessWidget {
   final bool? profile;
-  final Widget? icon;
+  final String? icon;
   final String? title;
   final bool? settings;
 
@@ -24,6 +25,16 @@ class Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure proper spacing
         children: [
+          if (title != null && icon != null)
+            Row(
+              children: [
+                IconCircle(
+                  imagePath: icon!,
+                ),
+                const SizedBox(width: 10),
+                text(value: title!, fontWeight: FontWeight.bold, fontSize: 15),
+              ],
+            ),
           // Profile Section
           if (profile == true)
             Flexible(
@@ -51,10 +62,11 @@ class Header extends StatelessWidget {
                 ],
               ),
             ),
+          const SizedBox(width: 10),
 
           // Settings Icon
-          if (settings == true) const SizedBox(width: 10), // Ensures space between elements
-          ButtonIcon(imagePath: Assets.images.settingsIcon.path, onTap: () {}),
+          if (settings == true) // Ensures space between elements
+            ButtonIcon(imagePath: Assets.images.settingsIcon.path, onTap: () {}),
         ],
       ),
     );

@@ -2,34 +2,33 @@ import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ButtonIcon extends StatelessWidget {
-  const ButtonIcon({
+class NavButtonIcon extends StatelessWidget {
+  const NavButtonIcon({
     super.key,
-    required this.imagePath,
+    required this.icon,
     required this.onTap,
-    this.color,
+    required this.selected,
     this.iconColor,
   });
 
-  final String imagePath;
+  final String icon;
   final Function onTap;
-  final Color? color;
+  final bool selected;
   final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent, // Prevents unwanted background color
+      color: Colors.transparent, // Ensures no extra background color
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1000),
-          color: color ?? AppColors.secondaryBg,
-          border: color == null ? Border.all(color: AppColors.cardStroke, width: 1) : null,
+          color: selected ? AppColors.primary : Colors.transparent,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(1000),
-          splashColor: Colors.white.withOpacity(0.2), // Smooth splash effect
-          highlightColor: Colors.white.withOpacity(0.1), // Soft highlight effect
+          splashColor: Colors.white.withOpacity(0.2), // Light splash effect
+          highlightColor: Colors.white.withOpacity(0.1), // Subtle highlight effect
           onTap: () {
             onTap();
           },
@@ -38,11 +37,11 @@ class ButtonIcon extends StatelessWidget {
             width: 50,
             alignment: Alignment.center,
             child: SvgPicture.asset(
-              imagePath,
+              icon,
               height: 18,
               width: 18,
               colorFilter: ColorFilter.mode(
-                iconColor ?? Colors.white, // Set icon color dynamically
+                selected ? Colors.black : Colors.white, // Change icon color
                 BlendMode.srcIn,
               ),
             ),
