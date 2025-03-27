@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:csm/src/features/auth/views/login_page.dart';
+import 'package:csm/src/features/auth/views/register_page.dart';
 import 'package:csm/src/features/home/views/home_page.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
+import 'package:flutter/material.dart';
 part 'app_router.gr.dart';
 
 @AutoRouterConfig(
@@ -13,8 +16,10 @@ class AppRouter extends _$AppRouter {
   RouteType get defaultRouteType => const RouteType.material();
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: HomeRoute.page, initial: true, path: '/home'),
+    AutoRoute(page: HomeRoute.page, path: '/home', initial: true),
     AutoRoute(page: PackagesRoute.page, path: '/packages'),
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
+    AutoRoute(page: LoginRoute.page, path: '/login'),
+    AutoRoute(page: RegisterRoute.page, path: '/register'),
   ];
 }

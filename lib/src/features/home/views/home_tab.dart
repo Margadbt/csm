@@ -22,6 +22,12 @@ class _HomeTabPageState extends State<HomeTabPage> {
   final TextEditingController _trackCodeController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().getDeliveries(); // Fetch deliveries when the page is loaded
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
@@ -30,56 +36,56 @@ class _HomeTabPageState extends State<HomeTabPage> {
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, count) => SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(children: [
-                const Header(
-                  profile: true,
-                  settings: true,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                InputWithButton(
-                  controller: _trackCodeController,
-                  placeholder: 'Track Code...',
-                  prefixIconPath: Assets.images.package.path,
-                  buttonIconPath: Assets.images.plus.path,
-                  onTap: () {},
-                ),
-                const SizedBox(height: 30),
-                Align(alignment: Alignment.centerLeft, child: text(value: "Ачааны төлөвүүд:", fontWeight: FontWeight.bold)),
-                const SizedBox(height: 12),
-                const StatusChips(),
-                const SizedBox(height: 30),
-                const PackageCard(
-                  trackCode: 'J1123123123',
-                  date: '2025/02/14',
-                  description: "Blue shirt",
-                  status: PackageStatus.inWarehouse,
-                  id: '1',
-                ),
-                const SizedBox(height: 30),
-                const PackageCard(
-                  trackCode: 'J1123123123',
-                  date: '2025/02/14',
-                  description: "Blue pants",
-                  amount: "12,000₮",
-                  status: PackageStatus.delivery,
-                  id: '1',
-                ),
-                const SizedBox(height: 30),
-                const PackageCard(
-                  trackCode: 'J1123123123',
-                  date: '2025/02/14',
-                  description: "Blue pants",
-                  amount: "12,000₮",
-                  status: PackageStatus.completed,
-                  id: '1',
-                ),
-                const SizedBox(height: 100),
-              ]),
-            ),
+            builder: (context, state) {
+              // Handle Loading State
+              if (state.isLoading) {
+                return Center(child: CircularProgressIndicator());
+              }
+              // Handle Error State
+              else if (state.errorMessage != null) {
+                return Center(child: Text(state.errorMessage!));
+              }
+              // Handle Deliveries Loaded State
+              else if (state.deliveries != null && state.deliveries!.isNotEmpty) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Header(
+                        profile: true,
+                        settings: true,
+                      ),
+                      const SizedBox(height: 12),
+                      InputWithButton(
+                        controller: _trackCodeController,
+                        placeholder: 'Track Code...',
+                        prefixIconPath: Assets.images.package.path,
+                        buttonIconPath: Assets.images.plus.path,
+                        onTap: () {},
+                      ),
+                      const SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: text(value: "Ачааны төлөвүүд:", fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 12),
+                      const StatusChips(),
+                      const SizedBox(height: 30),
+                      // Map over deliveries and display PackageCard widgets
+                      ...state.deliveries!.map((delivery) => PackageCard(
+                            trackCode: delivery.trackCode,
+                            date: delivery.addedDate.toString(),
+                            description: delivery.description,
+                            status: PackageStatus.values[delivery.status ?? 0], // Convert status to enum
+                            id: delivery.id,
+                          )),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
+                );
+              }
+              // Handle case when there are no deliveries
+              return Center(child: Text('No deliveries found.'));
+            },
           ),
         ),
       ),
@@ -88,7 +94,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
   @override
   void dispose() {
-    _trackCodeController.dispose(); // Dispose of the controller when the widget is disposed
+    _trackCodeController.dispose();
     super.dispose();
   }
 }

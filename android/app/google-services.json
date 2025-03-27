@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517878602329",
+    "project_id": "csm-project-e6a01",
+    "storage_bucket": "csm-project-e6a01.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517878602329:android:f82e625da0c2265f40ef48",
+        "android_client_info": {
+          "package_name": "com.example.csm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxKeEK_7U14wcTcSZz2YUpICFNZPKMDYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

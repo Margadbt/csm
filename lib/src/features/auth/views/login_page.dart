@@ -1,0 +1,66 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+@RoutePage()
+class LoginPage extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Login')),
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state.user != null) {
+            // Navigate to the home page after successful login
+            Navigator.pushReplacementNamed(context, '/home');
+          } else if (state.error != null) {
+            // Show an error message if authentication fails
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(labelText: 'Password'),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  context.read<AuthCubit>().loginUser(
+                        _emailController.text,
+                        _passwordController.text,
+                      );
+                },
+                child: Text('Login'),
+              ),
+              InkWell(
+                onTap: () {
+                  context.router.pushNamed('/register');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Don't have an account?"),
+                    Text("Register", style: TextStyle(color: Colors.blue)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

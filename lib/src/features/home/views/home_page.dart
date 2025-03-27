@@ -18,13 +18,16 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        // Default to 0 if no HomeScreenIndexChanged state has been emitted
+        int currentIndex = state.homeScreenIndex ?? 0;
+
         return Scaffold(
           backgroundColor: AppColors.background,
           body: Stack(
             children: [
               // Wrap the content with AnimatedSwitcher for smooth opacity transition
               AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150), // Adjust duration to control the speed of the fade
+                duration: const Duration(milliseconds: 150), // Duration of the fade transition
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   // Create a fade transition
                   return FadeTransition(
@@ -32,11 +35,7 @@ class HomePage extends StatelessWidget {
                     child: child,
                   );
                 },
-                child: state.homeScreenIndex == 0
-                    ? const HomeTabPage(key: ValueKey(0)) // Use ValueKey for smooth transition
-                    : state.homeScreenIndex == 1
-                        ? const PackagesPage(key: ValueKey(1)) // Same for PackagesPage
-                        : const ProfilePage(key: ValueKey(2)),
+                child: _getPageForIndex(currentIndex), // Display the correct page based on the current index
               ),
               buildBottomNavBar(context: context, state: state),
             ],
@@ -46,6 +45,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // Method to return the correct page based on the index
+  Widget _getPageForIndex(int index) {
+    switch (index) {
+      case 0:
+        return const HomeTabPage(key: ValueKey(0)); // HomeTabPage
+      case 1:
+        return const PackagesPage(key: ValueKey(1)); // PackagesPage
+      case 2:
+        return const ProfilePage(key: ValueKey(2)); // ProfilePage
+      default:
+        return const HomeTabPage(key: ValueKey(0)); // Default fallback to HomeTabPage
+    }
+  }
+
+  // Method to build the bottom navigation bar with navigation buttons
   Widget buildBottomNavBar({required BuildContext context, required HomeState state}) {
     return Positioned(
       bottom: 0,
@@ -66,21 +80,21 @@ class HomePage extends StatelessWidget {
               selected: state.homeScreenIndex == 0,
               icon: Assets.images.home.path,
               onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(context, 0);
+                context.read<HomeCubit>().changeHomeScreenIndex(0);
               },
             ),
             NavButtonIcon(
               selected: state.homeScreenIndex == 1,
               icon: Assets.images.package.path,
               onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(context, 1);
+                context.read<HomeCubit>().changeHomeScreenIndex(1);
               },
             ),
             NavButtonIcon(
               selected: state.homeScreenIndex == 2,
               icon: Assets.images.profileIcon.path,
               onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(context, 2); // Change to correct index
+                context.read<HomeCubit>().changeHomeScreenIndex(2); // Change to correct index
               },
             ),
           ],
