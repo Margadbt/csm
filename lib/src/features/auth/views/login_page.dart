@@ -21,8 +21,8 @@ class LoginPage extends StatelessWidget {
       backgroundColor: AppColors.background,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state.userModel != null) {
-            context.router.pushNamed('/home'); // Use replaceNamed to prevent coming back to login page
+          if (state.userModel != null && state.userModel!.userId.isNotEmpty) {
+            context.router.pushNamed('/home');
           } else if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
           }

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DeliveryModel {
+class PackageModel {
   final String id;
   final String description;
   final String trackCode;
@@ -10,7 +10,7 @@ class DeliveryModel {
   final bool isPaid;
   final int status;
 
-  DeliveryModel({
+  PackageModel({
     required this.id,
     required this.description,
     required this.trackCode,
@@ -21,9 +21,9 @@ class DeliveryModel {
     required this.status,
   });
 
-  factory DeliveryModel.fromFirestore(DocumentSnapshot doc) {
+  factory PackageModel.fromFirestore(DocumentSnapshot doc) {
     var data = doc.data() as Map<String, dynamic>;
-    return DeliveryModel(
+    return PackageModel(
       id: doc.id,
       description: data['description'] ?? '',
       trackCode: data['track_code'] ?? '',

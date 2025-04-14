@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/bottom_nav_bar_button.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:csm/utils/math_utils.dart';
@@ -16,50 +18,57 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        // Default to 0 if no HomeScreenIndexChanged state has been emitted
-        int currentIndex = state.homeScreenIndex ?? 0;
-
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: Stack(
-            children: [
-              // Wrap the content with AnimatedSwitcher for smooth opacity transition
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 150), // Duration of the fade transition
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  // Create a fade transition
-                  return FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  );
-                },
-                child: _getPageForIndex(currentIndex), // Display the correct page based on the current index
-              ),
-              buildBottomNavBar(context: context, state: state),
-            ],
-          ),
-        );
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) {
+        // Only listen when userModel changes (for performance)
+        return previous.userModel != current.userModel;
       },
+      listener: (context, state) {
+        if (state.userModel == null && !state.isLoading) {
+          // If not authenticated and not loading, navigate to login
+          context.router.replaceAll([const LoginRoute()]);
+        }
+      },
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          int currentIndex = state.homeScreenIndex ?? 0;
+
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Stack(
+              children: [
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 150),
+                  transitionBuilder: (Widget child, Animation<double> animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: child,
+                    );
+                  },
+                  child: _getPageForIndex(currentIndex),
+                ),
+                buildBottomNavBar(context: context, state: state),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
-  // Method to return the correct page based on the index
   Widget _getPageForIndex(int index) {
     switch (index) {
       case 0:
-        return const HomeTabPage(key: ValueKey(0)); // HomeTabPage
+        return const HomeTabPage(key: ValueKey(0));
       case 1:
-        return const PackagesPage(key: ValueKey(1)); // PackagesPage
+        return const PackagesPage(key: ValueKey(1));
       case 2:
-        return const ProfilePage(key: ValueKey(2)); // ProfilePage
+        return const ProfilePage(key: ValueKey(2));
       default:
-        return const HomeTabPage(key: ValueKey(0)); // Default fallback to HomeTabPage
+        return const HomeTabPage(key: ValueKey(0));
     }
   }
 
-  // Method to build the bottom navigation bar with navigation buttons
   Widget buildBottomNavBar({required BuildContext context, required HomeState state}) {
     return Positioned(
       bottom: 0,
@@ -94,7 +103,7 @@ class HomePage extends StatelessWidget {
               selected: state.homeScreenIndex == 2,
               icon: Assets.images.profileIcon.path,
               onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(2); // Change to correct index
+                context.read<HomeCubit>().changeHomeScreenIndex(2);
               },
             ),
           ],

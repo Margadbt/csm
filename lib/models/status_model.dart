@@ -4,13 +4,13 @@ class StatusModel {
   final DateTime date;
   final int status;
   final String image;
-  final String deliveryId;
+  final String packageId;
 
   StatusModel({
     required this.date,
     required this.status,
     required this.image,
-    required this.deliveryId,
+    required this.packageId,
   });
 
   factory StatusModel.fromFirestore(DocumentSnapshot doc) {
@@ -20,7 +20,7 @@ class StatusModel {
       date: (data['date'] as Timestamp).toDate(),
       status: data['status'] ?? 0,
       image: data['image'] ?? '',
-      deliveryId: data['delivery_id'] ?? '',
+      packageId: data['package_id'] ?? '',
     );
   }
 }

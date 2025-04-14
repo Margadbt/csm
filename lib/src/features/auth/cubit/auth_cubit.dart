@@ -3,6 +3,7 @@ import 'package:csm/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Auth Cubit
 class AuthCubit extends Cubit<AuthState> {
@@ -19,6 +20,21 @@ class AuthCubit extends Cubit<AuthState> {
     });
   }
 
+  Future<void> _saveUserToPrefs(UserModel userModel) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userModel.userId ?? '');
+    await prefs.setString('userEmail', userModel.email ?? '');
+    await prefs.setString('userPhone', userModel.phone ?? '');
+  }
+
+// Clear user info
+  Future<void> _clearUserFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
+    await prefs.remove('userEmail');
+    await prefs.remove('userPhone');
+  }
+
   Future<void> registerUser({
     required BuildContext context,
     required String email,
@@ -32,6 +48,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthState.authenticated(userModel));
       print(">>>>>>>>> User registered: ${userModel.email}");
       print(">>>>>>>>> User registered: ${userModel.phone}");
+      await _saveUserToPrefs(userModel);
     } catch (e) {
       emit(AuthState.error(e.toString()));
       print(">>>>>>>>> Registration failed: $e");
@@ -49,6 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
       UserModel userModel = await _authRepository.loginUser(email, password);
       emit(AuthState.authenticated(userModel));
       print(">>>>>>>>> User logged in: ${userModel.email}");
+      await _saveUserToPrefs(userModel);
     } catch (e) {
       emit(AuthState.error(e.toString()));
       print(">>>>>>>>> Login failed: $e");
@@ -58,6 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> logout() async {
     print(">>>>>>>>> Logging out...");
     await _firebaseAuth.signOut();
+    await _clearUserFromPrefs();
     emit(AuthState.initial());
     print(">>>>>>>>> User logged out.");
   }

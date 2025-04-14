@@ -1,39 +1,53 @@
-import 'package:csm/models/delivery_model.dart';
-import 'package:csm/repository/delivery_repository.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csm/models/package_model.dart';
+import 'package:csm/models/user_model.dart';
+import 'package:csm/repository/package_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final DeliveryRepository _repository = DeliveryRepository();
+  final PackageRepository _packageRepository = PackageRepository(FirebaseFirestore.instance, FirebaseAuth.instance);
 
   HomeCubit() : super(HomeState.initial(homeScreenIndex: 0)) {
-    getDeliveries();
+    getPackages();
   }
 
-  Future<void> getDeliveries() async {
+  Future<void> getPackages() async {
     emit(HomeState.loading(homeScreenIndex: state.homeScreenIndex));
+
     try {
-      _repository.getDeliveries().listen(
-            (deliveries) => emit(HomeState.deliveriesLoaded(deliveries, homeScreenIndex: state.homeScreenIndex)),
-            onError: (error) => emit(HomeState.error(error.toString(), homeScreenIndex: state.homeScreenIndex)),
-          );
+      String? userId = await UserPrefs.getUserId();
+      print("getPackages userId: $userId");
+
+      if (userId != null && userId.isNotEmpty) {
+        final packages = await _packageRepository.getPackagesForUser(userId);
+        emit(HomeState.deliveriesLoaded(packages, homeScreenIndex: state.homeScreenIndex));
+      } else {
+        emit(HomeState.error("User ID not found", homeScreenIndex: state.homeScreenIndex));
+      }
     } catch (e) {
       emit(HomeState.error(e.toString(), homeScreenIndex: state.homeScreenIndex));
     }
   }
 
   void changeHomeScreenIndex(int index) {
-    emit(HomeState(homeScreenIndex: index, deliveries: state.deliveries, errorMessage: state.errorMessage, isLoading: state.isLoading));
+    emit(HomeState(
+      homeScreenIndex: index,
+      deliveries: state.deliveries,
+      errorMessage: state.errorMessage,
+      isLoading: state.isLoading,
+    ));
   }
 }
 
 class HomeState {
   final int? homeScreenIndex;
-  final List<DeliveryModel>? deliveries;
+  final List<PackageModel>? deliveries;
   final String? errorMessage;
   final bool isLoading;
 
   HomeState({
-    this.homeScreenIndex,
+    this.homeScreenIndex = 0,
     this.deliveries,
     this.errorMessage,
     this.isLoading = false,
@@ -47,7 +61,7 @@ class HomeState {
     return HomeState(homeScreenIndex: homeScreenIndex, isLoading: true);
   }
 
-  factory HomeState.deliveriesLoaded(List<DeliveryModel> deliveries, {int? homeScreenIndex}) {
+  factory HomeState.deliveriesLoaded(List<PackageModel> deliveries, {int? homeScreenIndex}) {
     return HomeState(homeScreenIndex: homeScreenIndex, deliveries: deliveries);
   }
 
