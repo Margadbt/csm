@@ -1,10 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
+import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
@@ -60,7 +64,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 18),
-                MyCard(padding: 20, child: buildRow(value: "Гарах", onTap: () {})),
+                MyCard(
+                    padding: 20,
+                    child: buildRow(
+                        value: "Гарах",
+                        onTap: () {
+                          context.read<AuthCubit>().logout();
+                          context.pushRoute(const LoginRoute());
+                        })),
               ],
             ),
           ),

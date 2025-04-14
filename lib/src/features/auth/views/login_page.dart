@@ -1,5 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
+import 'package:csm/src/widgets/button.dart';
+import 'package:csm/src/widgets/icon_circle.dart';
+import 'package:csm/src/widgets/input_with_prefix_icon.dart';
+import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,57 +13,85 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      backgroundColor: AppColors.background,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state.user != null) {
-            // Navigate to the home page after successful login
-            Navigator.pushReplacementNamed(context, '/home');
+          if (state.userModel != null) {
+            context.router.pushNamed('/home'); // Use replaceNamed to prevent coming back to login page
           } else if (state.error != null) {
-            // Show an error message if authentication fails
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+        child: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            // While checking for user, show a loading indicator
+            if (state.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            // If already logged in, show nothing (because listener will navigate)
+            if (state.userModel != null) {
+              return const SizedBox.shrink();
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconCircle(
+                    imagePath: Assets.images.profileIcon.path,
+                    size: 100,
+                    padding: 30,
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Нэвтрэх",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 20),
+                  InputWithPrefixIcon(
+                    controller: _emailController,
+                    placeholder: "И-Мэйл хаяг",
+                    prefixIconPath: Assets.images.profileIcon.path,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 10),
+                  InputWithPrefixIcon(
+                    obscureText: true,
+                    controller: _passwordController,
+                    placeholder: "Нууц үг",
+                    prefixIconPath: Assets.images.password.path,
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 50),
+                  TextButton(
+                    onPressed: () {
+                      context.router.pushNamed('/register');
+                    },
+                    child: const Text("Бүртгүүлэх", style: TextStyle(color: Colors.white)),
+                  ),
+                  MyButton(
+                    color: AppColors.blue,
+                    title: "Нэвтрэх",
+                    onTap: () {
+                      context.read<AuthCubit>().loginUser(
+                            context: context,
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          );
+                    },
+                    heightLimitSet: true,
+                  ),
+                ],
               ),
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Password'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  context.read<AuthCubit>().loginUser(
-                        _emailController.text,
-                        _passwordController.text,
-                      );
-                },
-                child: Text('Login'),
-              ),
-              InkWell(
-                onTap: () {
-                  context.router.pushNamed('/register');
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have an account?"),
-                    Text("Register", style: TextStyle(color: Colors.blue)),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );

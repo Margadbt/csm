@@ -3,11 +3,12 @@ import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
-  const MyButton({super.key, required this.title, this.color, this.textColor, required this.onTap});
+  const MyButton({super.key, required this.title, this.color, this.textColor, required this.onTap, this.heightLimitSet});
   final String title;
   final Color? color;
   final Color? textColor;
   final Function onTap;
+  final bool? heightLimitSet;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class MyButton extends StatelessWidget {
         onTap();
       },
       child: Container(
+        height: heightLimitSet == true ? 50 : null,
         alignment: Alignment.center,
         padding: const EdgeInsets.all(12),
         width: double.infinity,

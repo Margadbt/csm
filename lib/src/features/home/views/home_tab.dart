@@ -39,11 +39,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
             builder: (context, state) {
               // Handle Loading State
               if (state.isLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               // Handle Error State
               else if (state.errorMessage != null) {
-                return Center(child: Text(state.errorMessage!));
+                return Center(child: text(value: state.errorMessage!, color: Colors.red, fontWeight: FontWeight.bold, fontSize: 20)); // Display error message(state.errorMessage!));
               }
               // Handle Deliveries Loaded State
               else if (state.deliveries != null && state.deliveries!.isNotEmpty) {
@@ -75,7 +75,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                             trackCode: delivery.trackCode,
                             date: delivery.addedDate.toString(),
                             description: delivery.description,
-                            status: PackageStatus.values[delivery.status ?? 0], // Convert status to enum
+                            status: PackageStatus.values[delivery.status], // Convert status to enum
                             id: delivery.id,
                           )),
                       const SizedBox(height: 100),
@@ -84,7 +84,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                 );
               }
               // Handle case when there are no deliveries
-              return Center(child: Text('No deliveries found.'));
+              return const Center(child: Text('No deliveries found.'));
             },
           ),
         ),

@@ -8,7 +8,7 @@ class DeliveryModel {
   final String userId;
   final int amount;
   final bool isPaid;
-  int? status; // This will be set based on the status
+  final int status;
 
   DeliveryModel({
     required this.id,
@@ -18,12 +18,11 @@ class DeliveryModel {
     required this.userId,
     required this.amount,
     required this.isPaid,
-    this.status,
+    required this.status,
   });
 
   factory DeliveryModel.fromFirestore(DocumentSnapshot doc) {
     var data = doc.data() as Map<String, dynamic>;
-
     return DeliveryModel(
       id: doc.id,
       description: data['description'] ?? '',
@@ -32,7 +31,19 @@ class DeliveryModel {
       userId: data['user_id'] ?? '',
       amount: data['amount'] ?? 0,
       isPaid: data['is_paid'] ?? false,
-      status: data['status'],
+      status: data['status'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'description': description,
+      'track_code': trackCode,
+      'added_date': addedDate,
+      'user_id': userId,
+      'amount': amount,
+      'is_paid': isPaid,
+      'status': status,
+    };
   }
 }

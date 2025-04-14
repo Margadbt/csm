@@ -1,8 +1,11 @@
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
+import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/widgets/icon_button.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Header extends StatelessWidget {
   final bool? profile;
@@ -55,7 +58,7 @@ class Header extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         text(value: "Тавтай морил!", fontWeight: FontWeight.w900, fontSize: 15),
-                        text(value: "Margad", fontWeight: FontWeight.bold, fontSize: 12),
+                        text(value: context.read<AuthCubit>().state.userModel!.username, fontWeight: FontWeight.bold, fontSize: 12),
                       ],
                     ),
                   ),

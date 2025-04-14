@@ -27,6 +27,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/package.svg
   SvgGenImage get package => const SvgGenImage('assets/images/package.svg');
 
+  /// File path: assets/images/password.svg
+  SvgGenImage get password => const SvgGenImage('assets/images/password.svg');
+
   /// File path: assets/images/plus.svg
   SvgGenImage get plus => const SvgGenImage('assets/images/plus.svg');
 
@@ -58,6 +61,7 @@ class $AssetsImagesGen {
         delievery,
         home,
         package,
+        password,
         plus,
         profile,
         profileIcon,

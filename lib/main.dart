@@ -1,6 +1,8 @@
 import 'package:csm/firebase_options.dart';
+import 'package:csm/repository/auth_repository.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +26,11 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeCubit()),
-        BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider(
+            create: (_) => AuthCubit(
+                  FirebaseAuth.instance,
+                  AuthRepository(),
+                )),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
