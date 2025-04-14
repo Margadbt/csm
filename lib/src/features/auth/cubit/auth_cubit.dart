@@ -1,14 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:csm/models/user_model.dart';
 import 'package:csm/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Auth Cubit
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final AuthRepository _authRepository; // Declare the repository
 
   AuthCubit(this._firebaseAuth, this._authRepository) : super(AuthState.initial()) {

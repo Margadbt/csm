@@ -81,7 +81,7 @@ class RegisterPage extends StatelessWidget {
                   heightLimitSet: true),
               TextButton(
                 onPressed: () {
-                  context.router.pop();
+                  context.router.maybePop();
                 },
                 child: const Text("Буцах", style: TextStyle(color: Colors.white)),
               ),

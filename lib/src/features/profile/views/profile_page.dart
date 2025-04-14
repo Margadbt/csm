@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
-import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/card.dart';

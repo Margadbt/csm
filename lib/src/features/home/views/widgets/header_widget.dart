@@ -1,6 +1,5 @@
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
-import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/widgets/icon_button.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/text.dart';
