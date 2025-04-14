@@ -8,7 +8,6 @@ class PackageRepository {
 
   PackageRepository(this._firestore, this._firebaseAuth);
 
-  // Create a package in Firestore
   Future<PackageModel> createPackage({
     required String trackCode,
     String? description,
@@ -25,22 +24,20 @@ class PackageRepository {
     final packageData = {
       'track_code': trackCode,
       'description': description ?? '',
-      'added_date': FieldValue.serverTimestamp(),
+      'added_date': DateTime.now(),
       'user_id': userId,
       'amount': amount,
       'is_paid': isPaid,
       'status': status,
     };
 
-    // Add the package to the Firestore collection
     final packageRef = await _firestore.collection('packages').add(packageData);
 
-    // Return the PackageModel instance with the created data
     return PackageModel(
       id: packageRef.id,
       description: description ?? '',
       trackCode: trackCode,
-      addedDate: DateTime.now(), // Using current time as the added date
+      addedDate: DateTime.now(),
       userId: userId,
       amount: amount,
       isPaid: isPaid,

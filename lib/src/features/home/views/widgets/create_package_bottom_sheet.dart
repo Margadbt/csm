@@ -1,3 +1,4 @@
+import 'package:csm/src/features/home/cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
@@ -70,6 +71,7 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
 
               // Close the bottom sheet after package is created
               Navigator.of(context).pop();
+              context.read<HomeCubit>().getPackages();
             },
             child: const Text("Create Package"),
           ),

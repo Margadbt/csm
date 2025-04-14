@@ -52,11 +52,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
                   prefixIconPath: Assets.images.package.path,
                   buttonIconPath: Assets.images.plus.path,
                   onTap: () {
-                    // Open the bottom sheet when button is clicked
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
-                        return CreatePackageBottomSheet();
+                        return const CreatePackageBottomSheet();
                       },
                     );
                   },
@@ -77,12 +76,14 @@ class _HomeTabPageState extends State<HomeTabPage> {
                     }
                     // If there is an error in fetching deliveries, show error message here
                     else if (state.errorMessage != null) {
+                      print(state.errorMessage);
                       return Center(
                         child: text(
                           value: state.errorMessage!,
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
+                          maxLine: 2,
+                          fontSize: 8,
                         ),
                       );
                     }
