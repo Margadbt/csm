@@ -21,7 +21,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       if (userId != null && userId.isNotEmpty) {
         final packages = await _packageRepository.getPackagesForUser(userId);
-        emit(HomeState.deliveriesLoaded(packages, homeScreenIndex: state.homeScreenIndex));
+        emit(HomeState.packagesLoaded(packages, homeScreenIndex: state.homeScreenIndex));
       } else {
         emit(HomeState.error("User ID not found", homeScreenIndex: state.homeScreenIndex));
       }
@@ -33,7 +33,7 @@ class HomeCubit extends Cubit<HomeState> {
   void changeHomeScreenIndex(int index) {
     emit(HomeState(
       homeScreenIndex: index,
-      deliveries: state.deliveries,
+      packages: state.packages,
       errorMessage: state.errorMessage,
       isLoading: state.isLoading,
     ));
@@ -42,13 +42,13 @@ class HomeCubit extends Cubit<HomeState> {
 
 class HomeState {
   final int? homeScreenIndex;
-  final List<PackageModel>? deliveries;
+  final List<PackageModel>? packages;
   final String? errorMessage;
   final bool isLoading;
 
   HomeState({
     this.homeScreenIndex = 0,
-    this.deliveries,
+    this.packages,
     this.errorMessage,
     this.isLoading = false,
   });
@@ -61,8 +61,8 @@ class HomeState {
     return HomeState(homeScreenIndex: homeScreenIndex, isLoading: true);
   }
 
-  factory HomeState.deliveriesLoaded(List<PackageModel> deliveries, {int? homeScreenIndex}) {
-    return HomeState(homeScreenIndex: homeScreenIndex, deliveries: deliveries);
+  factory HomeState.packagesLoaded(List<PackageModel> packages, {int? homeScreenIndex}) {
+    return HomeState(homeScreenIndex: homeScreenIndex, packages: packages);
   }
 
   factory HomeState.error(String errorMessage, {int? homeScreenIndex}) {

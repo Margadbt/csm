@@ -48,6 +48,9 @@ class $AssetsImagesGen {
   SvgGenImage get rightArrow =>
       const SvgGenImage('assets/images/right_arrow.svg');
 
+  /// File path: assets/images/search.svg
+  SvgGenImage get search => const SvgGenImage('assets/images/search.svg');
+
   /// File path: assets/images/settingsIcon.svg
   SvgGenImage get settingsIcon =>
       const SvgGenImage('assets/images/settingsIcon.svg');
@@ -67,6 +70,7 @@ class $AssetsImagesGen {
         profileIcon,
         received,
         rightArrow,
+        search,
         settingsIcon,
         warehouse
       ];

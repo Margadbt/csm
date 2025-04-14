@@ -21,14 +21,12 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Title for the bottom sheet
           const Text(
             'Create a Package',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
 
-          // Track Code Input Field
           TextField(
             controller: _trackCodeController,
             decoration: const InputDecoration(
@@ -38,7 +36,6 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
           ),
           const SizedBox(height: 16),
 
-          // Description Input Field
           TextField(
             controller: _descriptionController,
             decoration: const InputDecoration(
@@ -51,25 +48,21 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
           // Create Button
           ElevatedButton(
             onPressed: () {
-              // Get the track code and description
               String trackCode = _trackCodeController.text.trim();
               String description = _descriptionController.text.trim();
 
               if (trackCode.isEmpty) {
-                // Handle validation, show error or message
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Track Code cannot be empty')),
                 );
                 return;
               }
 
-              // Trigger PackageCubit to create the package
               context.read<PackageCubit>().createPackage(
                     trackCode: trackCode,
                     description: description,
                   );
 
-              // Close the bottom sheet after package is created
               Navigator.of(context).pop();
               context.read<HomeCubit>().getPackages();
             },

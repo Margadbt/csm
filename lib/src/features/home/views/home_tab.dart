@@ -25,7 +25,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getPackages(); // Fetch deliveries when the page is loaded
+    context.read<HomeCubit>().getPackages();
   }
 
   @override
@@ -35,12 +35,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SingleChildScrollView(
-          // Wrap everything in a SingleChildScrollView
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                // Header section will always show
                 const Header(
                   profile: true,
                   settings: true,
@@ -68,37 +66,31 @@ class _HomeTabPageState extends State<HomeTabPage> {
                 const SizedBox(height: 12),
                 const StatusChips(),
                 const SizedBox(height: 30),
-                // BlocBuilder for handling deliveries and errors specifically
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     if (state.isLoading) {
                       return const Center(child: CircularProgressIndicator());
-                    }
-                    // If there is an error in fetching deliveries, show error message here
-                    else if (state.errorMessage != null) {
+                    } else if (state.errorMessage != null) {
                       print(state.errorMessage);
                       return Center(
                         child: text(
                           value: state.errorMessage!,
                           color: Colors.red,
                           fontWeight: FontWeight.bold,
-                          maxLine: 2,
-                          fontSize: 8,
+                          maxLine: 5,
+                          fontSize: 12,
                         ),
                       );
-                    }
-                    // If deliveries are loaded and not empty, show the list of deliveries
-                    else if (state.deliveries != null && state.deliveries!.isNotEmpty) {
+                    } else if (state.packages != null && state.packages!.isNotEmpty) {
                       return Column(
                         children: [
-                          // Map over deliveries and display PackageCard widgets
-                          ...state.deliveries!.map((package) => Container(
+                          ...state.packages!.map((package) => Container(
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: PackageCard(
                                   trackCode: package.trackCode,
                                   date: package.addedDate.toString(),
                                   description: package.description,
-                                  status: PackageStatus.values[package.status], // Convert status to enum
+                                  status: PackageStatus.values[package.status],
                                   id: package.id,
                                 ),
                               )),
@@ -106,7 +98,6 @@ class _HomeTabPageState extends State<HomeTabPage> {
                         ],
                       );
                     }
-                    // Handle case when there are no deliveries
                     return Center(child: text(value: 'Ачаа, бараа олдсонгүй.'));
                   },
                 ),

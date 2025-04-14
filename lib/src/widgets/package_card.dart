@@ -110,8 +110,8 @@ class PackageCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    text(value: "Төлбөр", fontSize: 10),
-                    text(value: amount!, fontWeight: FontWeight.bold),
+                    if (amount != null && amount != "0") text(value: "Төлбөр", fontSize: 10),
+                    if (amount != null && amount != "0") text(value: amount!, fontWeight: FontWeight.bold),
                   ],
                 ),
             ],

@@ -23,9 +23,9 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10), // Add padding
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensure proper spacing
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           if (title != null && icon != null)
             Row(
@@ -37,7 +37,6 @@ class Header extends StatelessWidget {
                 text(value: title!, fontWeight: FontWeight.bold, fontSize: 15),
               ],
             ),
-          // Profile Section
           if (profile == true)
             Flexible(
               child: Row(
@@ -52,7 +51,6 @@ class Header extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    // Ensures text does not overflow
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -65,10 +63,7 @@ class Header extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 10),
-
-          // Settings Icon
-          if (settings == true) // Ensures space between elements
-            ButtonIcon(imagePath: Assets.images.settingsIcon.path, onTap: () {}),
+          if (settings == true) ButtonIcon(imagePath: Assets.images.settingsIcon.path, onTap: () {}),
         ],
       ),
     );

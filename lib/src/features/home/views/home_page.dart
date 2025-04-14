@@ -20,13 +20,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listenWhen: (previous, current) {
-        // Only listen when userModel changes (for performance)
         return previous.userModel != current.userModel;
       },
       listener: (context, state) {
         if (state.userModel == null && !state.isLoading) {
-          // If not authenticated and not loading, navigate to login
-          context.router.replaceAll([const LoginRoute()]);
+          context.router.replaceAll([LoginRoute()]);
         }
       },
       child: BlocBuilder<HomeCubit, HomeState>(

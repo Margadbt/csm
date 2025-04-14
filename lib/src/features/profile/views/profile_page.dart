@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         value: "Гарах",
                         onTap: () {
                           context.read<AuthCubit>().logout();
-                          context.pushRoute(const LoginRoute());
+                          context.pushRoute(LoginRoute());
                         })),
               ],
             ),

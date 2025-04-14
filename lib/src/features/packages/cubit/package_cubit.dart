@@ -7,7 +7,6 @@ class PackageCubit extends Cubit<PackagesState> {
 
   PackageCubit(this._repository) : super(PackagesState.initial());
 
-  // Create a new package
   Future<void> createPackage({
     required String trackCode,
     String? description,
@@ -18,7 +17,6 @@ class PackageCubit extends Cubit<PackagesState> {
     emit(PackagesState.loading());
     try {
       print("hi");
-      // Create package in Firestore
       final package = await _repository.createPackage(
         trackCode: trackCode,
         description: description,
