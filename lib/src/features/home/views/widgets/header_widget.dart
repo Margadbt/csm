@@ -11,6 +11,7 @@ class Header extends StatelessWidget {
   final String? icon;
   final String? title;
   final bool? settings;
+  final Function? onTap;
 
   const Header({
     super.key,
@@ -18,6 +19,7 @@ class Header extends StatelessWidget {
     this.icon,
     this.title,
     this.settings,
+    this.onTap,
   });
 
   @override
@@ -30,9 +32,12 @@ class Header extends StatelessWidget {
           if (title != null && icon != null)
             Row(
               children: [
-                IconCircle(
-                  imagePath: icon!,
-                ),
+                if (onTap != null)
+                  ButtonIcon(imagePath: Assets.images.leftArrow.path, onTap: () => onTap!())
+                else
+                  IconCircle(
+                    imagePath: icon!,
+                  ),
                 const SizedBox(width: 10),
                 text(value: title!, fontWeight: FontWeight.bold, fontSize: 15),
               ],

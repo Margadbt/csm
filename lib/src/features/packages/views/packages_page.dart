@@ -61,7 +61,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 controller: _searchController,
                 placeholder: 'Track Code...',
                 prefixIconPath: Assets.images.package.path,
-                buttonIconPath: Assets.images.plus.path,
+                buttonIconPath: Assets.images.search.path,
                 onTap: () {
                   // Optional: trigger a search
                 },
@@ -73,7 +73,10 @@ class _PackagesPageState extends State<PackagesPage> {
                 child: BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     if (state.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ));
                     } else if (state.errorMessage != null) {
                       return Center(
                         child: text(

@@ -69,7 +69,10 @@ class _HomeTabPageState extends State<HomeTabPage> {
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     if (state.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ));
                     } else if (state.errorMessage != null) {
                       print(state.errorMessage);
                       return Center(

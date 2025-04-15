@@ -31,7 +31,10 @@ class LoginPage extends StatelessWidget {
           builder: (context, state) {
             // While checking for user, show a loading indicator
             if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.primary,
+              ));
             }
 
             // If already logged in, show nothing (because listener will navigate)
