@@ -20,25 +20,23 @@ void main() async {
   runApp(const MyApp());
 }
 
+final appRouter = AppRouter();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appRouter = AppRouter();
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => HomeCubit()),
         BlocProvider(create: (_) => PackageCubit(PackageRepository(FirebaseFirestore.instance, FirebaseAuth.instance))),
-        BlocProvider(
-            create: (_) => AuthCubit(
-                  FirebaseAuth.instance,
-                  AuthRepository(),
-                )),
+        BlocProvider(create: (_) => AuthCubit(FirebaseAuth.instance, AuthRepository())),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        routerConfig: appRouter.config(),
+        routerDelegate: appRouter.delegate(),
+        routeInformationParser: appRouter.defaultRouteParser(),
         theme: ThemeData(fontFamily: 'Comfortaa'),
       ),
     );

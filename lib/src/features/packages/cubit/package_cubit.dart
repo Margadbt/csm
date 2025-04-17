@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/status_model.dart';
 import 'package:csm/repository/package_repository.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,10 @@ class PackageCubit extends Cubit<PackagesState> {
   PackageCubit(this._repository) : super(PackagesState.initial());
 
   Future<void> createPackage({
+    required BuildContext context,
     required String trackCode,
     String? description,
+    String? phone,
     int? amount,
     bool? isPaid,
     int? status,
@@ -27,6 +30,7 @@ class PackageCubit extends Cubit<PackagesState> {
         amount: amount ?? 0,
         isPaid: isPaid ?? false,
         status: status ?? 0,
+        phone: phone ?? context.read<AuthCubit>().state.userModel!.phone,
       );
       emit(state.copyWith(package: package)); // Updating package without clearing other values
     } catch (e) {
@@ -63,6 +67,28 @@ class PackageCubit extends Cubit<PackagesState> {
     print("statuses: ${state.statuses}");
     if (state.package != null && state.statuses != null) {
       context.router.pushNamed("/package/detail");
+    }
+  }
+
+  Future<void> addStatusToPackage({
+    required String packageId,
+    required int status,
+    required String imgUrl,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.addPackageStatus(
+        packageId: packageId,
+        status: status,
+        imgUrl: imgUrl,
+      );
+
+      await _repository.updatePackageStatus(packageId: packageId, status: status);
+
+      // Refresh statuses after adding
+      await fetchPackageStatuses(packageId);
+    } catch (e) {
+      emit(state.copyWith(error: e.toString(), isLoading: false));
     }
   }
 }

@@ -10,6 +10,7 @@ class InputWithPrefixIcon extends StatelessWidget {
   final bool obscureText;
   final bool enableSuggestions;
   final bool autocorrect;
+  final bool enabled;
 
   const InputWithPrefixIcon({
     super.key,
@@ -20,6 +21,7 @@ class InputWithPrefixIcon extends StatelessWidget {
     this.obscureText = false,
     this.enableSuggestions = true,
     this.autocorrect = false,
+    this.enabled = true,
   });
 
   @override
@@ -38,6 +40,7 @@ class InputWithPrefixIcon extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
+              enabled: enabled,
               obscureText: obscureText,
               enableSuggestions: enableSuggestions,
               autocorrect: autocorrect,

@@ -8,6 +8,7 @@ class UserModel {
   final String address;
   final String username;
   final String profileImg;
+  final String role;
 
   UserModel({
     required this.userId,
@@ -16,6 +17,7 @@ class UserModel {
     required this.address,
     required this.username,
     required this.profileImg,
+    required this.role,
   });
 
   // Factory constructor to create a UserModel from Firebase user and Firestore data
@@ -27,6 +29,7 @@ class UserModel {
       address: firestoreData['address'] ?? '',
       username: firestoreData['username'] ?? '',
       profileImg: firestoreData['profile_img'] ?? '',
+      role: firestoreData['role'] ?? '',
     );
   }
 
@@ -39,6 +42,7 @@ class UserModel {
       'address': address,
       'username': username,
       'profile_img': profileImg,
+      'role': role,
     };
   }
 }
@@ -47,6 +51,7 @@ class UserPrefs {
   static const String _keyUserId = 'userId';
   static const String _keyUserEmail = 'userEmail';
   static const String _keyUserPhone = 'userPhone';
+  static const String _keyUserRole = 'userRole';
 
   // Set User Info
   static Future<void> setUserId(String userId) async {
@@ -64,6 +69,11 @@ class UserPrefs {
     await prefs.setString(_keyUserPhone, phone);
   }
 
+  static Future<void> setUserRole(String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyUserRole, role);
+  }
+
   // Get User Info
   static Future<String?> getUserId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -78,6 +88,11 @@ class UserPrefs {
   static Future<String?> getUserPhone() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_keyUserPhone);
+  }
+
+  static Future<String?> getUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_keyUserRole);
   }
 
   // Clear User Info

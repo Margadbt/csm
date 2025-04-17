@@ -9,6 +9,7 @@ import 'package:csm/src/widgets/input_with_prefix_icon.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
@@ -59,14 +60,17 @@ class _PackagesPageState extends State<PackagesPage> {
               const SizedBox(height: 16),
 
               // Search field
-              InputWithButton(
-                controller: _searchController,
-                placeholder: 'Track Code...',
-                prefixIconPath: Assets.images.package.path,
-                buttonIconPath: Assets.images.search.path,
-                onTap: () {
-                  // Optional: trigger a search
-                },
+              Container(
+                width: size.width,
+                child: InputWithButton(
+                  controller: _searchController,
+                  placeholder: 'Track Code...',
+                  prefixIconPath: Assets.images.package.path,
+                  buttonIconPath: Assets.images.search.path,
+                  onTap: () {
+                    // Optional: trigger a search
+                  },
+                ),
               ),
               const SizedBox(height: 16),
 

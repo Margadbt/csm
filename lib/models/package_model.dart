@@ -9,6 +9,7 @@ class PackageModel {
   final int amount;
   final bool isPaid;
   final int status;
+  final String phone;
 
   PackageModel({
     required this.id,
@@ -19,6 +20,7 @@ class PackageModel {
     required this.amount,
     required this.isPaid,
     required this.status,
+    required this.phone,
   });
 
   factory PackageModel.fromFirestore(DocumentSnapshot doc) {
@@ -32,6 +34,7 @@ class PackageModel {
       amount: data['amount'] ?? 0,
       isPaid: data['is_paid'] ?? false,
       status: data['status'] ?? 0,
+      phone: data['phone'] ?? 0,
     );
   }
 

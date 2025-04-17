@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 
-class CreatePackageBottomSheet extends StatefulWidget {
-  const CreatePackageBottomSheet({super.key, this.trackCode = ""});
+class EmployeeCreatePackageBottomSheet extends StatefulWidget {
+  const EmployeeCreatePackageBottomSheet({super.key, this.trackCode = ""});
   final String trackCode;
 
   @override
-  _CreatePackageBottomSheetState createState() => _CreatePackageBottomSheetState();
+  _EmployeeCreatePackageBottomSheetState createState() => _EmployeeCreatePackageBottomSheetState();
 }
 
-class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
+class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackageBottomSheet> {
   final TextEditingController _trackCodeController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   late String? userRole;
@@ -44,28 +44,19 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
             onTap: () {},
           ),
           const SizedBox(height: 16),
-          if (userRole != "employee") ...[
-            InputWithPrefixIcon(
-              controller: _descriptionController,
-              placeholder: "Тайлбар",
-              prefixIconPath: Assets.images.package.path,
-              onTap: () {},
-            ),
-            const SizedBox(height: 16),
-          ] else ...[
-            InputWithPrefixIcon(
-              controller: _descriptionController,
-              placeholder: "Утасны дугаар",
-              prefixIconPath: Assets.images.package.path,
-              onTap: () {},
-            ),
-            const SizedBox(height: 16),
-          ],
+
+          InputWithPrefixIcon(
+            controller: _descriptionController,
+            placeholder: "Утасны дугаар",
+            prefixIconPath: Assets.images.package.path,
+            onTap: () {},
+          ),
+          const SizedBox(height: 16),
           MyButton(
               title: "Нэмэх",
               onTap: () {
                 String trackCode = _trackCodeController.text.trim();
-                String description = _descriptionController.text.trim();
+                String phone = _descriptionController.text.trim();
 
                 if (trackCode.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -76,7 +67,7 @@ class _CreatePackageBottomSheetState extends State<CreatePackageBottomSheet> {
 
                 context.read<PackageCubit>().createPackage(
                       trackCode: trackCode,
-                      description: description,
+                      phone: phone,
                       context: context,
                     );
 

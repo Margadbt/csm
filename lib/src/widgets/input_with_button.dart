@@ -21,47 +21,49 @@ class InputWithButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Input Field
-        Expanded(
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.cardStroke, width: 1),
-              color: AppColors.secondaryBg, // Background color
-              borderRadius: BorderRadius.circular(25),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                SvgPicture.asset(prefixIconPath), // Prefix Icon
-                const SizedBox(width: 12),
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    decoration: InputDecoration(
-                      hintText: placeholder,
-                      hintStyle: const TextStyle(color: Colors.grey),
-                      border: InputBorder.none, // Remove default border
+    return Expanded(
+      child: Row(
+        children: [
+          // Input Field
+          Expanded(
+            child: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.cardStroke, width: 1),
+                color: AppColors.secondaryBg, // Background color
+                borderRadius: BorderRadius.circular(25),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  SvgPicture.asset(prefixIconPath), // Prefix Icon
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        hintText: placeholder,
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        border: InputBorder.none, // Remove default border
+                      ),
+                      style: const TextStyle(color: Colors.white),
                     ),
-                    style: const TextStyle(color: Colors.white),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
 
-        const SizedBox(width: 12), // Space between input and button
+          const SizedBox(width: 12), // Space between input and button
 
-        ButtonIcon(
-          imagePath: buttonIconPath,
-          onTap: onTap,
-          color: AppColors.primary,
-          iconColor: Colors.black,
-        )
-      ],
+          ButtonIcon(
+            imagePath: buttonIconPath,
+            onTap: onTap,
+            color: AppColors.primary,
+            iconColor: Colors.black,
+          )
+        ],
+      ),
     );
   }
 }

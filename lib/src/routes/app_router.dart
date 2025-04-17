@@ -17,10 +17,10 @@ class AppRouter extends _$AppRouter {
   RouteType get defaultRouteType => const RouteType.material();
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: HomeRoute.page, path: '/home', initial: true),
+    AutoRoute(page: HomeRoute.page, path: '/home'),
     AutoRoute(page: PackagesRoute.page, path: '/packages'),
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
-    AutoRoute(page: LoginRoute.page, path: '/login'),
+    AutoRoute(page: LoginRoute.page, path: '/login', initial: true),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
     AutoRoute(page: PackageDetailRoute.page, path: '/package/detail'),
   ];

@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/widgets/add_status_bottom_sheet.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/status_tile.dart';
+import 'package:csm/src/widgets/status_tile_edit_button.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -47,8 +50,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                 ),
                 const SizedBox(height: 15),
                 Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
+                  child: Column(
                     children: [
                       PackageCard(
                         trackCode: state.package!.trackCode,
@@ -59,12 +61,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                         amount: state.package!.amount.toString(),
                       ),
                       const SizedBox(height: 24),
-                      if (statuses.isEmpty)
-                        StatusTile(
-                          status: PackageStatus.values[0],
-                          date: state.package!.addedDate,
-                        )
-                      else
+                      if (statuses.isNotEmpty)
                         Column(
                           children: statuses.map((status) {
                             return StatusTile(
@@ -74,6 +71,23 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                             );
                           }).toList(),
                         ),
+                      if (statuses.any((s) => s.status == 3) != true)
+                        if (context.read<AuthCubit>().state.userModel!.role == 'employee')
+                          StatusTileEditButton(onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              enableDrag: true,
+                              showDragHandle: true,
+                              backgroundColor: AppColors.secondaryBg,
+                              builder: (context) {
+                                return AddStatusBottomSheet(
+                                  trackCode: state.package!.trackCode,
+                                  packageId: state.package!.id,
+                                  statuses: state.statuses!,
+                                );
+                              },
+                            );
+                          })
                     ],
                   ),
                 ),

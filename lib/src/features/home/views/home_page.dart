@@ -68,13 +68,14 @@ class HomePage extends StatelessWidget {
   }
 
   Widget buildBottomNavBar({required BuildContext context, required HomeState state}) {
+    final role = context.read<AuthCubit>().state.userModel?.role;
     return Positioned(
       bottom: 0,
       right: 0,
       left: 0,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-        margin: EdgeInsets.symmetric(vertical: 25, horizontal: size.width / 3.5),
+        margin: EdgeInsets.symmetric(vertical: 25, horizontal: role == 'employee' ? size.width / 2.8 : size.width / 3.5),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.cardStroke, width: 1),
           color: AppColors.secondaryBg,
@@ -90,13 +91,14 @@ class HomePage extends StatelessWidget {
                 context.read<HomeCubit>().changeHomeScreenIndex(0);
               },
             ),
-            NavButtonIcon(
-              selected: state.homeScreenIndex == 1,
-              icon: Assets.images.package.path,
-              onTap: () {
-                context.read<HomeCubit>().changeHomeScreenIndex(1);
-              },
-            ),
+            if (role != 'employee')
+              NavButtonIcon(
+                selected: state.homeScreenIndex == 1,
+                icon: Assets.images.package.path,
+                onTap: () {
+                  context.read<HomeCubit>().changeHomeScreenIndex(1);
+                },
+              ),
             NavButtonIcon(
               selected: state.homeScreenIndex == 2,
               icon: Assets.images.profileIcon.path,

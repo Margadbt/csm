@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/user_model.dart';
 import 'package:csm/repository/auth_repository.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,10 +14,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this._firebaseAuth, this._authRepository) : super(AuthState.initial()) {
     _firebaseAuth.authStateChanges().listen((User? user) async {
-      if (user != null) {
+      if (await UserPrefs.getUserId() != "" && user != null) {
         await _loadUserData(user.uid);
-      } else {
-        emit(AuthState.initial());
       }
     });
   }
@@ -49,6 +49,7 @@ class AuthCubit extends Cubit<AuthState> {
       print(">>>>>>>>> User registered: ${userModel.email}");
       print(">>>>>>>>> User registered: ${userModel.phone}");
       await _saveUserToPrefs(userModel);
+      context.router.replaceAll([LoginRoute()]);
     } catch (e) {
       emit(AuthState.error(e.toString()));
       print(">>>>>>>>> Registration failed: $e");
@@ -64,9 +65,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthState.loading());
     try {
       UserModel userModel = await _authRepository.loginUser(email, password);
-      emit(AuthState.authenticated(userModel));
       print(">>>>>>>>> User logged in: ${userModel.email}");
       await _saveUserToPrefs(userModel);
+      emit(AuthState.authenticated(userModel));
     } catch (e) {
       emit(AuthState.error(e.toString()));
       print(">>>>>>>>> Login failed: $e");

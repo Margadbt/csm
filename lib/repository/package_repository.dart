@@ -15,6 +15,7 @@ class PackageRepository {
     required int amount,
     required bool isPaid,
     required int status,
+    required String phone,
   }) async {
     final userId = _firebaseAuth.currentUser?.uid;
     if (userId == null) {
@@ -30,6 +31,7 @@ class PackageRepository {
       'amount': amount,
       'is_paid': isPaid,
       'status': status,
+      'phone': phone,
     };
 
     final packageRef = await _firestore.collection('packages').add(packageData);
@@ -43,6 +45,7 @@ class PackageRepository {
       amount: amount,
       isPaid: isPaid,
       status: status,
+      phone: phone,
     );
   }
 
@@ -75,6 +78,34 @@ class PackageRepository {
     }
   }
 
+  Future<List<PackageModel>> getPackagesByPhoneNumber(String phoneNumber) async {
+    try {
+      // Now, fetch all packages for that user ID
+      final querySnapshot = await _firestore.collection('packages').where('phone', isEqualTo: phoneNumber).get();
+
+      // Map the documents into PackageModel and return them
+      return querySnapshot.docs.map((doc) {
+        return PackageModel.fromFirestore(doc);
+      }).toList();
+    } catch (e) {
+      throw Exception('Error fetching packages by phone number: $e');
+    }
+  }
+
+  Future<List<PackageModel>> fetchAll() async {
+    try {
+      // Now, fetch all packages for that user ID
+      final querySnapshot = await _firestore.collection('packages').get();
+
+      // Map the documents into PackageModel and return them
+      return querySnapshot.docs.map((doc) {
+        return PackageModel.fromFirestore(doc);
+      }).toList();
+    } catch (e) {
+      throw Exception('Error fetching packages by phone number: $e');
+    }
+  }
+
   Future<List<StatusModel>> getStatusesByPackageId(String packageId) async {
     try {
       // final querySnapshot = await _firestore.collection("statuses").where("package_id", isEqualTo: packageId).orderBy("status").get();
@@ -89,6 +120,38 @@ class PackageRepository {
     } catch (e) {
       print(">>> $e");
       throw Exception("Error fetching statuses: $e");
+    }
+  }
+
+  Future<void> addPackageStatus({
+    required String packageId,
+    required int status,
+    required String imgUrl,
+  }) async {
+    try {
+      final statusData = {
+        'package_id': packageId,
+        'status': status,
+        'img_url': imgUrl,
+        'date': DateTime.now(),
+      };
+
+      await _firestore.collection("statuses").add(statusData);
+    } catch (e) {
+      throw Exception("Error adding package status: $e");
+    }
+  }
+
+  Future<void> updatePackageStatus({
+    required String packageId,
+    required int status,
+  }) async {
+    try {
+      await _firestore.collection('packages').doc(packageId).update({
+        'status': status,
+      });
+    } catch (e) {
+      throw Exception("Failed to update package status: $e");
     }
   }
 }
