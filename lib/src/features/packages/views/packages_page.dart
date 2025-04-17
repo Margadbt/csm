@@ -124,7 +124,7 @@ class _PackagesPageState extends State<PackagesPage> {
   }
 
   Widget _buildStatusTabBar() {
-    final labels = ['Агуулах', 'Ирсэн', 'Хүргэлт', 'Авсан'];
+    final labels = ['Бүртгэсэн', 'Ирсэн', 'Хүргэлт', 'Авсан'];
 
     return Container(
       padding: const EdgeInsets.all(4),
@@ -153,6 +153,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 ),
                 child: Center(
                   child: text(
+                    fontSize: 12,
                     value: labels[index],
                     fontWeight: FontWeight.w500,
                     color: isSelected ? Colors.black : Colors.white,

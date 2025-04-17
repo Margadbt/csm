@@ -19,12 +19,12 @@ class StatusChips extends StatelessWidget {
           children: [
             _buildStatusChip(
                 icon: Assets.images.warehouse.path,
-                label: "Агуулахад ирсэн",
+                label: "Бүртгэсэн",
                 color: AppColors.blue,
                 onTap: () {
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
-            _buildStatusChip(icon: Assets.images.received.path, label: "Монголд ирсэн", color: AppColors.yellow, onTap: () {}),
+            _buildStatusChip(icon: Assets.images.received.path, label: "Агуулахад ирсэн", color: AppColors.yellow, onTap: () {}),
             _buildStatusChip(icon: Assets.images.delievery.path, label: "Хүргэлтэнд гарсан", color: AppColors.orange, onTap: () {}),
             _buildStatusChip(icon: Assets.images.completed.path, label: "Хүргэгдсэн", color: AppColors.green, onTap: () {}),
           ],
