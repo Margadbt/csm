@@ -3,6 +3,7 @@ import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/features/auth/views/register_page.dart';
 import 'package:csm/src/features/home/views/home_page.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
+import 'package:csm/src/features/packages/views/package_detail.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -21,5 +22,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
     AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
+    AutoRoute(page: PackageDetailRoute.page, path: '/package/detail'),
   ];
 }

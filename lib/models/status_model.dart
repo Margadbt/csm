@@ -3,13 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class StatusModel {
   final DateTime date;
   final int status;
-  final String image;
+  final String imgUrl;
   final String packageId;
 
   StatusModel({
     required this.date,
     required this.status,
-    required this.image,
+    required this.imgUrl,
     required this.packageId,
   });
 
@@ -19,7 +19,7 @@ class StatusModel {
     return StatusModel(
       date: (data['date'] as Timestamp).toDate(),
       status: data['status'] ?? 0,
-      image: data['image'] ?? '',
+      imgUrl: data['img_url'] ?? '',
       packageId: data['package_id'] ?? '',
     );
   }

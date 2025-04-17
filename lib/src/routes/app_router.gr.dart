@@ -35,6 +35,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LoginPage(key: args.key),
       );
     },
+    PackageDetailRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PackageDetailPage(),
+      );
+    },
     PackagesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -112,6 +118,20 @@ class LoginRouteArgs {
   String toString() {
     return 'LoginRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [PackageDetailPage]
+class PackageDetailRoute extends PageRouteInfo<void> {
+  const PackageDetailRoute({List<PageRouteInfo>? children})
+      : super(
+          PackageDetailRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PackageDetailRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

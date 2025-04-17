@@ -33,7 +33,12 @@ class Header extends StatelessWidget {
             Row(
               children: [
                 if (onTap != null)
-                  ButtonIcon(imagePath: Assets.images.leftArrow.path, onTap: () => onTap!())
+                  ButtonIcon(
+                    imagePath: Assets.images.leftArrow.path,
+                    onTap: () => onTap!(),
+                    width: 13,
+                    height: 13,
+                  )
                 else
                   IconCircle(
                     imagePath: icon!,

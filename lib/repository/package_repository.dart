@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/package_model.dart';
+import 'package:csm/models/status_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PackageRepository {
@@ -57,6 +58,37 @@ class PackageRepository {
       }).toList();
     } catch (e) {
       throw Exception("Error fetching packages: $e");
+    }
+  }
+
+  Future<PackageModel> getPackageById(String packageId) async {
+    try {
+      final doc = await _firestore.collection('packages').doc(packageId).get();
+
+      if (!doc.exists) {
+        throw Exception("Package not found");
+      }
+
+      return PackageModel.fromFirestore(doc);
+    } catch (e) {
+      throw Exception("Failed to get package: $e");
+    }
+  }
+
+  Future<List<StatusModel>> getStatusesByPackageId(String packageId) async {
+    try {
+      // final querySnapshot = await _firestore.collection("statuses").where("package_id", isEqualTo: packageId).orderBy("status").get();
+
+      // return querySnapshot.docs.map((doc) => StatusModel.fromFirestore(doc)).toList();
+      final querySnapshot = await _firestore.collection("statuses").where("package_id", isEqualTo: packageId).orderBy("status").get();
+      final statuses = querySnapshot.docs.map((doc) => StatusModel.fromFirestore(doc)).toList();
+
+      // print("Fetched statuses:");
+
+      return statuses;
+    } catch (e) {
+      print(">>> $e");
+      throw Exception("Error fetching statuses: $e");
     }
   }
 }

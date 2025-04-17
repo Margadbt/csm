@@ -9,12 +9,16 @@ class ButtonIcon extends StatelessWidget {
     required this.onTap,
     this.color,
     this.iconColor,
+    this.width,
+    this.height,
   });
 
   final String imagePath;
   final Function onTap;
   final Color? color;
   final Color? iconColor;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +43,8 @@ class ButtonIcon extends StatelessWidget {
             alignment: Alignment.center,
             child: SvgPicture.asset(
               imagePath,
-              height: 18,
-              width: 18,
+              height: width ?? 18,
+              width: height ?? 18,
               colorFilter: ColorFilter.mode(
                 iconColor ?? Colors.white, // Set icon color dynamically
                 BlendMode.srcIn,

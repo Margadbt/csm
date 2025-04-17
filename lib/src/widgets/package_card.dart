@@ -5,6 +5,7 @@ import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 enum PackageStatus { inWarehouse, received, delivery, completed }
 
@@ -17,14 +18,16 @@ class PackageCard extends StatelessWidget {
     required this.status,
     this.amount,
     required this.id,
+    this.onTap,
   });
 
   final String trackCode;
-  final String date;
+  final DateTime date;
   final String? description;
   final PackageStatus status;
   final String? amount;
   final String id;
+  final Function? onTap;
 
   /// Function to get icon and color based on status
   Map<String, dynamic> getStatusProperties() {
@@ -65,6 +68,7 @@ class PackageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final properties = getStatusProperties();
+    final formattedDate = DateFormat('yyyy/MM/dd HH:mm').format(date);
 
     return MyCard(
       child: Column(
@@ -80,7 +84,7 @@ class PackageCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       text(value: trackCode, fontWeight: FontWeight.bold),
-                      text(value: date),
+                      text(value: formattedDate),
                     ],
                   ),
                 ],
@@ -116,12 +120,13 @@ class PackageCard extends StatelessWidget {
                 ),
             ],
           ),
-          const SizedBox(height: 20),
-          MyButton(
-            title: "Дэлгэрэнгүй",
-            onTap: () {},
-            color: properties['buttonColor'],
-          ),
+          if (onTap != null) const SizedBox(height: 20),
+          if (onTap != null)
+            MyButton(
+              title: "Дэлгэрэнгүй",
+              onTap: onTap!,
+              color: properties['buttonColor'],
+            ),
         ],
       ),
     );

@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/cubit/home_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
+import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
 import 'package:csm/src/widgets/package_card.dart';
@@ -102,10 +104,13 @@ class _PackagesPageState extends State<PackagesPage> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: PackageCard(
                               trackCode: p.trackCode,
-                              date: p.addedDate.toString(),
+                              date: p.addedDate,
                               description: p.description,
                               amount: p.amount.toString(),
                               status: PackageStatus.values[p.status],
+                              onTap: () {
+                                context.read<PackageCubit>().navigateToPackageDetail(context: context, packageId: p.id);
+                              },
                               id: p.id,
                             ),
                           );

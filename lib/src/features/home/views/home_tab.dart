@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/views/widgets/create_package_bottom_sheet.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
+import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/status_chips.dart';
@@ -91,10 +93,13 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                 padding: const EdgeInsets.symmetric(vertical: 8),
                                 child: PackageCard(
                                   trackCode: package.trackCode,
-                                  date: package.addedDate.toString(),
+                                  date: package.addedDate,
                                   description: package.description,
                                   status: PackageStatus.values[package.status],
                                   id: package.id,
+                                  onTap: () {
+                                    context.read<PackageCubit>().navigateToPackageDetail(context: context, packageId: package.id);
+                                  },
                                 ),
                               )),
                           const SizedBox(height: 100),
