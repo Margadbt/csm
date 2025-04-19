@@ -34,6 +34,19 @@ class HomeCubit extends Cubit<HomeState> {
     await fetchPackagesByPhoneNumber(userPhone!);
   }
 
+  Future<void> getAllPackages() async {
+    emit(HomeState.loading(homeScreenIndex: state.homeScreenIndex));
+    try {
+      // Fetch packages using the repository
+      final packages = await _packageRepository.fetchAll();
+
+      // Update the state with the fetched packages
+      emit(HomeState.packagesLoaded(packages, homeScreenIndex: state.homeScreenIndex));
+    } catch (e) {
+      emit(HomeState.error(e.toString(), homeScreenIndex: state.homeScreenIndex));
+    }
+  }
+
   Future<void> fetchPackagesByPhoneNumber(String phoneNumber) async {
     emit(HomeState.loading(homeScreenIndex: state.homeScreenIndex));
     try {

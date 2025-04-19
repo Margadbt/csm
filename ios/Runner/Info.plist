@@ -8,6 +8,10 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Csm</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to the camera</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to the photo library</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

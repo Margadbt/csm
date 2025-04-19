@@ -15,6 +15,9 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/byl.png
+  AssetGenImage get byl => const AssetGenImage('assets/images/byl.png');
+
   /// File path: assets/images/completed.svg
   SvgGenImage get completed => const SvgGenImage('assets/images/completed.svg');
 
@@ -63,6 +66,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<dynamic> get values => [
+        byl,
         completed,
         delievery,
         home,

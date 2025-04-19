@@ -34,7 +34,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
   @override
   void initState() {
     userRole = context.read<AuthCubit>().state.userModel?.role;
-    if (userRole != 'employee') context.read<HomeCubit>().getPackages();
+    if (userRole != 'employee') {
+      context.read<HomeCubit>().getPackages();
+    } else if (userRole == 'employee') {
+      context.read<HomeCubit>().getAllPackages();
+    }
     super.initState();
   }
 
@@ -91,7 +95,14 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                 placeholder: 'Утасны дугаар',
                                 prefixIconPath: Assets.images.package.path,
                                 buttonIconPath: Assets.images.search.path,
-                                onTap: () {},
+                                onTap: () {
+                                  final phone = _trackCodeController.text.trim();
+                                  if (phone.isNotEmpty) {
+                                    context.read<HomeCubit>().fetchPackagesByPhoneNumber(phone);
+                                  } else {
+                                    context.read<HomeCubit>().getAllPackages();
+                                  }
+                                },
                               ),
                               const SizedBox(width: 12),
                               ButtonIcon(
@@ -148,6 +159,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                           trackCode: package.trackCode,
                                           date: package.addedDate,
                                           description: package.description,
+                                          phone: userRole != 'employee' ? null : package.phone,
                                           status: PackageStatus.values[package.status],
                                           id: package.id,
                                           onTap: () {

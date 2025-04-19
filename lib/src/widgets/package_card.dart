@@ -17,6 +17,7 @@ class PackageCard extends StatelessWidget {
     this.description,
     required this.status,
     this.amount,
+    this.phone,
     required this.id,
     this.onTap,
   });
@@ -26,6 +27,7 @@ class PackageCard extends StatelessWidget {
   final String? description;
   final PackageStatus status;
   final String? amount;
+  final String? phone;
   final String id;
   final Function? onTap;
 
@@ -83,7 +85,16 @@ class PackageCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      text(value: trackCode, fontWeight: FontWeight.bold),
+                      if (phone != null)
+                        Row(
+                          children: [
+                            text(value: "${phone!} -", fontWeight: FontWeight.bold),
+                            const SizedBox(width: 6),
+                            text(value: trackCode, fontWeight: FontWeight.bold),
+                          ],
+                        )
+                      else
+                        text(value: trackCode, fontWeight: FontWeight.bold),
                       text(value: formattedDate),
                     ],
                   ),

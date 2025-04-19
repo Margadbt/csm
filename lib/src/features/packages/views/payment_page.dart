@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/models/package_model.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
-import 'package:csm/src/features/packages/views/payment_page.dart';
-import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/add_status_bottom_sheet.dart';
-import 'package:csm/src/widgets/button.dart';
+import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/status_tile.dart';
 import 'package:csm/src/widgets/status_tile_edit_button.dart';
@@ -14,21 +13,19 @@ import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
-class PackageDetailPage extends StatefulWidget {
-  final String packageId;
-  const PackageDetailPage({super.key, required this.packageId});
+class PaymentPage extends StatefulWidget {
+  const PaymentPage({super.key});
 
   @override
-  State<PackageDetailPage> createState() => _PackageDetailPageState();
+  State<PaymentPage> createState() => _PackageDetailPageState();
 }
 
-class _PackageDetailPageState extends State<PackageDetailPage> {
+class _PackageDetailPageState extends State<PaymentPage> {
   @override
   void initState() {
-    context.read<PackageCubit>().fetchPackageById(widget.packageId);
-    context.read<PackageCubit>().fetchPackageStatuses(widget.packageId);
     super.initState();
   }
 
@@ -55,7 +52,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                 const SizedBox(height: 40),
                 Header(
                   icon: Assets.images.package.path,
-                  title: "Ачааны дэлгэрэнгүй",
+                  title: "Төлбөр төлөх",
                   onTap: () => context.router.pop(),
                 ),
                 const SizedBox(height: 15),
@@ -70,43 +67,34 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                         description: state.package!.description,
                         amount: state.package!.amount.toString(),
                       ),
-                      const SizedBox(height: 24),
-                      if (statuses.isNotEmpty)
-                        Column(
-                          children: statuses.map((status) {
-                            return StatusTile(
-                              status: PackageStatus.values[status.status],
-                              date: status.date,
-                              imgUrl: status.imgUrl,
-                            );
-                          }).toList(),
+                      const SizedBox(height: 40),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: text(value: "Төлбөрийн сонголтоо хийнэ үү"),
+                      ),
+                      const SizedBox(height: 12),
+                      MyCard(
+                        child: Row(
+                          children: [
+                            InkWell(
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    Assets.images.byl.path,
+                                    height: 50,
+                                    width: 50,
+                                  ),
+                                  const SizedBox(width: 10),
+                                  text(value: "Byl", fontWeight: FontWeight.bold)
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                      if (statuses.any((s) => s.status == 3) != true)
-                        if (context.read<AuthCubit>().state.userModel!.role == 'employee')
-                          StatusTileEditButton(onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              enableDrag: true,
-                              showDragHandle: true,
-                              backgroundColor: ColorTheme.secondaryBg,
-                              builder: (context) {
-                                return AddStatusBottomSheet(
-                                  trackCode: state.package!.trackCode,
-                                  packageId: state.package!.id,
-                                  statuses: state.statuses!,
-                                );
-                              },
-                            );
-                          })
+                      )
                     ],
                   ),
                 ),
-                MyButton(
-                    title: "Төлбөр төлөх",
-                    onTap: () {
-                      context.router.push(PaymentRoute());
-                    }),
-                const SizedBox(height: 20)
               ],
             ),
           );
