@@ -36,9 +36,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     PackageDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<PackageDetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const PackageDetailPage(),
+        child: PackageDetailPage(
+          key: args.key,
+          packageId: args.packageId,
+        ),
       );
     },
     PackagesRoute.name: (routeData) {
@@ -128,16 +132,40 @@ class LoginRouteArgs {
 
 /// generated route for
 /// [PackageDetailPage]
-class PackageDetailRoute extends PageRouteInfo<void> {
-  const PackageDetailRoute({List<PageRouteInfo>? children})
-      : super(
+class PackageDetailRoute extends PageRouteInfo<PackageDetailRouteArgs> {
+  PackageDetailRoute({
+    Key? key,
+    required String packageId,
+    List<PageRouteInfo>? children,
+  }) : super(
           PackageDetailRoute.name,
+          args: PackageDetailRouteArgs(
+            key: key,
+            packageId: packageId,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'PackageDetailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<PackageDetailRouteArgs> page =
+      PageInfo<PackageDetailRouteArgs>(name);
+}
+
+class PackageDetailRouteArgs {
+  const PackageDetailRouteArgs({
+    this.key,
+    required this.packageId,
+  });
+
+  final Key? key;
+
+  final String packageId;
+
+  @override
+  String toString() {
+    return 'PackageDetailRouteArgs{key: $key, packageId: $packageId}';
+  }
 }
 
 /// generated route for

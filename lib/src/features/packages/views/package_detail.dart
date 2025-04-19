@@ -14,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class PackageDetailPage extends StatefulWidget {
-  const PackageDetailPage({super.key});
+  final String packageId;
+  const PackageDetailPage({super.key, required this.packageId});
 
   @override
   State<PackageDetailPage> createState() => _PackageDetailPageState();
@@ -23,6 +24,8 @@ class PackageDetailPage extends StatefulWidget {
 class _PackageDetailPageState extends State<PackageDetailPage> {
   @override
   void initState() {
+    context.read<PackageCubit>().fetchPackageById(widget.packageId);
+    context.read<PackageCubit>().fetchPackageStatuses(widget.packageId);
     super.initState();
   }
 
@@ -33,7 +36,11 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
       backgroundColor: ColorTheme.background,
       body: BlocBuilder<PackageCubit, PackagesState>(
         builder: (context, state) {
-          if (state.isLoading) return const Center(child: CircularProgressIndicator());
+          if (state.isLoading)
+            return Center(
+                child: CircularProgressIndicator(
+              color: ColorTheme.blue,
+            ));
           if (state.error != null) return Center(child: text(value: state.error!));
 
           final statuses = state.statuses ?? [];

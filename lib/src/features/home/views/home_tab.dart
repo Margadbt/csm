@@ -151,7 +151,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                           status: PackageStatus.values[package.status],
                                           id: package.id,
                                           onTap: () {
-                                            context.read<PackageCubit>().navigateToPackageDetail(context: context, packageId: package.id);
+                                            context.router.push(PackageDetailRoute(packageId: package.id));
                                           },
                                         ),
                                       )),

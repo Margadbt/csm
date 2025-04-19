@@ -64,9 +64,9 @@ class StatusTile extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                text(value: properties['text'], fontSize: 12, fontWeight: FontWeight.bold),
+                text(value: properties['text'], fontSize: 14, fontWeight: FontWeight.w600),
                 const SizedBox(height: 2),
-                text(value: formattedDate, fontSize: 12),
+                text(value: formattedDate, fontSize: 14),
               ],
             ),
           ],

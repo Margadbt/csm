@@ -6,19 +6,10 @@ import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
-import 'package:csm/src/widgets/input_with_prefix_icon.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:csm/utils/math_utils.dart';
-import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
-import 'package:csm/gen/assets.gen.dart';
-import 'package:csm/src/features/home/views/widgets/header_widget.dart';
-import 'package:csm/src/widgets/input_with_button.dart';
-import 'package:csm/src/widgets/package_card.dart';
-import 'package:csm/src/widgets/text.dart';
-import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -67,11 +58,11 @@ class _PackagesPageState extends State<PackagesPage> {
                 width: size.width,
                 child: InputWithButton(
                   controller: _searchController,
-                  placeholder: 'Track Code...',
+                  placeholder: 'Track Code эсвэл Тайлбар...',
                   prefixIconPath: Assets.images.package.path,
                   buttonIconPath: Assets.images.search.path,
                   onTap: () {
-                    // Optional: trigger a search
+                    setState(() {}); // Rebuild to trigger search filter
                   },
                 ),
               ),
@@ -83,9 +74,10 @@ class _PackagesPageState extends State<PackagesPage> {
                   builder: (context, state) {
                     if (state.isLoading) {
                       return Center(
-                          child: CircularProgressIndicator(
-                        color: ColorTheme.primary,
-                      ));
+                        child: CircularProgressIndicator(
+                          color: ColorTheme.primary,
+                        ),
+                      );
                     } else if (state.errorMessage != null) {
                       return Center(
                         child: text(
@@ -97,7 +89,9 @@ class _PackagesPageState extends State<PackagesPage> {
                         ),
                       );
                     } else if (state.packages != null && state.packages!.isNotEmpty) {
-                      final filtered = state.packages!.where((p) => p.status == _selectedStatusIndex).toList();
+                      final searchTerm = _searchController.text.toLowerCase();
+
+                      final filtered = state.packages!.where((p) => p.status == _selectedStatusIndex).where((p) => p.trackCode.toLowerCase().contains(searchTerm) || (p.description?.toLowerCase().contains(searchTerm) ?? false)).toList();
 
                       if (filtered.isEmpty) {
                         return Center(child: text(value: 'Хоосон байна.'));
@@ -116,7 +110,7 @@ class _PackagesPageState extends State<PackagesPage> {
                               amount: p.amount.toString(),
                               status: PackageStatus.values[p.status],
                               onTap: () {
-                                context.read<PackageCubit>().navigateToPackageDetail(context: context, packageId: p.id);
+                                context.router.push(PackageDetailRoute(packageId: p.id));
                               },
                               id: p.id,
                             ),

@@ -70,7 +70,7 @@ class PackageCard extends StatelessWidget {
     final properties = getStatusProperties();
     final formattedDate = DateFormat('yyyy/MM/dd HH:mm').format(date);
 
-    return MyCard(
+    final cardContent = MyCard(
       child: Column(
         children: [
           Row(
@@ -96,39 +96,47 @@ class PackageCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (description != null)
+          if (description != null && description != "") ...[
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       text(value: "Тайлбар", fontSize: 10),
-                      text(value: description ?? "Хоосон байна", fontWeight: FontWeight.bold),
+                      text(value: description!, fontWeight: FontWeight.bold),
                     ],
                   ),
                 ),
-              if (amount != null)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (amount != null && amount != "0") text(value: "Төлбөр", fontSize: 10),
-                    if (amount != null && amount != "0") text(value: "${amount!}₮", fontWeight: FontWeight.bold),
-                  ],
-                ),
-            ],
-          ),
-          if (onTap != null) const SizedBox(height: 20),
-          if (onTap != null)
-            MyButton(
-              title: "Дэлгэрэнгүй",
-              onTap: onTap!,
-              color: properties['buttonColor'],
+                if (amount != null && amount != "0")
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      text(value: "Төлбөр", fontSize: 10),
+                      text(value: "${amount!}₮", fontWeight: FontWeight.bold),
+                    ],
+                  ),
+              ],
             ),
+          ],
         ],
       ),
     );
+
+    // Conditionally return InkWell only if onTap is not null
+    return onTap != null
+        ? Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () => onTap?.call(),
+              splashColor: properties['color'].withOpacity(0.2),
+              highlightColor: properties['color'].withOpacity(0.1),
+              borderRadius: BorderRadius.circular(30), // match MyCard radius
+              child: cardContent,
+            ),
+          )
+        : cardContent;
   }
 }

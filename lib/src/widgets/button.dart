@@ -22,7 +22,7 @@ class MyButton extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         width: double.infinity,
         decoration: BoxDecoration(
-            color: color ?? ColorTheme.primary, // Background color
+            color: color ?? ColorTheme.blue, // Background color
             borderRadius: BorderRadius.circular(1000)),
         child: text(value: title, color: Colors.black, fontWeight: FontWeight.bold),
       ),

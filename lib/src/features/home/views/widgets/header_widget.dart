@@ -67,7 +67,7 @@ class Header extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         text(value: "Тавтай морил!", fontWeight: FontWeight.w900, fontSize: 15),
-                        text(value: context.read<AuthCubit>().state.userModel?.username ?? "", fontWeight: FontWeight.bold, fontSize: 12),
+                        if (context.read<AuthCubit>().state.userModel?.username != null && context.read<AuthCubit>().state.userModel?.username != "") text(value: context.read<AuthCubit>().state.userModel?.username ?? "", fontWeight: FontWeight.bold, fontSize: 12),
                       ],
                     ),
                   ),

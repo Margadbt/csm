@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 12),
                 MyCard(
-                  padding: 20,
+                  padding: EdgeInsets.all(20),
                   child: Column(
                     children: List.generate(profileItems.length, (index) {
                       return Column(
@@ -64,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 18),
                 MyCard(
-                    padding: 20,
+                    padding: EdgeInsets.all(20),
                     child: buildRow(
                         value: "Гарах",
                         onTap: () {

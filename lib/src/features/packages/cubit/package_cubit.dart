@@ -11,6 +11,10 @@ class PackageCubit extends Cubit<PackagesState> {
 
   PackageCubit(this._repository) : super(PackagesState.initial());
 
+  Future<void> changeIndex(int index) async {
+    emit(state.copyWith(index: index));
+  }
+
   Future<void> createPackage({
     required BuildContext context,
     required String trackCode,
@@ -58,16 +62,6 @@ class PackageCubit extends Cubit<PackagesState> {
     }
   }
 
-  Future<void> navigateToPackageDetail({required BuildContext context, required String packageId}) async {
-    await fetchPackageStatuses(packageId);
-    await fetchPackageById(packageId);
-    print("package: ${state.package}");
-    print("statuses: ${state.statuses}");
-    if (state.package != null && state.statuses != null) {
-      context.router.pushNamed("/package/detail");
-    }
-  }
-
   Future<void> addStatusToPackage({
     required String packageId,
     required int status,
@@ -94,6 +88,7 @@ class PackageCubit extends Cubit<PackagesState> {
 class PackagesState {
   final bool isLoading;
   final String? error;
+  final int? index;
   final PackageModel? package;
   final List<StatusModel>? statuses;
 
@@ -102,10 +97,11 @@ class PackagesState {
     this.error,
     this.package,
     this.statuses,
+    this.index = 0,
   });
 
   factory PackagesState.initial() {
-    return PackagesState();
+    return PackagesState(package: PackageModel.empty(), statuses: []);
   }
 
   factory PackagesState.loading() {
@@ -124,9 +120,14 @@ class PackagesState {
     return PackagesState(error: error);
   }
 
+  factory PackagesState.index(int index) {
+    return PackagesState(index: index);
+  }
+
   PackagesState copyWith({
     bool? isLoading,
     String? error,
+    int? index,
     PackageModel? package,
     List<StatusModel>? statuses,
   }) {
@@ -135,6 +136,7 @@ class PackagesState {
       error: error ?? this.error,
       package: package ?? this.package,
       statuses: statuses ?? this.statuses,
+      index: index ?? this.index,
     );
   }
 }

@@ -49,4 +49,18 @@ class PackageModel {
       'status': status,
     };
   }
+
+  static PackageModel empty() {
+    return PackageModel(
+      id: '',
+      description: '',
+      trackCode: '',
+      addedDate: DateTime.now(),
+      userId: '',
+      amount: 0,
+      isPaid: false,
+      status: 0,
+      phone: '',
+    );
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/cubit/home_cubit.dart';
+import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +24,33 @@ class StatusChips extends StatelessWidget {
                 label: "Бүртгэсэн",
                 color: ColorTheme.blue,
                 onTap: () {
+                  context.read<PackageCubit>().changeIndex(0);
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
-            _buildStatusChip(icon: Assets.images.received.path, label: "Агуулахад ирсэн", color: ColorTheme.yellow, onTap: () {}),
-            _buildStatusChip(icon: Assets.images.delievery.path, label: "Хүргэлтэнд гарсан", color: ColorTheme.orange, onTap: () {}),
-            _buildStatusChip(icon: Assets.images.completed.path, label: "Хүргэгдсэн", color: ColorTheme.green, onTap: () {}),
+            _buildStatusChip(
+                icon: Assets.images.received.path,
+                label: "Агуулахад ирсэн",
+                color: ColorTheme.yellow,
+                onTap: () {
+                  context.read<PackageCubit>().changeIndex(1);
+                  context.read<HomeCubit>().changeHomeScreenIndex(1);
+                }),
+            _buildStatusChip(
+                icon: Assets.images.delievery.path,
+                label: "Хүргэлтэнд гарсан",
+                color: ColorTheme.orange,
+                onTap: () {
+                  context.read<PackageCubit>().changeIndex(2);
+                  context.read<HomeCubit>().changeHomeScreenIndex(1);
+                }),
+            _buildStatusChip(
+                icon: Assets.images.completed.path,
+                label: "Хүргэгдсэн",
+                color: ColorTheme.green,
+                onTap: () {
+                  context.read<PackageCubit>().changeIndex(3);
+                  context.read<HomeCubit>().changeHomeScreenIndex(1);
+                }),
           ],
         ),
       ),
@@ -51,7 +75,7 @@ class StatusChips extends StatelessWidget {
                   icon,
                   height: 18,
                   colorFilter: ColorFilter.mode(
-                    ColorTheme.iconColor, // Replace with your color
+                    Colors.black, // Replace with your color
                     BlendMode.srcIn, // Ensures the color replaces the original SVG color
                   ),
                 ),

@@ -50,20 +50,21 @@ class _PackageDetailPageState extends State<SettingsPage> {
                   child: Column(
                     children: [
                       MyCard(
+                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                           child: Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            text(value: "Dark mode", fontWeight: FontWeight.bold),
-                            Switch.adaptive(
-                                value: context.read<ThemeCubit>().state,
-                                onChanged: (value) {
-                                  context.read<ThemeCubit>().toggleTheme();
-                                  setState(() {});
-                                })
-                          ],
-                        )
-                      ]))
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                text(value: "Шөнийн горим идэвхижүүлэх", fontWeight: FontWeight.bold),
+                                Switch.adaptive(
+                                    value: context.read<ThemeCubit>().state,
+                                    onChanged: (value) {
+                                      context.read<ThemeCubit>().toggleTheme();
+                                      setState(() {});
+                                    })
+                              ],
+                            )
+                          ]))
                     ],
                   ),
                 ),
