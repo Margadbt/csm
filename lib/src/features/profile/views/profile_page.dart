@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return SafeArea(
       bottom: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SingleChildScrollView(
@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: profileItems[index]["onTap"] as VoidCallback,
                           ),
                           if (index < profileItems.length - 1) const SizedBox(height: 12),
-                          if (index < profileItems.length - 1) const Divider(color: AppColors.cardStroke),
+                          if (index < profileItems.length - 1) Divider(color: ColorTheme.cardStroke),
                           if (index < profileItems.length - 1) const SizedBox(height: 12),
                         ],
                       );
@@ -90,8 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
             Assets.images.rightArrow.path,
             height: 12,
             width: 12,
-            colorFilter: const ColorFilter.mode(
-              Colors.white,
+            colorFilter: ColorFilter.mode(
+              ColorTheme.iconColor,
               BlendMode.srcIn,
             ),
           ),

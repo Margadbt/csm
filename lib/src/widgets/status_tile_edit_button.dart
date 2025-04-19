@@ -29,7 +29,7 @@ class StatusTileEditButton extends StatelessWidget {
               ButtonIcon(
                 width: 14,
                 height: 14,
-                color: AppColors.primary,
+                color: ColorTheme.primary,
                 iconColor: Colors.black,
                 imagePath: Assets.images.plus.path,
                 onTap: () {},

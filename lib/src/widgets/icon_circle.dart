@@ -26,14 +26,14 @@ class IconCircle extends StatelessWidget {
       padding: EdgeInsets.all(padding ?? 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(1000),
-        color: color ?? AppColors.secondaryBg,
-        border: color == null ? Border.all(color: AppColors.cardStroke, width: 1) : null,
+        color: color ?? ColorTheme.secondaryBg,
+        border: color == null ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
       ),
       child: SvgPicture.asset(
         imagePath,
         fit: BoxFit.contain,
         colorFilter: ColorFilter.mode(
-          iconColor ?? Colors.white,
+          iconColor ?? ColorTheme.iconColor,
           BlendMode.srcIn,
         ),
       ),

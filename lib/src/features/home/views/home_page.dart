@@ -4,6 +4,7 @@ import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/bottom_nav_bar_button.dart';
 import 'package:csm/theme/colors.dart';
@@ -27,27 +28,32 @@ class HomePage extends StatelessWidget {
           context.router.replaceAll([LoginRoute()]);
         }
       },
-      child: BlocBuilder<HomeCubit, HomeState>(
+      child: BlocBuilder<ThemeCubit, bool>(
         builder: (context, state) {
-          int currentIndex = state.homeScreenIndex ?? 0;
+          ColorTheme.isDark = state;
+          return BlocBuilder<HomeCubit, HomeState>(
+            builder: (context, state) {
+              int currentIndex = state.homeScreenIndex ?? 0;
 
-          return Scaffold(
-            backgroundColor: AppColors.background,
-            body: Stack(
-              children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 150),
-                  transitionBuilder: (Widget child, Animation<double> animation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: child,
-                    );
-                  },
-                  child: _getPageForIndex(currentIndex),
+              return Scaffold(
+                backgroundColor: ColorTheme.background,
+                body: Stack(
+                  children: [
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 150),
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      child: _getPageForIndex(currentIndex),
+                    ),
+                    buildBottomNavBar(context: context, state: state),
+                  ],
                 ),
-                buildBottomNavBar(context: context, state: state),
-              ],
-            ),
+              );
+            },
           );
         },
       ),
@@ -77,8 +83,8 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
         margin: EdgeInsets.symmetric(vertical: 25, horizontal: role == 'employee' ? size.width / 2.8 : size.width / 3.5),
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.cardStroke, width: 1),
-          color: AppColors.secondaryBg,
+          border: Border.all(color: ColorTheme.cardStroke, width: 1),
+          color: ColorTheme.secondaryBg,
           borderRadius: BorderRadius.circular(50),
         ),
         child: Row(

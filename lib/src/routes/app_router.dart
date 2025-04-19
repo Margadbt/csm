@@ -6,6 +6,7 @@ import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/package_detail.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
+import 'package:csm/src/features/settings/views/settings_page.dart';
 import 'package:flutter/material.dart';
 part 'app_router.gr.dart';
 
@@ -23,5 +24,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: LoginRoute.page, path: '/login', initial: true),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
     AutoRoute(page: PackageDetailRoute.page, path: '/package/detail'),
+    AutoRoute(page: SettingsRoute.page, path: '/settings'),
   ];
 }

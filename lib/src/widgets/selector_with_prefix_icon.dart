@@ -23,14 +23,20 @@ class SelectorWithPrefixIcon<T> extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.cardStroke, width: 1),
-        color: AppColors.secondaryBg,
+        border: Border.all(color: ColorTheme.cardStroke, width: 1),
+        color: ColorTheme.secondaryBg,
         borderRadius: BorderRadius.circular(25),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          SvgPicture.asset(prefixIconPath),
+          SvgPicture.asset(
+            prefixIconPath,
+            colorFilter: ColorFilter.mode(
+              ColorTheme.iconColor, // Replace with your color
+              BlendMode.srcIn, // Ensures the color replaces the original SVG color
+            ),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: DropdownButtonHideUnderline(
@@ -39,7 +45,7 @@ class SelectorWithPrefixIcon<T> extends StatelessWidget {
                 value: value,
                 items: items,
                 onChanged: onChanged,
-                dropdownColor: AppColors.secondaryBg,
+                dropdownColor: ColorTheme.secondaryBg,
                 style: const TextStyle(color: Colors.white),
                 hint: Text(
                   placeholder,

@@ -1,5 +1,7 @@
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NavButtonIcon extends StatelessWidget {
@@ -18,12 +20,13 @@ class NavButtonIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color notSelectedColor = context.read<ThemeCubit>().state ? Colors.white : Colors.black;
     return Material(
       color: Colors.transparent, // Ensures no extra background color
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1000),
-          color: selected ? AppColors.primary : Colors.transparent,
+          color: selected ? ColorTheme.blue : Colors.transparent,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(1000),
@@ -41,7 +44,7 @@ class NavButtonIcon extends StatelessWidget {
               height: 18,
               width: 18,
               colorFilter: ColorFilter.mode(
-                selected ? Colors.black : Colors.white, // Change icon color
+                selected ? Colors.black : notSelectedColor, // Change icon color
                 BlendMode.srcIn,
               ),
             ),

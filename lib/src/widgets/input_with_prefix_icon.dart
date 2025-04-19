@@ -29,14 +29,20 @@ class InputWithPrefixIcon extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.cardStroke, width: 1),
-        color: AppColors.secondaryBg, // Background color
+        border: Border.all(color: ColorTheme.cardStroke, width: 1),
+        color: ColorTheme.secondaryBg, // Background color
         borderRadius: BorderRadius.circular(25),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          SvgPicture.asset(prefixIconPath), // Prefix Icon
+          SvgPicture.asset(
+            prefixIconPath,
+            colorFilter: ColorFilter.mode(
+              ColorTheme.iconColor, // Replace with your color
+              BlendMode.srcIn, // Ensures the color replaces the original SVG color
+            ),
+          ), // Prefix Icon
           const SizedBox(width: 12),
           Expanded(
             child: TextField(
@@ -46,11 +52,12 @@ class InputWithPrefixIcon extends StatelessWidget {
               autocorrect: autocorrect,
               controller: controller,
               decoration: InputDecoration(
+                fillColor: ColorTheme.textColor,
                 hintText: placeholder,
                 hintStyle: const TextStyle(color: Colors.grey),
                 border: InputBorder.none, // Remove default border
               ),
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: ColorTheme.textColor),
             ),
           ),
         ],

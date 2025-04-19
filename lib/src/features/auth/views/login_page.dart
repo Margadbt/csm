@@ -4,6 +4,7 @@ import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
+import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: ColorTheme.background,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state.userModel != null && state.userModel!.userId.isNotEmpty) {
@@ -31,9 +32,9 @@ class LoginPage extends StatelessWidget {
           builder: (context, state) {
             // While checking for user, show a loading indicator
             if (state.isLoading) {
-              return const Center(
+              return Center(
                   child: CircularProgressIndicator(
-                color: AppColors.primary,
+                color: ColorTheme.primary,
               ));
             }
 
@@ -53,9 +54,10 @@ class LoginPage extends StatelessWidget {
                     padding: 30,
                   ),
                   const SizedBox(height: 20),
-                  const Text(
-                    "Нэвтрэх",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  text(
+                    value: "Нэвтрэх",
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                   const SizedBox(height: 20),
                   InputWithPrefixIcon(
@@ -77,10 +79,10 @@ class LoginPage extends StatelessWidget {
                     onPressed: () {
                       context.router.pushNamed('/register');
                     },
-                    child: const Text("Бүртгүүлэх", style: TextStyle(color: Colors.white)),
+                    child: Text("Бүртгүүлэх", style: TextStyle(color: ColorTheme.textColor)),
                   ),
                   MyButton(
-                    color: AppColors.blue,
+                    color: ColorTheme.blue,
                     title: "Нэвтрэх",
                     onTap: () {
                       context.read<AuthCubit>().loginUser(

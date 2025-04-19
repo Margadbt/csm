@@ -3,6 +3,7 @@ import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/cubit/home_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
@@ -33,11 +34,13 @@ class _PackagesPageState extends State<PackagesPage> {
   final TextEditingController _trackCodeController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
   int _selectedStatusIndex = 0;
+  late Color _notSelectedColor;
 
   @override
   void initState() {
     super.initState();
     context.read<HomeCubit>().getPackages(); // Fetch packages
+    _notSelectedColor = context.read<ThemeCubit>().state ? Colors.white : Colors.black;
   }
 
   @override
@@ -45,7 +48,7 @@ class _PackagesPageState extends State<PackagesPage> {
     return SafeArea(
       bottom: false,
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -79,9 +82,9 @@ class _PackagesPageState extends State<PackagesPage> {
                 child: BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
                     if (state.isLoading) {
-                      return const Center(
+                      return Center(
                           child: CircularProgressIndicator(
-                        color: AppColors.primary,
+                        color: ColorTheme.primary,
                       ));
                     } else if (state.errorMessage != null) {
                       return Center(
@@ -138,9 +141,9 @@ class _PackagesPageState extends State<PackagesPage> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.secondaryBg,
+        color: ColorTheme.secondaryBg,
         borderRadius: BorderRadius.circular(40),
-        border: Border.all(color: AppColors.cardStroke, width: 1),
+        border: Border.all(color: ColorTheme.cardStroke, width: 1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +160,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 duration: const Duration(milliseconds: 200),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFFE7C9F9) : Colors.transparent,
+                  color: isSelected ? ColorTheme.blue : Colors.transparent,
                   borderRadius: BorderRadius.circular(40),
                 ),
                 child: Center(
@@ -165,7 +168,7 @@ class _PackagesPageState extends State<PackagesPage> {
                     fontSize: 12,
                     value: labels[index],
                     fontWeight: FontWeight.w500,
-                    color: isSelected ? Colors.black : Colors.white,
+                    color: isSelected ? Colors.black : _notSelectedColor,
                   ),
                 ),
               ),

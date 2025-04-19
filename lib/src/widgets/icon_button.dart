@@ -27,8 +27,8 @@ class ButtonIcon extends StatelessWidget {
       child: Ink(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(1000),
-          color: color ?? AppColors.secondaryBg,
-          border: color == null ? Border.all(color: AppColors.cardStroke, width: 1) : null,
+          color: color ?? ColorTheme.secondaryBg,
+          border: color == null ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(1000),
@@ -46,7 +46,7 @@ class ButtonIcon extends StatelessWidget {
               height: width ?? 18,
               width: height ?? 18,
               colorFilter: ColorFilter.mode(
-                iconColor ?? Colors.white, // Set icon color dynamically
+                iconColor ?? ColorTheme.iconColor, // Set icon color dynamically
                 BlendMode.srcIn,
               ),
             ),

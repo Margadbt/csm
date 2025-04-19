@@ -13,8 +13,8 @@ class MyCard extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       width: double.infinity,
       decoration: BoxDecoration(
-          border: Border.all(color: AppColors.cardStroke, width: 1),
-          color: AppColors.secondaryBg, // Background color
+          border: Border.all(color: ColorTheme.cardStroke, width: 1),
+          color: ColorTheme.secondaryBg, // Background color
           borderRadius: BorderRadius.circular(radius)),
       child: child,
     );

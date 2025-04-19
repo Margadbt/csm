@@ -30,7 +30,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: ColorTheme.background,
       body: BlocBuilder<PackageCubit, PackagesState>(
         builder: (context, state) {
           if (state.isLoading) return const Center(child: CircularProgressIndicator());
@@ -78,7 +78,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                               context: context,
                               enableDrag: true,
                               showDragHandle: true,
-                              backgroundColor: AppColors.secondaryBg,
+                              backgroundColor: ColorTheme.secondaryBg,
                               builder: (context) {
                                 return AddStatusBottomSheet(
                                   trackCode: state.package!.trackCode,

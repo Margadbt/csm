@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/status_model.dart';
 import 'package:csm/repository/package_repository.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
-import 'package:csm/src/features/home/views/home_tab.dart';
-import 'package:csm/src/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:csm/models/package_model.dart';
@@ -32,7 +30,7 @@ class PackageCubit extends Cubit<PackagesState> {
         status: status ?? 0,
         phone: phone ?? context.read<AuthCubit>().state.userModel!.phone,
       );
-      emit(state.copyWith(package: package)); // Updating package without clearing other values
+      emit(state.copyWith(package: package));
     } catch (e) {
       emit(state.copyWith(error: e.toString()));
     }
@@ -42,7 +40,7 @@ class PackageCubit extends Cubit<PackagesState> {
     emit(state.copyWith(isLoading: true));
     try {
       final package = await _repository.getPackageById(id);
-      emit(state.copyWith(package: package, isLoading: false)); // Updating package without clearing other values
+      emit(state.copyWith(package: package, isLoading: false));
       print("Package loaded: ${state.package?.trackCode}");
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
@@ -50,10 +48,10 @@ class PackageCubit extends Cubit<PackagesState> {
   }
 
   Future<void> fetchPackageStatuses(String packageId) async {
-    emit(state.copyWith(isLoading: true)); // Set loading true while fetching statuses
+    emit(state.copyWith(isLoading: true));
     try {
       final statuses = await _repository.getStatusesByPackageId(packageId);
-      emit(state.copyWith(statuses: statuses, isLoading: false)); // Updating statuses without clearing other values
+      emit(state.copyWith(statuses: statuses, isLoading: false));
       print("Statuses loaded: ${state.statuses?.length}");
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
@@ -106,12 +104,10 @@ class PackagesState {
     this.statuses,
   });
 
-  // Initial state
   factory PackagesState.initial() {
     return PackagesState();
   }
 
-  // Loading state
   factory PackagesState.loading() {
     return PackagesState(isLoading: true);
   }
@@ -120,12 +116,10 @@ class PackagesState {
     return PackagesState(statuses: statuses);
   }
 
-  // Package created state
   factory PackagesState.packageCreated(PackageModel package) {
     return PackagesState(package: package);
   }
 
-  // Error state
   factory PackagesState.error(String error) {
     return PackagesState(error: error);
   }

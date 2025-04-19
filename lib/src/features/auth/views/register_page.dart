@@ -4,6 +4,7 @@ import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
+import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: ColorTheme.background,
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state.userModel != null) {
@@ -39,9 +40,10 @@ class RegisterPage extends StatelessWidget {
                 padding: 30,
               ),
               const SizedBox(height: 20),
-              const Text(
-                "Бүртгүүлэх",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              text(
+                value: "Бүртгүүлэх",
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 20),
               InputWithPrefixIcon(
@@ -68,7 +70,7 @@ class RegisterPage extends StatelessWidget {
               const SizedBox(height: 50),
               const SizedBox(height: 50),
               MyButton(
-                  color: AppColors.blue,
+                  color: ColorTheme.blue,
                   title: "Бүртгүүлэх",
                   onTap: () {
                     context.read<AuthCubit>().registerUser(
@@ -83,7 +85,7 @@ class RegisterPage extends StatelessWidget {
                 onPressed: () {
                   context.router.maybePop();
                 },
-                child: const Text("Буцах", style: TextStyle(color: Colors.white)),
+                child: Text("Буцах", style: TextStyle(color: ColorTheme.textColor)),
               ),
             ],
           ),

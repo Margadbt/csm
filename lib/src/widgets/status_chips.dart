@@ -20,13 +20,13 @@ class StatusChips extends StatelessWidget {
             _buildStatusChip(
                 icon: Assets.images.warehouse.path,
                 label: "Бүртгэсэн",
-                color: AppColors.blue,
+                color: ColorTheme.blue,
                 onTap: () {
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
-            _buildStatusChip(icon: Assets.images.received.path, label: "Агуулахад ирсэн", color: AppColors.yellow, onTap: () {}),
-            _buildStatusChip(icon: Assets.images.delievery.path, label: "Хүргэлтэнд гарсан", color: AppColors.orange, onTap: () {}),
-            _buildStatusChip(icon: Assets.images.completed.path, label: "Хүргэгдсэн", color: AppColors.green, onTap: () {}),
+            _buildStatusChip(icon: Assets.images.received.path, label: "Агуулахад ирсэн", color: ColorTheme.yellow, onTap: () {}),
+            _buildStatusChip(icon: Assets.images.delievery.path, label: "Хүргэлтэнд гарсан", color: ColorTheme.orange, onTap: () {}),
+            _buildStatusChip(icon: Assets.images.completed.path, label: "Хүргэгдсэн", color: ColorTheme.green, onTap: () {}),
           ],
         ),
       ),
@@ -50,8 +50,8 @@ class StatusChips extends StatelessWidget {
                 SvgPicture.asset(
                   icon,
                   height: 18,
-                  colorFilter: const ColorFilter.mode(
-                    Colors.black, // Replace with your color
+                  colorFilter: ColorFilter.mode(
+                    ColorTheme.iconColor, // Replace with your color
                     BlendMode.srcIn, // Ensures the color replaces the original SVG color
                   ),
                 ),

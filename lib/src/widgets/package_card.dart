@@ -35,32 +35,32 @@ class PackageCard extends StatelessWidget {
       case PackageStatus.inWarehouse:
         return {
           'icon': Assets.images.warehouse.path,
-          'color': AppColors.blue,
-          'buttonColor': AppColors.blue,
+          'color': ColorTheme.blue,
+          'buttonColor': ColorTheme.blue,
         };
       case PackageStatus.received:
         return {
           'icon': Assets.images.received.path,
-          'color': AppColors.yellow,
-          'buttonColor': AppColors.yellow,
+          'color': ColorTheme.yellow,
+          'buttonColor': ColorTheme.yellow,
         };
       case PackageStatus.delivery:
         return {
           'icon': Assets.images.delievery.path,
-          'color': AppColors.orange,
-          'buttonColor': AppColors.orange,
+          'color': ColorTheme.orange,
+          'buttonColor': ColorTheme.orange,
         };
       case PackageStatus.completed:
         return {
           'icon': Assets.images.completed.path,
-          'color': AppColors.green,
-          'buttonColor': AppColors.green,
+          'color': ColorTheme.green,
+          'buttonColor': ColorTheme.green,
         };
       default:
         return {
           'icon': Assets.images.warehouse.path,
-          'color': AppColors.blue,
-          'buttonColor': AppColors.blue,
+          'color': ColorTheme.blue,
+          'buttonColor': ColorTheme.blue,
         };
     }
   }
@@ -106,7 +106,7 @@ class PackageCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       text(value: "Тайлбар", fontSize: 10),
-                      text(value: description!, fontWeight: FontWeight.bold),
+                      text(value: description ?? "Хоосон байна", fontWeight: FontWeight.bold),
                     ],
                   ),
                 ),
