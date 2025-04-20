@@ -14,6 +14,7 @@ import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/status_chips.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:csm/utils/math_utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../widgets/text.dart';
@@ -42,6 +43,12 @@ class _HomeTabPageState extends State<HomeTabPage> {
 
       context.read<HomeCubit>().getAllPackages();
     }
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('🔔 Foreground notification: ${message.notification?.title}');
+      // You can show a dialog, snackbar, or local notification
+    });
+
     super.initState();
   }
 

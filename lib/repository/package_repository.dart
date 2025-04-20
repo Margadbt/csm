@@ -154,4 +154,8 @@ class PackageRepository {
       throw Exception("Failed to update package status: $e");
     }
   }
+
+  Future<void> deleteStatus(String statusId) async {
+    await FirebaseFirestore.instance.collection('statuses').doc(statusId).delete();
+  }
 }

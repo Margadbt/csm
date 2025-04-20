@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:csm/models/package_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:cloud_functions/cloud_functions.dart';
 
 class PackageCubit extends Cubit<PackagesState> {
   final PackageRepository _repository;
@@ -81,10 +82,10 @@ class PackageCubit extends Cubit<PackagesState> {
 
       await _repository.updatePackageStatus(packageId: packageId, status: status);
 
-      final userId = state.package?.userId;
-      if (userId != null) {
-        await notifyUser(userId);
-      }
+      // final userId = state.package?.userId;
+      // if (userId != null) {
+      //   await notifyUser(userId);
+      // }
 
       // Refresh statuses after adding
       await fetchPackageStatuses(packageId);
@@ -93,35 +94,53 @@ class PackageCubit extends Cubit<PackagesState> {
     }
   }
 
-  Future<void> notifyUser(String userId) async {
+  Future<void> deleteStatusFromPackage({
+    required String packageId,
+    required String statusId,
+  }) async {
+    emit(state.copyWith(isLoading: true));
     try {
-      final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-      final fcmToken = doc['fcmToken'];
-
-      if (fcmToken == null || fcmToken.isEmpty) {
-        print('No FCM token found for user $userId');
-        return;
-      }
-
-      final response = await http.post(
-        Uri.parse('https://api-kqwiqujfha-uc.a.run.app:3000/send'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'fcmToken': fcmToken,
-          'title': 'Таны илгээмж шинэчлэгдлээ!',
-          'body': 'Шинэ төлөв: "Хүргэлтэд бэлэн"',
-        }),
-      );
-
-      if (response.statusCode == 200) {
-        print('Notification sent: ${response.body}');
-      } else {
-        print('Failed to send notification: ${response.body}');
-      }
+      await _repository.deleteStatus(statusId);
+      await fetchPackageStatuses(packageId); // Refresh status list
     } catch (e) {
-      print('Error sending notification: $e');
+      emit(state.copyWith(error: e.toString(), isLoading: false));
     }
   }
+
+  // Future<void> notifyUser(String userId) async {
+  //   final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  //   final fcmToken = doc['fcm_token'];
+
+  //   if (fcmToken != null) {
+  //     await sendPushNotification(fcmToken);
+  //   }
+  // }
+
+  // Future<void> sendPushNotification(String fcmToken) async {
+  //   const String serverKey = 'YOUR_SERVER_KEY_HERE'; // From Firebase project settings
+
+  //   final data = {
+  //     'to': fcmToken,
+  //     'notification': {
+  //       'title': 'Package Status Updated',
+  //       'body': 'Your package status has been changed.',
+  //     },
+  //     'priority': 'high',
+  //   };
+
+  //   final response = await http.post(
+  //     Uri.parse('https://fcm.googleapis.com/fcm/send'),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'key=$serverKey',
+  //     },
+  //     body: jsonEncode(data),
+  //   );
+
+  //   if (response.statusCode != 200) {
+  //     print("Failed to send notification: ${response.body}");
+  //   }
+  // }
 }
 
 class PackagesState {

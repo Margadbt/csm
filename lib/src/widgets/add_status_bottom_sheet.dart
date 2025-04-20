@@ -102,6 +102,8 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
       }
     }
 
+    print(">>>>>>>>> imgUrl: $imgUrl");
+
     context.read<PackageCubit>().addStatusToPackage(
           packageId: widget.packageId,
           status: statusCode,

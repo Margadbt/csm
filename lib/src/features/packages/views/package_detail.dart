@@ -71,35 +71,44 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                         amount: state.package!.amount.toString(),
                       ),
                       const SizedBox(height: 24),
-                      if (statuses.isNotEmpty)
-                        Column(
-                          children: statuses.map((status) {
-                            return StatusTile(
-                              status: PackageStatus.values[status.status],
-                              date: status.date,
-                              imgUrl: status.imgUrl,
-                            );
-                          }).toList(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(children: [
+                            if (statuses.isNotEmpty)
+                              Column(
+                                children: statuses.map((status) {
+                                  return StatusTile(
+                                    status: PackageStatus.values[status.status],
+                                    date: status.date,
+                                    imgUrl: status.imgUrl,
+                                  );
+                                }).toList(),
+                              ),
+                            if (statuses.any((s) => s.status == 3) != true)
+                              if (context.read<AuthCubit>().state.userModel!.role == 'employee')
+                                StatusTileEditButton(onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    enableDrag: true,
+                                    showDragHandle: true,
+                                    backgroundColor: ColorTheme.secondaryBg,
+                                    builder: (context) {
+                                      return AddStatusBottomSheet(
+                                        trackCode: state.package!.trackCode,
+                                        packageId: state.package!.id,
+                                        statuses: state.statuses!,
+                                      );
+                                    },
+                                  );
+                                })
+                          ]),
                         ),
-                      if (statuses.any((s) => s.status == 3) != true)
-                        if (context.read<AuthCubit>().state.userModel!.role == 'employee')
-                          StatusTileEditButton(onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              enableDrag: true,
-                              showDragHandle: true,
-                              backgroundColor: ColorTheme.secondaryBg,
-                              builder: (context) {
-                                return AddStatusBottomSheet(
-                                  trackCode: state.package!.trackCode,
-                                  packageId: state.package!.id,
-                                  statuses: state.statuses!,
-                                );
-                              },
-                            );
-                          })
+                      )
                     ],
                   ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 MyButton(
                     title: "Төлбөр төлөх",
