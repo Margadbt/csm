@@ -1,11 +1,14 @@
 import 'package:csm/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
+  // Register user and store FCM token
   Future<UserModel> registerUser(String email, String password, String phone) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -15,6 +18,10 @@ class AuthRepository {
 
       User? user = userCredential.user;
       if (user != null) {
+        // Get FCM token
+        String? fcmToken = await _firebaseMessaging.getToken();
+
+        // Store user data along with FCM token
         await _firestore.collection('users').doc(user.uid).set({
           'user_id': user.uid,
           'email': user.email,
@@ -22,6 +29,7 @@ class AuthRepository {
           'address': '',
           'username': '',
           'profile_img': '',
+          'fcmToken': fcmToken, // Store FCM token here
         });
 
         DocumentSnapshot snapshot = await _firestore.collection('users').doc(user.uid).get();
@@ -34,6 +42,7 @@ class AuthRepository {
     }
   }
 
+  // Login user and retrieve FCM token
   Future<UserModel> loginUser(String email, String password) async {
     try {
       UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
@@ -43,6 +52,14 @@ class AuthRepository {
 
       User? user = userCredential.user;
       if (user != null) {
+        // Get FCM token
+        String? fcmToken = await _firebaseMessaging.getToken();
+
+        // Store or update FCM token in Firestore
+        await _firestore.collection('users').doc(user.uid).update({
+          'fcmToken': fcmToken, // Update the FCM token
+        });
+
         DocumentSnapshot snapshot = await _firestore.collection('users').doc(user.uid).get();
         return UserModel.fromFirebase(user, snapshot.data() as Map<String, dynamic>);
       } else {
@@ -58,6 +75,7 @@ class AuthRepository {
     await _firebaseAuth.signOut();
   }
 
+  // Get current user and their data
   Future<UserModel?> getCurrentUser() async {
     User? user = _firebaseAuth.currentUser;
     if (user != null) {

@@ -6,11 +6,70 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 // Auth Cubit
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuth _firebaseAuth;
   final AuthRepository _authRepository; // Declare the repository
+
+  Future<void> saveFcmToken(String userId) async {
+    try {
+      // Get the FCM token for the current device
+      String? token = await FirebaseMessaging.instance.getToken();
+
+      if (token != null) {
+        // Save the token to Firestore under the user's document
+        await FirebaseFirestore.instance.collection('users').doc(userId).update({
+          'fcmToken': token,
+        });
+        print("FCM Token saved for user: $userId");
+      } else {
+        print("FCM Token is null for user: $userId");
+      }
+    } catch (e) {
+      print('Error saving FCM token: $e');
+    }
+  }
+
+  Future<void> setupFCM() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Request notification permissions
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      print("✅ Notifications authorized");
+
+      // Wait for APNs token to be available (for iOS)
+      String? apnsToken;
+      int retry = 0;
+      while (retry < 5) {
+        apnsToken = await messaging.getAPNSToken();
+        if (apnsToken != null) break;
+        await Future.delayed(const Duration(seconds: 1));
+        retry++;
+      }
+
+      if (apnsToken == null) {
+        print("❌ APNs token still not available after retrying.");
+        return;
+      }
+
+      print("✅ APNs Token: $apnsToken");
+
+      // Now fetch the FCM token
+      String? fcmToken = await messaging.getToken();
+      print("✅ FCM Token: $fcmToken");
+    } else {
+      print("❌ Notifications permission not granted");
+    }
+  }
 
   AuthCubit(this._firebaseAuth, this._authRepository) : super(AuthState.initial()) {
     _firebaseAuth.authStateChanges().listen((User? user) async {
@@ -49,6 +108,7 @@ class AuthCubit extends Cubit<AuthState> {
       print(">>>>>>>>> User registered: ${userModel.email}");
       print(">>>>>>>>> User registered: ${userModel.phone}");
       await _saveUserToPrefs(userModel);
+      await saveFcmToken(userModel.userId!);
       context.router.replaceAll([LoginRoute()]);
     } catch (e) {
       emit(AuthState.error(e.toString()));
@@ -67,6 +127,10 @@ class AuthCubit extends Cubit<AuthState> {
       UserModel userModel = await _authRepository.loginUser(email, password);
       print(">>>>>>>>> User logged in: ${userModel.email}");
       await _saveUserToPrefs(userModel);
+      await setupFCM();
+      await saveFcmToken(userModel.userId!);
+
+      await saveFcmToken(userModel.userId!);
       emit(AuthState.authenticated(userModel));
     } catch (e) {
       emit(AuthState.error(e.toString()));

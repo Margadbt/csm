@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/status_model.dart';
 import 'package:csm/repository/package_repository.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:csm/models/package_model.dart';
+import 'package:http/http.dart' as http;
 
 class PackageCubit extends Cubit<PackagesState> {
   final PackageRepository _repository;
@@ -77,10 +81,45 @@ class PackageCubit extends Cubit<PackagesState> {
 
       await _repository.updatePackageStatus(packageId: packageId, status: status);
 
+      final userId = state.package?.userId;
+      if (userId != null) {
+        await notifyUser(userId);
+      }
+
       // Refresh statuses after adding
       await fetchPackageStatuses(packageId);
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
+    }
+  }
+
+  Future<void> notifyUser(String userId) async {
+    try {
+      final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      final fcmToken = doc['fcmToken'];
+
+      if (fcmToken == null || fcmToken.isEmpty) {
+        print('No FCM token found for user $userId');
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse('https://api-kqwiqujfha-uc.a.run.app:3000/send'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'fcmToken': fcmToken,
+          'title': 'Таны илгээмж шинэчлэгдлээ!',
+          'body': 'Шинэ төлөв: "Хүргэлтэд бэлэн"',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('Notification sent: ${response.body}');
+      } else {
+        print('Failed to send notification: ${response.body}');
+      }
+    } catch (e) {
+      print('Error sending notification: $e');
     }
   }
 }

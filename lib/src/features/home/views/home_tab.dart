@@ -35,8 +35,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
   void initState() {
     userRole = context.read<AuthCubit>().state.userModel?.role;
     if (userRole != 'employee') {
+      print(">>>>>> user role - home_tab ${userRole}");
       context.read<HomeCubit>().getPackages();
-    } else if (userRole == 'employee') {
+    } else {
+      print(">>>>>> user role - home_tab ${userRole}");
+
       context.read<HomeCubit>().getAllPackages();
     }
     super.initState();
