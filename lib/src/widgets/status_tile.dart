@@ -60,56 +60,53 @@ class StatusTile extends StatelessWidget {
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              IconCircle(
-                imagePath: properties['icon'],
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  text(value: properties['text'], fontSize: 14, fontWeight: FontWeight.w600),
-                  const SizedBox(height: 2),
-                  text(value: formattedDate, fontSize: 14),
-                  if (imgUrl != null && imgUrl! != "") ...[
-                    const SizedBox(height: 12),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        imgUrl!,
-                        width: size.width - 150,
-                        height: 280,
-                        fit: BoxFit.cover,
-                      ),
+            IconCircle(
+              imagePath: properties['icon'],
+            ),
+            const SizedBox(width: 12),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                text(value: properties['text'], fontSize: 14, fontWeight: FontWeight.w600),
+                const SizedBox(height: 2),
+                text(value: formattedDate, fontSize: 14),
+                if (imgUrl != null && imgUrl! != "") ...[
+                  const SizedBox(height: 12),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      imgUrl!,
+                      width: size.width - 110,
+                      height: 280,
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ],
-              ),
-            ]),
-            IconButton(
-                onPressed: () async {
-                  final confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: Text('Confirm Deletion'),
-                      content: Text('Are you sure you want to delete this status?'),
-                      actions: [
-                        TextButton(onPressed: () => Navigator.pop(context, false), child: Text('Cancel')),
-                        TextButton(onPressed: () => Navigator.pop(context, true), child: Text('Delete')),
-                      ],
-                    ),
-                  );
+              ],
+            ),
+            // IconButton(
+            //     onPressed: () async {
+            //       final confirm = await showDialog<bool>(
+            //         context: context,
+            //         builder: (context) => AlertDialog(
+            //           title: Text('Confirm Deletion'),
+            //           content: Text('Are you sure you want to delete this status?'),
+            //           actions: [
+            //             TextButton(onPressed: () => Navigator.pop(context, false), child: Text('Cancel')),
+            //             TextButton(onPressed: () => Navigator.pop(context, true), child: Text('Delete')),
+            //           ],
+            //         ),
+            //       );
 
-                  if (confirm == true) {
-                    context.read<PackageCubit>().deleteStatusFromPackage(
-                          packageId: 'yourPackageId',
-                          statusId: 'statusIdToDelete',
-                        );
-                  }
-                },
-                icon: Icon(Icons.delete))
+            //       if (confirm == true) {
+            //         context.read<PackageCubit>().deleteStatusFromPackage(
+            //               packageId: 'yourPackageId',
+            //               statusId: 'statusIdToDelete',
+            //             );
+            //       }
+            //     },
+            //     icon: Icon(Icons.delete))
           ],
         ),
         const SizedBox(height: 20),
