@@ -20,7 +20,6 @@ class PackageCard extends StatelessWidget {
     this.phone,
     required this.id,
     this.onTap,
-    this.hasBorder = true,
   });
 
   final String trackCode;
@@ -31,7 +30,6 @@ class PackageCard extends StatelessWidget {
   final String? phone;
   final String id;
   final Function? onTap;
-  final bool hasBorder;
 
   /// Function to get icon and color based on status
   Map<String, dynamic> getStatusProperties() {
@@ -75,7 +73,6 @@ class PackageCard extends StatelessWidget {
     final formattedDate = DateFormat('yyyy/MM/dd HH:mm').format(date);
 
     final cardContent = MyCard(
-      hasBorder: false,
       child: Column(
         children: [
           Row(

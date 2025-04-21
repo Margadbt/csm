@@ -23,9 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final List<Map<String, dynamic>> profileItems = [
     {"title": "Хэрэглэгчийн бүртгэл", "onTap": () {}},
-    {"title": "Холбоо барих", "onTap": () {}},
-    {"title": "Хаягийн жагсаалт", "onTap": () {}},
-    {"title": "Карго холбох", "onTap": () {}},
+    {"title": "Өөрийн гэрийн хаяг", "onTap": () {}},
   ];
 
   @override
@@ -66,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 MyCard(
                     padding: EdgeInsets.all(20),
                     child: buildRow(
-                        value: "Гарах",
+                        value: "Бүртгэлээ гаргах",
                         onTap: () {
                           context.read<AuthCubit>().logout();
                           context.pushRoute(LoginRoute());

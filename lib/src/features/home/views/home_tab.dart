@@ -194,7 +194,6 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                   ...state.packages!.take(3).map((package) => Container(
                                         padding: const EdgeInsets.symmetric(vertical: 6),
                                         child: PackageCard(
-                                          hasBorder: false,
                                           trackCode: package.trackCode,
                                           date: package.addedDate,
                                           description: package.description,
