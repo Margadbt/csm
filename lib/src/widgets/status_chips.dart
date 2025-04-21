@@ -1,12 +1,14 @@
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/cubit/home_cubit.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:path/path.dart';
 
 class StatusChips extends StatelessWidget {
   const StatusChips({super.key});
@@ -20,6 +22,7 @@ class StatusChips extends StatelessWidget {
         child: Row(
           children: [
             _buildStatusChip(
+                context: context,
                 icon: Assets.images.warehouse.path,
                 label: "Бүртгэсэн",
                 color: ColorTheme.blue,
@@ -28,6 +31,7 @@ class StatusChips extends StatelessWidget {
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
+                context: context,
                 icon: Assets.images.received.path,
                 label: "Агуулахад ирсэн",
                 color: ColorTheme.yellow,
@@ -36,6 +40,7 @@ class StatusChips extends StatelessWidget {
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
+                context: context,
                 icon: Assets.images.delievery.path,
                 label: "Хүргэлтэнд гарсан",
                 color: ColorTheme.orange,
@@ -44,6 +49,7 @@ class StatusChips extends StatelessWidget {
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
+                context: context,
                 icon: Assets.images.completed.path,
                 label: "Хүргэгдсэн",
                 color: ColorTheme.green,
@@ -57,7 +63,7 @@ class StatusChips extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChip({required String icon, required String label, required Color color, required Function onTap}) {
+  Widget _buildStatusChip({required BuildContext context, required String icon, required String label, required Color color, required Function onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5.0),
       child: InkWell(
@@ -66,6 +72,13 @@ class StatusChips extends StatelessWidget {
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: context.read<ThemeCubit>().state ? ColorTheme.blue.withOpacity(0) : Colors.black.withOpacity(0.03), // Customize as needed
+                  blurRadius: 5,
+                  offset: const Offset(0, 5),
+                )
+              ],
               borderRadius: BorderRadius.circular(200),
               color: color,
             ),

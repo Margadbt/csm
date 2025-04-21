@@ -75,7 +75,7 @@ class _PackagesPageState extends State<PackagesPage> {
                     if (state.isLoading) {
                       return Center(
                         child: CircularProgressIndicator(
-                          color: ColorTheme.primary,
+                          color: ColorTheme.blue,
                         ),
                       );
                     } else if (state.errorMessage != null) {
@@ -135,9 +135,16 @@ class _PackagesPageState extends State<PackagesPage> {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: context.read<ThemeCubit>().state ? ColorTheme.blue.withOpacity(0) : Colors.black.withOpacity(0.03), // Customize as needed
+            blurRadius: 5,
+            offset: const Offset(0, 5),
+          )
+        ],
         color: ColorTheme.secondaryBg,
         borderRadius: BorderRadius.circular(40),
-        border: Border.all(color: ColorTheme.cardStroke, width: 1),
+        border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

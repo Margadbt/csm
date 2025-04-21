@@ -34,7 +34,7 @@ class LoginPage extends StatelessWidget {
             if (state.isLoading) {
               return Center(
                   child: CircularProgressIndicator(
-                color: ColorTheme.primary,
+                color: ColorTheme.blue,
               ));
             }
 

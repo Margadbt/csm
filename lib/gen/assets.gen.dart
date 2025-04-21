@@ -15,11 +15,21 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bulb.svg
+  SvgGenImage get bulb => const SvgGenImage('assets/images/bulb.svg');
+
   /// File path: assets/images/byl.png
   AssetGenImage get byl => const AssetGenImage('assets/images/byl.png');
 
+  /// File path: assets/images/calculator.svg
+  SvgGenImage get calculator =>
+      const SvgGenImage('assets/images/calculator.svg');
+
   /// File path: assets/images/completed.svg
   SvgGenImage get completed => const SvgGenImage('assets/images/completed.svg');
+
+  /// File path: assets/images/contact.svg
+  SvgGenImage get contact => const SvgGenImage('assets/images/contact.svg');
 
   /// File path: assets/images/delievery.svg
   SvgGenImage get delievery => const SvgGenImage('assets/images/delievery.svg');
@@ -29,6 +39,9 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/leftArrow.svg
   SvgGenImage get leftArrow => const SvgGenImage('assets/images/leftArrow.svg');
+
+  /// File path: assets/images/location.svg
+  SvgGenImage get location => const SvgGenImage('assets/images/location.svg');
 
   /// File path: assets/images/package.svg
   SvgGenImage get package => const SvgGenImage('assets/images/package.svg');
@@ -61,16 +74,24 @@ class $AssetsImagesGen {
   SvgGenImage get settingsIcon =>
       const SvgGenImage('assets/images/settingsIcon.svg');
 
+  /// File path: assets/images/simple_arrow.svg
+  SvgGenImage get simpleArrow =>
+      const SvgGenImage('assets/images/simple_arrow.svg');
+
   /// File path: assets/images/warehouse.svg
   SvgGenImage get warehouse => const SvgGenImage('assets/images/warehouse.svg');
 
   /// List of all assets
   List<dynamic> get values => [
+        bulb,
         byl,
+        calculator,
         completed,
+        contact,
         delievery,
         home,
         leftArrow,
+        location,
         package,
         password,
         plus,
@@ -80,6 +101,7 @@ class $AssetsImagesGen {
         rightArrow,
         search,
         settingsIcon,
+        simpleArrow,
         warehouse
       ];
 }

@@ -30,7 +30,7 @@ class _PackageDetailPageState extends State<SettingsPage> {
       backgroundColor: ColorTheme.background,
       body: BlocBuilder<PackageCubit, PackagesState>(
         builder: (context, state) {
-          if (state.isLoading) return const Center(child: CircularProgressIndicator());
+          if (state.isLoading) return Center(child: CircularProgressIndicator(color: ColorTheme.blue));
           if (state.error != null) return Center(child: text(value: state.error!));
 
           final statuses = state.statuses ?? [];
@@ -50,7 +50,7 @@ class _PackageDetailPageState extends State<SettingsPage> {
                   child: Column(
                     children: [
                       MyCard(
-                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                           child: Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

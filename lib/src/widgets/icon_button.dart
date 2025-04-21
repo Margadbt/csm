@@ -1,5 +1,7 @@
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ButtonIcon extends StatelessWidget {
@@ -26,6 +28,13 @@ class ButtonIcon extends StatelessWidget {
       color: Colors.transparent, // Prevents unwanted background color
       child: Ink(
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: context.read<ThemeCubit>().state ? ColorTheme.blue.withOpacity(0) : Colors.black.withOpacity(0.03), // Customize as needed
+              blurRadius: 5,
+              offset: const Offset(0, 5),
+            )
+          ],
           borderRadius: BorderRadius.circular(1000),
           color: color ?? ColorTheme.secondaryBg,
           border: color == null ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
