@@ -91,6 +91,7 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                                     context: context,
                                     enableDrag: true,
                                     showDragHandle: true,
+                                    isScrollControlled: true,
                                     backgroundColor: ColorTheme.secondaryBg,
                                     builder: (context) {
                                       return AddStatusBottomSheet(

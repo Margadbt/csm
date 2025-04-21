@@ -30,53 +30,56 @@ class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackage
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          text(value: 'Create a Package', fontWeight: FontWeight.bold),
-          const SizedBox(height: 16),
+      padding: MediaQuery.of(context).viewInsets,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            text(value: 'Create a Package', fontWeight: FontWeight.bold),
+            const SizedBox(height: 16),
 
-          InputWithPrefixIcon(
-            controller: _trackCodeController,
-            placeholder: "Track Code",
-            prefixIconPath: Assets.images.package.path,
-            onTap: () {},
-          ),
-          const SizedBox(height: 16),
+            InputWithPrefixIcon(
+              controller: _trackCodeController,
+              placeholder: "Track Code",
+              prefixIconPath: Assets.images.package.path,
+              onTap: () {},
+            ),
+            const SizedBox(height: 16),
 
-          InputWithPrefixIcon(
-            controller: _descriptionController,
-            placeholder: "Утасны дугаар",
-            prefixIconPath: Assets.images.package.path,
-            onTap: () {},
-          ),
-          const SizedBox(height: 16),
-          MyButton(
-              title: "Нэмэх",
-              onTap: () {
-                String trackCode = _trackCodeController.text.trim();
-                String phone = _descriptionController.text.trim();
+            InputWithPrefixIcon(
+              controller: _descriptionController,
+              placeholder: "Утасны дугаар",
+              prefixIconPath: Assets.images.package.path,
+              onTap: () {},
+            ),
+            const SizedBox(height: 16),
+            MyButton(
+                title: "Нэмэх",
+                onTap: () {
+                  String trackCode = _trackCodeController.text.trim();
+                  String phone = _descriptionController.text.trim();
 
-                if (trackCode.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Track Code cannot be empty')),
-                  );
-                  return;
-                }
-
-                context.read<PackageCubit>().createPackage(
-                      trackCode: trackCode,
-                      phone: phone,
-                      context: context,
+                  if (trackCode.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Track Code cannot be empty')),
                     );
+                    return;
+                  }
 
-                Navigator.of(context).pop();
-                context.read<HomeCubit>().getPackages();
-              }),
-          const SizedBox(height: 30),
-          // Create Button
-        ],
+                  context.read<PackageCubit>().createPackage(
+                        trackCode: trackCode,
+                        phone: phone,
+                        context: context,
+                      );
+
+                  Navigator.of(context).pop();
+                  context.read<HomeCubit>().getPackages();
+                }),
+            const SizedBox(height: 30),
+            // Create Button
+          ],
+        ),
       ),
     );
   }

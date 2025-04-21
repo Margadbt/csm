@@ -2,6 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/package_model.dart';
 import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/features/auth/views/register_page.dart';
+import 'package:csm/src/features/help/views/calculator_page.dart';
+import 'package:csm/src/features/help/views/connect_address_page.dart';
+import 'package:csm/src/features/help/views/contact_page.dart';
+import 'package:csm/src/features/help/views/tutorial_page.dart';
 import 'package:csm/src/features/home/views/home_page.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/package_detail.dart';
@@ -28,5 +32,9 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: PackageDetailRoute.page, path: '/package/detail'),
     AutoRoute(page: SettingsRoute.page, path: '/settings'),
     AutoRoute(page: PaymentRoute.page, path: '/payment'),
+    AutoRoute(page: ConnectAddressRoute.page, path: '/connect-address'),
+    AutoRoute(page: ContactRoute.page, path: '/contact'),
+    AutoRoute(page: TutorialRoute.page, path: '/tutorial'),
+    AutoRoute(page: CalculatorRoute.page, path: '/calculator'),
   ];
 }

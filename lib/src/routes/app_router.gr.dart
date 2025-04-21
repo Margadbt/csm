@@ -15,6 +15,24 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    CalculatorRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const CalculatorPage(),
+      );
+    },
+    ConnectAddressRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ConnectAddressPage(),
+      );
+    },
+    ContactRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ContactPage(),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -77,7 +95,55 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SettingsPage(),
       );
     },
+    TutorialRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TutorialPage(),
+      );
+    },
   };
+}
+
+/// generated route for
+/// [CalculatorPage]
+class CalculatorRoute extends PageRouteInfo<void> {
+  const CalculatorRoute({List<PageRouteInfo>? children})
+      : super(
+          CalculatorRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'CalculatorRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ConnectAddressPage]
+class ConnectAddressRoute extends PageRouteInfo<void> {
+  const ConnectAddressRoute({List<PageRouteInfo>? children})
+      : super(
+          ConnectAddressRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ConnectAddressRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ContactPage]
+class ContactRoute extends PageRouteInfo<void> {
+  const ContactRoute({List<PageRouteInfo>? children})
+      : super(
+          ContactRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ContactRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -255,6 +321,20 @@ class SettingsRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SettingsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TutorialPage]
+class TutorialRoute extends PageRouteInfo<void> {
+  const TutorialRoute({List<PageRouteInfo>? children})
+      : super(
+          TutorialRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TutorialRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

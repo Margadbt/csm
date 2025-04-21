@@ -84,6 +84,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                               buttonIconPath: Assets.images.plus.path,
                               onTap: () {
                                 showModalBottomSheet(
+                                  isScrollControlled: true,
                                   context: context,
                                   enableDrag: true,
                                   showDragHandle: true,
@@ -101,28 +102,31 @@ class _HomeTabPageState extends State<HomeTabPage> {
                           Container(
                             width: size.width,
                             child: Row(children: [
-                              InputWithButton(
-                                controller: _trackCodeController,
-                                placeholder: 'Утасны дугаар',
-                                prefixIconPath: Assets.images.package.path,
-                                buttonIconPath: Assets.images.search.path,
-                                onTap: () {
-                                  final phone = _trackCodeController.text.trim();
-                                  if (phone.isNotEmpty) {
-                                    context.read<HomeCubit>().fetchPackagesByPhoneNumber(phone);
-                                  } else {
-                                    context.read<HomeCubit>().getAllPackages();
-                                  }
-                                },
+                              Expanded(
+                                child: InputWithButton(
+                                  controller: _trackCodeController,
+                                  placeholder: 'Утасны дугаар',
+                                  prefixIconPath: Assets.images.package.path,
+                                  buttonIconPath: Assets.images.search.path,
+                                  onTap: () {
+                                    final phone = _trackCodeController.text.trim();
+                                    if (phone.isNotEmpty) {
+                                      context.read<HomeCubit>().fetchPackagesByPhoneNumber(phone);
+                                    } else {
+                                      context.read<HomeCubit>().getAllPackages();
+                                    }
+                                  },
+                                ),
                               ),
                               const SizedBox(width: 12),
                               ButtonIcon(
                                   imagePath: Assets.images.plus.path,
-                                  color: ColorTheme.blue,
+                                  color: ColorTheme.primary,
                                   iconColor: Colors.black,
                                   onTap: () {
                                     showModalBottomSheet(
                                       context: context,
+                                      isScrollControlled: true,
                                       enableDrag: true,
                                       showDragHandle: true,
                                       backgroundColor: ColorTheme.secondaryBg,
@@ -135,27 +139,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                           ),
                         ],
                         const SizedBox(height: 20),
-                        Container(
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Expanded(child: HomeCard(title: "Хаяг холбох", description: "Каргоны хаяг", icon: Assets.images.location.path, iconColor: ColorTheme.blue, onTap: () {})),
-                                  const SizedBox(width: 10),
-                                  Expanded(child: HomeCard(title: "Заавар", description: "Ашиглах заавар", icon: Assets.images.bulb.path, iconColor: ColorTheme.green, onTap: () {}))
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Expanded(child: HomeCard(title: "Тооцоолуур", description: "Тээврийн зардал", icon: Assets.images.calculator.path, iconColor: ColorTheme.orange, onTap: () {})),
-                                  const SizedBox(width: 10),
-                                  Expanded(child: HomeCard(title: "Холбоо барих", description: "Мэдээлэл авах", icon: Assets.images.contact.path, iconColor: ColorTheme.yellow, onTap: () {}))
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                        _buildHomeCards(),
                         if (state.userModel!.role != "employee") ...[
                           const SizedBox(height: 30),
                           Align(
@@ -168,7 +152,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                         const SizedBox(height: 30),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: text(value: "Сүүлд нэмэгдсэн тээвэрүүд:", fontWeight: FontWeight.bold),
+                          child: text(value: state.userModel!.role != "employee" ? "Сүүлд нэмэгдсэн тээвэрүүд:" : "Бүх тээврүүд:", fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         BlocBuilder<HomeCubit, HomeState>(
@@ -224,6 +208,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                         showModalBottomSheet(
                                           context: context,
                                           enableDrag: true,
+                                          isScrollControlled: true,
                                           showDragHandle: true,
                                           backgroundColor: ColorTheme.secondaryBg,
                                           builder: (context) {
@@ -245,6 +230,66 @@ class _HomeTabPageState extends State<HomeTabPage> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildHomeCards() {
+    return Container(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                  child: HomeCard(
+                title: "Хаяг холбох",
+                description: "Каргоны хаяг",
+                icon: Assets.images.location.path,
+                iconColor: ColorTheme.blue,
+                onTap: () {
+                  context.router.push(ConnectAddressRoute());
+                },
+              )),
+              const SizedBox(width: 10),
+              Expanded(
+                  child: HomeCard(
+                title: "Заавар",
+                description: "Ашиглах заавар",
+                icon: Assets.images.bulb.path,
+                iconColor: ColorTheme.green,
+                onTap: () {
+                  context.router.push(TutorialRoute());
+                },
+              ))
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                  child: HomeCard(
+                title: "Тооцоолуур",
+                description: "Тээврийн зардал",
+                icon: Assets.images.calculator.path,
+                iconColor: ColorTheme.orange,
+                onTap: () {
+                  context.router.push(CalculatorRoute());
+                },
+              )),
+              const SizedBox(width: 10),
+              Expanded(
+                  child: HomeCard(
+                title: "Холбоо барих",
+                description: "Мэдээлэл авах",
+                icon: Assets.images.contact.path,
+                iconColor: ColorTheme.yellow,
+                onTap: () {
+                  context.router.push(ContactRoute());
+                },
+              ))
+            ],
+          ),
+        ],
+      ),
     );
   }
 

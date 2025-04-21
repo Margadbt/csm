@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/widgets/button.dart';
+import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
 import 'package:csm/src/widgets/text.dart';
@@ -54,45 +55,54 @@ class LoginPage extends StatelessWidget {
                     padding: 30,
                   ),
                   const SizedBox(height: 20),
-                  text(
-                    value: "Нэвтрэх",
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(height: 20),
-                  InputWithPrefixIcon(
-                    controller: _emailController,
-                    placeholder: "И-Мэйл хаяг",
-                    prefixIconPath: Assets.images.profileIcon.path,
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 10),
-                  InputWithPrefixIcon(
-                    obscureText: true,
-                    controller: _passwordController,
-                    placeholder: "Нууц үг",
-                    prefixIconPath: Assets.images.password.path,
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 50),
-                  TextButton(
-                    onPressed: () {
-                      context.router.pushNamed('/register');
-                    },
-                    child: Text("Бүртгүүлэх", style: TextStyle(color: ColorTheme.textColor)),
-                  ),
-                  MyButton(
-                    color: ColorTheme.blue,
-                    title: "Нэвтрэх",
-                    onTap: () {
-                      context.read<AuthCubit>().loginUser(
-                            context: context,
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          );
-                    },
-                    heightLimitSet: true,
-                  ),
+                  MyCard(
+                    padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+                    child: Column(
+                      children: [
+                        text(
+                          value: "Нэвтрэх",
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(height: 20),
+                        InputWithPrefixIcon(
+                          hasBorder: true,
+                          controller: _emailController,
+                          placeholder: "И-Мэйл хаяг",
+                          prefixIconPath: Assets.images.profileIcon.path,
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 10),
+                        InputWithPrefixIcon(
+                          hasBorder: true,
+                          obscureText: true,
+                          controller: _passwordController,
+                          placeholder: "Нууц үг",
+                          prefixIconPath: Assets.images.password.path,
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            context.router.pushNamed('/register');
+                          },
+                          child: Text("Бүртгүүлэх", style: TextStyle(color: ColorTheme.textColor)),
+                        ),
+                        MyButton(
+                          color: ColorTheme.blue,
+                          title: "Нэвтрэх",
+                          onTap: () {
+                            context.read<AuthCubit>().loginUser(
+                                  context: context,
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text.trim(),
+                                );
+                          },
+                          heightLimitSet: true,
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             );

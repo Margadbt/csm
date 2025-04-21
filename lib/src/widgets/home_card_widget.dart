@@ -28,44 +28,47 @@ class HomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyCard(
-      hasBorder: false,
-      padding: EdgeInsets.all(18),
-      radius: 20,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SvgPicture.asset(
-                icon,
-                height: 32,
-                colorFilter: ColorFilter.mode(
-                  iconColor, // Replace with your color
-                  BlendMode.srcIn, // Ensures the color replaces the original SVG color
+    return InkWell(
+      onTap: () => onTap(),
+      child: MyCard(
+        hasBorder: false,
+        padding: EdgeInsets.all(18),
+        radius: 20,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SvgPicture.asset(
+                  icon,
+                  height: 32,
+                  colorFilter: ColorFilter.mode(
+                    iconColor, // Replace with your color
+                    BlendMode.srcIn, // Ensures the color replaces the original SVG color
+                  ),
                 ),
-              ),
-              SvgPicture.asset(
-                Assets.images.simpleArrow.path,
-                height: 12,
-                width: 12,
-                colorFilter: ColorFilter.mode(
-                  ColorTheme.textColor,
-                  BlendMode.srcIn,
+                SvgPicture.asset(
+                  Assets.images.simpleArrow.path,
+                  height: 12,
+                  width: 12,
+                  colorFilter: ColorFilter.mode(
+                    ColorTheme.textColor,
+                    BlendMode.srcIn,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          text(
-            value: title,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          text(value: description, fontSize: 12, color: ColorTheme.textColor),
-        ],
+              ],
+            ),
+            const SizedBox(height: 10),
+            text(
+              value: title,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+            text(value: description, fontSize: 12, color: ColorTheme.textColor),
+          ],
+        ),
       ),
     );
 

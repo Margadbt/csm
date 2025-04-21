@@ -116,47 +116,52 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Create a Package', style: const TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            InputWithPrefixIcon(
-              controller: _trackCodeController,
-              placeholder: "Track Code",
-              prefixIconPath: Assets.images.package.path,
-              onTap: () {},
-            ),
-            const SizedBox(height: 16),
-            InputWithPrefixIcon(
-              controller: _statusController,
-              enabled: false,
-              placeholder: "Status",
-              prefixIconPath: Assets.images.package.path,
-              onTap: () {},
-            ),
-            const SizedBox(height: 16),
-            if (_imageFile == null)
+      padding: MediaQuery.of(context).viewInsets,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Create a Package', style: const TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              InputWithPrefixIcon(
+                hasBorder: true,
+                controller: _trackCodeController,
+                placeholder: "Track Code",
+                prefixIconPath: Assets.images.package.path,
+                onTap: () {},
+              ),
+              const SizedBox(height: 16),
+              InputWithPrefixIcon(
+                hasBorder: true,
+                controller: _statusController,
+                enabled: false,
+                placeholder: "Status",
+                prefixIconPath: Assets.images.package.path,
+                onTap: () {},
+              ),
+              const SizedBox(height: 16),
+              if (_imageFile == null)
+                MyButton(
+                  title: "Зураг оруулах",
+                  onTap: _pickImage,
+                  color: ColorTheme.primary,
+                )
+              else ...[
+                Image.file(_imageFile!, height: 200),
+                const SizedBox(height: 12),
+              ],
+              const SizedBox(height: 16),
               MyButton(
-                title: "Зураг оруулах",
-                onTap: _pickImage,
-                color: ColorTheme.primary,
-              )
-            else ...[
-              Image.file(_imageFile!, height: 200),
-              const SizedBox(height: 12),
+                title: _isUploading ? "Хадгалж байна..." : "Нэмэх",
+                onTap: () {
+                  _isUploading ? null : _onSubmit();
+                },
+              ),
+              const SizedBox(height: 30),
             ],
-            const SizedBox(height: 16),
-            MyButton(
-              title: _isUploading ? "Хадгалж байна..." : "Нэмэх",
-              onTap: () {
-                _isUploading ? null : _onSubmit();
-              },
-            ),
-            const SizedBox(height: 30),
-          ],
+          ),
         ),
       ),
     );

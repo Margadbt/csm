@@ -1,5 +1,7 @@
+import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class InputWithPrefixIcon extends StatelessWidget {
@@ -11,6 +13,7 @@ class InputWithPrefixIcon extends StatelessWidget {
   final bool enableSuggestions;
   final bool autocorrect;
   final bool enabled;
+  final bool hasBorder;
 
   const InputWithPrefixIcon({
     super.key,
@@ -22,6 +25,7 @@ class InputWithPrefixIcon extends StatelessWidget {
     this.enableSuggestions = true,
     this.autocorrect = false,
     this.enabled = true,
+    this.hasBorder = false,
   });
 
   @override
@@ -29,7 +33,22 @@ class InputWithPrefixIcon extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        border: Border.all(color: ColorTheme.cardStroke, width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: hasBorder
+                ? ColorTheme.blue.withOpacity(0)
+                : context.read<ThemeCubit>().state
+                    ? ColorTheme.blue.withOpacity(0)
+                    : Colors.black.withOpacity(0.03), // Customize as needed
+            blurRadius: 5,
+            offset: const Offset(0, 5),
+          )
+        ],
+        border: hasBorder
+            ? Border.all(color: ColorTheme.cardStroke, width: 1)
+            : context.read<ThemeCubit>().state
+                ? Border.all(color: ColorTheme.cardStroke, width: 1)
+                : null,
         color: ColorTheme.secondaryBg, // Background color
         borderRadius: BorderRadius.circular(25),
       ),
