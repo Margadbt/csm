@@ -32,6 +32,7 @@ class HomeTabPage extends StatefulWidget {
 class _HomeTabPageState extends State<HomeTabPage> {
   final TextEditingController _trackCodeController = TextEditingController();
   late String? userRole;
+  int take = 3;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
       context.read<HomeCubit>().getPackages();
     } else {
       print(">>>>>> user role - home_tab ${userRole}");
-
+      take = 20;
       context.read<HomeCubit>().getAllPackages();
     }
 
@@ -175,7 +176,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
                             } else if (state.packages != null && state.packages!.isNotEmpty) {
                               return Column(
                                 children: [
-                                  ...state.packages!.take(3).map((package) => Container(
+                                  ...state.packages!.take(take).map((package) => Container(
                                         padding: const EdgeInsets.symmetric(vertical: 6),
                                         child: PackageCard(
                                           trackCode: package.trackCode,

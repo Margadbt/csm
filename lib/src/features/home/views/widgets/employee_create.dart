@@ -40,6 +40,7 @@ class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackage
             const SizedBox(height: 16),
 
             InputWithPrefixIcon(
+              hasBorder: true,
               controller: _trackCodeController,
               placeholder: "Track Code",
               prefixIconPath: Assets.images.package.path,
@@ -48,6 +49,7 @@ class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackage
             const SizedBox(height: 16),
 
             InputWithPrefixIcon(
+              hasBorder: true,
               controller: _descriptionController,
               placeholder: "Утасны дугаар",
               prefixIconPath: Assets.images.package.path,
