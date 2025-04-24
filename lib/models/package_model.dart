@@ -5,7 +5,6 @@ class PackageModel {
   final String description;
   final String trackCode;
   final DateTime addedDate;
-  final String userId;
   final int amount;
   final bool isPaid;
   final int status;
@@ -16,7 +15,6 @@ class PackageModel {
     required this.description,
     required this.trackCode,
     required this.addedDate,
-    required this.userId,
     required this.amount,
     required this.isPaid,
     required this.status,
@@ -30,7 +28,6 @@ class PackageModel {
       description: data['description'] ?? '',
       trackCode: data['track_code'] ?? '',
       addedDate: (data['added_date'] as Timestamp).toDate(),
-      userId: data['user_id'] ?? '',
       amount: data['amount'] ?? 0,
       isPaid: data['is_paid'] ?? false,
       status: data['status'] ?? 0,
@@ -43,7 +40,6 @@ class PackageModel {
       'description': description,
       'track_code': trackCode,
       'added_date': addedDate,
-      'user_id': userId,
       'amount': amount,
       'is_paid': isPaid,
       'status': status,
@@ -56,7 +52,6 @@ class PackageModel {
       description: '',
       trackCode: '',
       addedDate: DateTime.now(),
-      userId: '',
       amount: 0,
       isPaid: false,
       status: 0,

@@ -100,6 +100,21 @@ class PackageCubit extends Cubit<PackagesState> {
       emit(state.copyWith(error: e.toString(), isLoading: false));
     }
   }
+
+  Future<void> deleteAllDocumentsInCollection(String collectionPath) async {
+    try {
+      final collectionRef = FirebaseFirestore.instance.collection(collectionPath);
+      final querySnapshot = await collectionRef.get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      print('✅ All documents in $collectionPath have been deleted.');
+    } catch (e) {
+      print('❌ Error deleting documents in $collectionPath: $e');
+    }
+  }
 }
 
 class PackagesState {

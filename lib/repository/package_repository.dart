@@ -19,21 +19,20 @@ class PackageRepository {
     required String phone,
   }) async {
     // Search for user by phone number
-    final userSnapshot = await _firestore.collection('users').where('phone', isEqualTo: phone).limit(1).get();
+    // final userSnapshot = await _firestore.collection('users').where('phone', isEqualTo: phone).limit(1).get();
 
-    if (userSnapshot.docs.isEmpty) {
-      throw Exception("User not found with the given phone number");
-    }
+    // if (userSnapshot.docs.isEmpty) {
+    //   throw Exception("User not found with the given phone number");
+    // }
 
     // Assuming there is only one user with that phone number
-    final userId = userSnapshot.docs.first.id;
+    // final userId = userSnapshot.docs.first.id;
 
     // Prepare package data
     final packageData = {
       'track_code': trackCode,
       'description': description ?? '',
       'added_date': DateTime.now(),
-      'user_id': userId,
       'amount': amount,
       'is_paid': isPaid,
       'status': status,
@@ -48,7 +47,6 @@ class PackageRepository {
       description: description ?? '',
       trackCode: trackCode,
       addedDate: DateTime.now(),
-      userId: userId,
       amount: amount,
       isPaid: isPaid,
       status: status,
@@ -88,7 +86,7 @@ class PackageRepository {
   Future<List<PackageModel>> getPackagesByPhoneNumber(String phoneNumber) async {
     try {
       // Now, fetch all packages for that user ID
-      final querySnapshot = await _firestore.collection('packages').where('phone', isEqualTo: phoneNumber).get();
+      final querySnapshot = await _firestore.collection('packages').orderBy('added_date', descending: true).where('phone', isEqualTo: phoneNumber).get();
 
       // Map the documents into PackageModel and return them
       return querySnapshot.docs.map((doc) {
@@ -102,7 +100,7 @@ class PackageRepository {
   Future<List<PackageModel>> fetchAll() async {
     try {
       // Now, fetch all packages for that user ID
-      final querySnapshot = await _firestore.collection('packages').get();
+      final querySnapshot = await _firestore.collection('packages').orderBy('added_date', descending: true).get();
 
       // Map the documents into PackageModel and return them
       return querySnapshot.docs.map((doc) {

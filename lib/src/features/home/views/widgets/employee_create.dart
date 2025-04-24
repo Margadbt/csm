@@ -76,7 +76,11 @@ class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackage
                       );
 
                   Navigator.of(context).pop();
-                  context.read<HomeCubit>().getPackages();
+                  if (context.read<AuthCubit>().state.userModel?.role != "employee") {
+                    context.read<HomeCubit>().getPackages();
+                  } else {
+                    context.read<HomeCubit>().getAllPackages();
+                  }
                 }),
             const SizedBox(height: 30),
             // Create Button

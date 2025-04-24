@@ -91,7 +91,10 @@ class _PackagesPageState extends State<PackagesPage> {
                     } else if (state.packages != null && state.packages!.isNotEmpty) {
                       final searchTerm = _searchController.text.toLowerCase();
 
-                      final filtered = state.packages!.where((p) => p.status == _selectedStatusIndex).where((p) => p.trackCode.toLowerCase().contains(searchTerm) || (p.description?.toLowerCase().contains(searchTerm) ?? false)).toList();
+                      final filtered = state.packages!
+                          .where((p) => p.status == _selectedStatusIndex)
+                          .where((p) => p.trackCode.toLowerCase().contains(searchTerm) || (p.description?.toLowerCase().contains(searchTerm) ?? false))
+                          .toList();
 
                       if (filtered.isEmpty) {
                         return Center(child: text(value: 'Хоосон байна.'));
@@ -122,6 +125,7 @@ class _PackagesPageState extends State<PackagesPage> {
                   },
                 ),
               ),
+              const SizedBox(height: 80),
             ],
           ),
         ),
