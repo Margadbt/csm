@@ -66,7 +66,7 @@ class _PackagesPageState extends State<PackagesPage> {
                   },
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
 
               // BlocBuilder to show packages
               Expanded(
@@ -147,7 +147,7 @@ class _PackagesPageState extends State<PackagesPage> {
           )
         ],
         color: ColorTheme.secondaryBg,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(10),
         border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
       ),
       child: Row(
@@ -166,7 +166,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? ColorTheme.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(40),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Center(
                   child: text(

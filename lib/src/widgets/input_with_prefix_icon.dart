@@ -50,7 +50,7 @@ class InputWithPrefixIcon extends StatelessWidget {
                 ? Border.all(color: ColorTheme.cardStroke, width: 1)
                 : null,
         color: ColorTheme.secondaryBg, // Background color
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(

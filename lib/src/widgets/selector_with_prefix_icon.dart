@@ -25,7 +25,7 @@ class SelectorWithPrefixIcon<T> extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(color: ColorTheme.cardStroke, width: 1),
         color: ColorTheme.secondaryBg,
-        borderRadius: BorderRadius.circular(25),
+        borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(

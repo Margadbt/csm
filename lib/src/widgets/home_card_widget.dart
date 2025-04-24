@@ -33,7 +33,7 @@ class HomeCard extends StatelessWidget {
       child: MyCard(
         hasBorder: false,
         padding: EdgeInsets.all(18),
-        radius: 20,
+        radius: 10,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -39,7 +39,7 @@ class InputWithButton extends StatelessWidget {
               ],
               border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
               color: ColorTheme.secondaryBg,
-              borderRadius: BorderRadius.circular(25),
+              borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(

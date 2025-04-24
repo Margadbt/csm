@@ -144,7 +144,7 @@ class PackageCard extends StatelessWidget {
               onTap: () => onTap?.call(),
               splashColor: properties['color'].withOpacity(0.2),
               highlightColor: properties['color'].withOpacity(0.1),
-              borderRadius: BorderRadius.circular(30), // match MyCard radius
+              borderRadius: BorderRadius.circular(10), // match MyCard radius
               child: cardContent,
             ),
           )

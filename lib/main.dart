@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/firebase_options.dart';
 import 'package:csm/repository/auth_repository.dart';
@@ -25,7 +27,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await NotificationService.init();
+  if (Platform.isAndroid) {
+    await NotificationService.init();
+  }
   print("🚀 NotificationService.init called");
 
   runApp(const MyApp());

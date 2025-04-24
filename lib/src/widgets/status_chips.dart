@@ -79,7 +79,7 @@ class StatusChips extends StatelessWidget {
                   offset: const Offset(0, 5),
                 )
               ],
-              borderRadius: BorderRadius.circular(200),
+              borderRadius: BorderRadius.circular(10),
               color: color,
             ),
             child: Row(

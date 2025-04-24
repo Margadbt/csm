@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCard extends StatelessWidget {
-  const MyCard({super.key, this.padding = const EdgeInsets.all(16), this.child, this.radius = 30, this.hasBorder = true});
+  const MyCard({super.key, this.padding = const EdgeInsets.all(16), this.child, this.radius = 10, this.hasBorder = true});
   final EdgeInsets padding;
   final Widget? child;
   final double radius;

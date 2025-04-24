@@ -14,7 +14,16 @@ class NotificationService {
   static Future<void> init() async {
     // Local notification setup
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initSettings = InitializationSettings(android: androidInit);
+    final iosInit = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification: (id, title, body, payload) async {
+        // iOS: handle notification while app is in foreground (for older iOS versions)
+        print("🔔 iOS Local Notification Received: $title - $body");
+      },
+    );
+    var initSettings = InitializationSettings(android: androidInit, iOS: iosInit);
 
     await _localNotificationsPlugin.initialize(
       initSettings,
@@ -27,10 +36,10 @@ class NotificationService {
     // Request FCM permissions
     await _fcm.requestPermission(alert: true, badge: true, sound: true);
 
-    if (Platform.isIOS) {
-      final apnsToken = await _fcm.getAPNSToken();
-      print("📱 APNs Token: $apnsToken");
-    }
+    // if (Platform.isIOS) {
+    //   final apnsToken = await _fcm.getAPNSToken();
+    //   print("📱 APNs Token: $apnsToken");
+    // }
 
     // Register token refresh
     _fcm.onTokenRefresh.listen(_updateTokenToFirestore);
