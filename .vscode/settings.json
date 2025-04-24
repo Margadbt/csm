@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "/Users/marka/Documents/thesis-report/csm-project/csm/linux"
+  "cmake.sourceDirectory": "/Users/marka/Documents/thesis-report/csm-project/csm/linux",
+  "java.configuration.updateBuildConfiguration": "interactive"
 }

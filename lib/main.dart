@@ -7,17 +7,26 @@ import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'src/features/home/cubit/home_cubit.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  print("🔥 Background/Terminated FCM message received: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Firebase initialization with platform-specific options
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await NotificationService.init();
+  print("🚀 NotificationService.init called");
 
   runApp(const MyApp());
 }

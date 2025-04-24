@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/package_model.dart';
 import 'package:csm/models/status_model.dart';
+import 'package:csm/utils/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PackageRepository {
@@ -17,10 +18,15 @@ class PackageRepository {
     required int status,
     required String phone,
   }) async {
-    final userId = _firebaseAuth.currentUser?.uid;
-    if (userId == null) {
-      throw Exception("User not logged in");
+    // Search for user by phone number
+    final userSnapshot = await _firestore.collection('users').where('phone', isEqualTo: phone).limit(1).get();
+
+    if (userSnapshot.docs.isEmpty) {
+      throw Exception("User not found with the given phone number");
     }
+
+    // Assuming there is only one user with that phone number
+    final userId = userSnapshot.docs.first.id;
 
     // Prepare package data
     final packageData = {
@@ -34,6 +40,7 @@ class PackageRepository {
       'phone': phone,
     };
 
+    // Create the package in Firestore
     final packageRef = await _firestore.collection('packages').add(packageData);
 
     return PackageModel(
@@ -147,7 +154,7 @@ class PackageRepository {
     required int status,
   }) async {
     try {
-      await _firestore.collection('packages').doc(packageId).update({
+      await FirebaseFirestore.instance.collection('packages').doc(packageId).update({
         'status': status,
       });
     } catch (e) {

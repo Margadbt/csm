@@ -9,6 +9,7 @@ class UserModel {
   final String username;
   final String profileImg;
   final String role;
+  final String? fcmToken;
 
   UserModel({
     required this.userId,
@@ -18,9 +19,9 @@ class UserModel {
     required this.username,
     required this.profileImg,
     required this.role,
+    this.fcmToken,
   });
 
-  // Factory constructor to create a UserModel from Firebase user and Firestore data
   factory UserModel.fromFirebase(User user, Map<String, dynamic> firestoreData) {
     return UserModel(
       userId: user.uid,
@@ -30,10 +31,10 @@ class UserModel {
       username: firestoreData['username'] ?? '',
       profileImg: firestoreData['profile_img'] ?? '',
       role: firestoreData['role'] ?? '',
+      fcmToken: firestoreData['fcmToken'],
     );
   }
 
-  // Method to convert the object to a map to store in Firestore
   Map<String, dynamic> toMap() {
     return {
       'user_id': userId,
@@ -43,6 +44,7 @@ class UserModel {
       'username': username,
       'profile_img': profileImg,
       'role': role,
+      'fcmToken': fcmToken,
     };
   }
 }

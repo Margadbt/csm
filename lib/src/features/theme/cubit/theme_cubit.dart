@@ -8,7 +8,6 @@ class ThemeCubit extends Cubit<bool> {
     _loadTheme();
   }
 
-  /// Toggle theme and persist the value
   Future<void> toggleTheme() async {
     final newTheme = !state;
     emit(newTheme);
@@ -16,7 +15,6 @@ class ThemeCubit extends Cubit<bool> {
     await prefs.setBool(_themeKey, newTheme);
   }
 
-  /// Load saved theme from SharedPreferences
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool(_themeKey) ?? false;

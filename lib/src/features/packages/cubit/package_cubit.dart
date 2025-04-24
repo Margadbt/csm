@@ -81,11 +81,6 @@ class PackageCubit extends Cubit<PackagesState> {
 
       await _repository.updatePackageStatus(packageId: packageId, status: status);
 
-      // final userId = state.package?.userId;
-      // if (userId != null) {
-      //   await notifyUser(userId);
-      // }
-
       // Refresh statuses after adding
       await fetchPackageStatuses(packageId);
     } catch (e) {
@@ -105,41 +100,6 @@ class PackageCubit extends Cubit<PackagesState> {
       emit(state.copyWith(error: e.toString(), isLoading: false));
     }
   }
-
-  // Future<void> notifyUser(String userId) async {
-  //   final doc = await FirebaseFirestore.instance.collection('users').doc(userId).get();
-  //   final fcmToken = doc['fcm_token'];
-
-  //   if (fcmToken != null) {
-  //     await sendPushNotification(fcmToken);
-  //   }
-  // }
-
-  // Future<void> sendPushNotification(String fcmToken) async {
-  //   const String serverKey = 'YOUR_SERVER_KEY_HERE'; // From Firebase project settings
-
-  //   final data = {
-  //     'to': fcmToken,
-  //     'notification': {
-  //       'title': 'Package Status Updated',
-  //       'body': 'Your package status has been changed.',
-  //     },
-  //     'priority': 'high',
-  //   };
-
-  //   final response = await http.post(
-  //     Uri.parse('https://fcm.googleapis.com/fcm/send'),
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'key=$serverKey',
-  //     },
-  //     body: jsonEncode(data),
-  //   );
-
-  //   if (response.statusCode != 200) {
-  //     print("Failed to send notification: ${response.body}");
-  //   }
-  // }
 }
 
 class PackagesState {

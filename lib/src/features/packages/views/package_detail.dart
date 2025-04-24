@@ -44,7 +44,10 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                 child: CircularProgressIndicator(
               color: ColorTheme.blue,
             ));
-          if (state.error != null) return Center(child: text(value: state.error!));
+          if (state.error != null) {
+            print("Error of package detail: ${state.error!}");
+            return Center(child: Text(state.error!));
+          }
 
           final statuses = state.statuses ?? [];
 

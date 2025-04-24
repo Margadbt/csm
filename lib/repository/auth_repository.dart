@@ -1,5 +1,6 @@
 import 'package:csm/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csm/utils/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
@@ -22,6 +23,8 @@ class AuthRepository {
           'address': '',
           'username': '',
           'profile_img': '',
+          'role': '',
+          'fcm_token': '', // optional: default blank or null
         });
 
         DocumentSnapshot snapshot = await _firestore.collection('users').doc(user.uid).get();
