@@ -108,10 +108,12 @@ class _PackagesPageState extends State<PackagesPage> {
                           return Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: PackageCard(
+                              isPaid: p.isPaid,
                               trackCode: p.trackCode,
                               date: p.addedDate,
                               description: p.description,
-                              amount: p.amount.toString(),
+                              amount: p.amount,
+                              img: p.img,
                               status: PackageStatus.values[p.status],
                               onTap: () {
                                 context.router.push(PackageDetailRoute(packageId: p.id));

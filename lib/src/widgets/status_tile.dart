@@ -80,6 +80,28 @@ class StatusTile extends StatelessWidget {
                       width: size.width - 110,
                       height: 280,
                       fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(
+                          height: 280,
+                          width: size.width - 110,
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(
+                            color: ColorTheme.blue,
+                            strokeWidth: 2,
+                            value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1) : null,
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          width: 75,
+                          height: 75,
+                          color: Colors.grey[300],
+                          alignment: Alignment.center,
+                          child: Icon(Icons.broken_image, color: Colors.grey),
+                        );
+                      },
                     ),
                   ),
                 ],

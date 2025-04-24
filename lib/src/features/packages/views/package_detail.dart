@@ -8,6 +8,7 @@ import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/add_status_bottom_sheet.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/package_card.dart';
+import 'package:csm/src/widgets/package_update_bottom_sheet.dart';
 import 'package:csm/src/widgets/status_tile.dart';
 import 'package:csm/src/widgets/status_tile_edit_button.dart';
 import 'package:csm/src/widgets/text.dart';
@@ -66,12 +67,13 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                   child: Column(
                     children: [
                       PackageCard(
+                        isPaid: state.package!.isPaid,
                         trackCode: state.package!.trackCode,
                         date: state.package!.addedDate,
                         status: PackageStatus.values[state.package!.status],
                         id: state.package!.id,
                         description: state.package!.description,
-                        amount: state.package!.amount.toString(),
+                        amount: state.package!.amount,
                       ),
                       const SizedBox(height: 24),
                       Expanded(
@@ -114,12 +116,34 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                 SizedBox(
                   height: 20,
                 ),
-                MyButton(
-                    title: "Төлбөр төлөх",
-                    onTap: () {
-                      context.router.push(PaymentRoute());
-                    }),
-                const SizedBox(height: 20)
+                if (context.read<AuthCubit>().state.userModel!.role != 'employee') ...[
+                  if (state.package!.amount > 0 && state.package!.isPaid != true) ...[
+                    MyButton(
+                        title: "Төлбөр төлөх",
+                        onTap: () {
+                          context.router.push(PaymentRoute());
+                        }),
+                    const SizedBox(height: 20)
+                  ]
+                ] else ...[
+                  MyButton(
+                      title: "Шинэчлэх",
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          enableDrag: true,
+                          showDragHandle: true,
+                          isScrollControlled: true,
+                          backgroundColor: ColorTheme.secondaryBg,
+                          builder: (context) {
+                            return UpdatePackageBottomSheet(
+                              package: state.package!,
+                            );
+                          },
+                        );
+                      }),
+                  const SizedBox(height: 20)
+                ]
               ],
             ),
           );

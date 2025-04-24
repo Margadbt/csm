@@ -48,7 +48,7 @@ class PackageCubit extends Cubit<PackagesState> {
     emit(state.copyWith(isLoading: true));
     try {
       final package = await _repository.getPackageById(id);
-      emit(state.copyWith(package: package, isLoading: false));
+      emit(state.copyWith(package: package, isLoading: false, error: null));
       print("Package loaded: ${state.package?.trackCode}");
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
@@ -113,6 +113,49 @@ class PackageCubit extends Cubit<PackagesState> {
       print('✅ All documents in $collectionPath have been deleted.');
     } catch (e) {
       print('❌ Error deleting documents in $collectionPath: $e');
+    }
+  }
+
+  Future<void> updatePackage({
+    required String packageId,
+    String? phone,
+    int? amount,
+    String? trackCode,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.updatePackageById(
+        packageId: packageId,
+        phone: phone,
+        amount: amount,
+        trackCode: trackCode,
+      );
+      print(">>>>>>>>> $trackCode");
+
+      // Optionally, re-fetch the updated package
+      await fetchPackageById(packageId);
+    } catch (e) {
+      emit(state.copyWith(error: e.toString(), isLoading: false));
+    }
+  }
+
+  Future<void> payPackage({
+    required BuildContext context,
+    required String packageId,
+  }) async {
+    emit(state.copyWith(isLoading: true));
+    try {
+      await _repository.payPackage(
+        packageId: packageId,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Амжилттай төлөгдлөө!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(error: e.toString(), isLoading: false));
     }
   }
 }

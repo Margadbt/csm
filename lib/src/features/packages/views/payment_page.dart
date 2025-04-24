@@ -4,7 +4,9 @@ import 'package:csm/models/package_model.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/add_status_bottom_sheet.dart';
+import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/status_tile.dart';
@@ -65,7 +67,8 @@ class _PackageDetailPageState extends State<PaymentPage> {
                         status: PackageStatus.values[state.package!.status],
                         id: state.package!.id,
                         description: state.package!.description,
-                        amount: state.package!.amount.toString(),
+                        amount: state.package!.amount,
+                        isPaid: state.package!.isPaid,
                       ),
                       const SizedBox(height: 40),
                       Align(
@@ -91,9 +94,21 @@ class _PackageDetailPageState extends State<PaymentPage> {
                             )
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
+                ),
+                MyButton(
+                    title: "Төлбөр шалгах",
+                    onTap: () {
+                      context.read<PackageCubit>().payPackage(context: context, packageId: state.package!.id);
+                      Future.delayed(const Duration(seconds: 1), () {
+                        context.router.popForced();
+                        context.router.popAndPush(PackageDetailRoute(packageId: state.package!.id));
+                      });
+                    }),
+                const SizedBox(
+                  height: 20,
                 ),
               ],
             ),

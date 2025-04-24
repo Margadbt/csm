@@ -53,7 +53,7 @@ class _ContactPageState extends State<ContactPage> {
               alignment: Alignment.centerLeft,
               child: text(value: "Хэрэв танд асуух зүйл, санал хүсэлт байвал бидэнтэй доорх сувгуудаар холбогдоно уу.", color: ColorTheme.textColor, maxLine: 3),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 12),
 
             // Facebook
             InkWell(

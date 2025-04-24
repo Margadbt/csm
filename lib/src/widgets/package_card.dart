@@ -2,6 +2,7 @@ import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
+import 'package:csm/src/widgets/square_image.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +21,20 @@ class PackageCard extends StatelessWidget {
     this.phone,
     required this.id,
     this.onTap,
+    this.isPaid,
+    this.img,
   });
 
   final String trackCode;
   final DateTime date;
   final String? description;
   final PackageStatus status;
-  final String? amount;
+  final int? amount;
   final String? phone;
+  final String? img;
   final String id;
   final Function? onTap;
+  final bool? isPaid;
 
   /// Function to get icon and color based on status
   Map<String, dynamic> getStatusProperties() {
@@ -73,65 +78,72 @@ class PackageCard extends StatelessWidget {
     final formattedDate = DateFormat('yyyy/MM/dd HH:mm').format(date);
 
     final cardContent = MyCard(
-      child: Column(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconCircle(imagePath: Assets.images.package.path),
-                  const SizedBox(width: 6),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (phone != null)
-                        Row(
-                          children: [
-                            text(value: "${phone!} -", fontWeight: FontWeight.bold),
-                            const SizedBox(width: 6),
-                            text(value: trackCode, fontWeight: FontWeight.bold),
-                          ],
-                        )
-                      else
-                        text(value: trackCode, fontWeight: FontWeight.bold),
-                      text(value: formattedDate),
-                    ],
-                  ),
-                ],
-              ),
-              IconCircle(
-                imagePath: properties['icon'],
-                color: properties['color'],
-                iconColor: Colors.black,
-              ),
-            ],
-          ),
-          if (description != null && description != "") ...[
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          SquareImageIcon(imagePath: img),
+          Expanded(
+            child: Column(
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      text(value: "Тайлбар", fontSize: 10),
-                      text(value: description!, fontWeight: FontWeight.bold),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (phone != null)
+                              Row(
+                                children: [
+                                  text(value: "${phone!} -", fontWeight: FontWeight.bold),
+                                  const SizedBox(width: 6),
+                                  text(value: trackCode, fontWeight: FontWeight.bold),
+                                ],
+                              )
+                            else
+                              text(value: trackCode, fontWeight: FontWeight.bold),
+                            text(value: formattedDate),
+                          ],
+                        ),
+                      ],
+                    ),
+                    IconCircle(
+                      imagePath: properties['icon'],
+                      color: properties['color'],
+                      iconColor: Colors.black,
+                    ),
+                  ],
                 ),
-                if (amount != null && amount != "0")
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      text(value: "Төлбөр", fontSize: 10),
-                      text(value: "${amount!}₮", fontWeight: FontWeight.bold),
-                    ],
-                  ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          text(value: "Тайлбар", fontSize: 10),
+                          text(value: description!.isNotEmpty ? description! : "...", fontWeight: FontWeight.bold),
+                        ],
+                      ),
+                    ),
+                    if (amount != null && amount != 0)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          text(value: isPaid! ? "Төлөгдсөн" : "Төлбөр", fontSize: 10),
+                          text(value: "${amount!}₮", fontWeight: FontWeight.bold),
+                        ],
+                      ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ],
       ),
     );

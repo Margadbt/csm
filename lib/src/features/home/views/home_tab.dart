@@ -179,8 +179,11 @@ class _HomeTabPageState extends State<HomeTabPage> {
                                   ...state.packages!.take(take).map((package) => Container(
                                         padding: const EdgeInsets.symmetric(vertical: 6),
                                         child: PackageCard(
+                                          isPaid: package.isPaid,
                                           trackCode: package.trackCode,
                                           date: package.addedDate,
+                                          amount: package.amount,
+                                          img: package.img,
                                           description: package.description,
                                           phone: userRole != 'employee' ? null : package.phone,
                                           status: PackageStatus.values[package.status],

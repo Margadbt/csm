@@ -36,13 +36,13 @@ class _EmployeeCreatePackageBottomSheetState extends State<EmployeeCreatePackage
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            text(value: 'Create a Package', fontWeight: FontWeight.bold),
+            text(value: 'Ачаа бараа нэмэх', fontWeight: FontWeight.bold),
             const SizedBox(height: 16),
 
             InputWithPrefixIcon(
               hasBorder: true,
               controller: _trackCodeController,
-              placeholder: "Track Code",
+              placeholder: "Илгээмжийн дугаар",
               prefixIconPath: Assets.images.package.path,
               onTap: () {},
             ),

@@ -17,6 +17,7 @@ class PackageRepository {
     required bool isPaid,
     required int status,
     required String phone,
+    String? img,
   }) async {
     // Search for user by phone number
     // final userSnapshot = await _firestore.collection('users').where('phone', isEqualTo: phone).limit(1).get();
@@ -37,6 +38,7 @@ class PackageRepository {
       'is_paid': isPaid,
       'status': status,
       'phone': phone,
+      'img': img ?? '',
     };
 
     // Create the package in Firestore
@@ -51,6 +53,7 @@ class PackageRepository {
       isPaid: isPaid,
       status: status,
       phone: phone,
+      img: img ?? '',
     );
   }
 
@@ -141,6 +144,10 @@ class PackageRepository {
         'date': DateTime.now(),
       };
 
+      await _firestore.collection("packages").doc(packageId).update({
+        'img': imgUrl,
+      });
+
       await _firestore.collection("statuses").add(statusData);
     } catch (e) {
       throw Exception("Error adding package status: $e");
@@ -162,5 +169,36 @@ class PackageRepository {
 
   Future<void> deleteStatus(String statusId) async {
     await FirebaseFirestore.instance.collection('statuses').doc(statusId).delete();
+  }
+
+  Future<void> updatePackageById({
+    required String packageId,
+    String? phone,
+    int? amount,
+    String? trackCode,
+  }) async {
+    final packageRef = FirebaseFirestore.instance.collection('packages').doc(packageId);
+
+    Map<String, dynamic> updatedData = {};
+
+    if (phone != null) updatedData['phone'] = phone;
+    if (amount != null) updatedData['amount'] = amount;
+    if (trackCode != null) updatedData['track_code'] = trackCode;
+
+    print(">>>>>>>>> $updatedData");
+
+    await packageRef.update(updatedData);
+  }
+
+  Future<void> payPackage({
+    required String packageId,
+  }) async {
+    final packageRef = FirebaseFirestore.instance.collection('packages').doc(packageId);
+
+    Map<String, dynamic> updatedData = {};
+
+    updatedData['is_paid'] = true;
+
+    await packageRef.update(updatedData);
   }
 }
