@@ -31,6 +31,8 @@ class _PackagesPageState extends State<PackagesPage> {
   void initState() {
     super.initState();
     context.read<HomeCubit>().getPackages(); // Fetch packages
+    // context.read<PackageCubit>().deleteAllDocumentsInCollection("packages");
+    // context.read<PackageCubit>().deleteAllDocumentsInCollection("statuses");
     _selectedStatusIndex = context.read<HomeCubit>().state.packageScreenIndex ?? 0;
     _notSelectedColor = context.read<ThemeCubit>().state ? Colors.white : Colors.black;
   }

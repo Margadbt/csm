@@ -53,21 +53,23 @@ class Header extends StatelessWidget {
             Flexible(
               child: Row(
                 children: [
-                  ClipOval(
-                    child: Image.asset(
-                      fit: BoxFit.cover,
-                      Assets.images.profile.path,
-                      height: 50,
-                      width: 50,
-                    ),
-                  ),
+                  // ClipOval(
+                  //   child: Image.asset(
+                  //     fit: BoxFit.cover,
+                  //     Assets.images.profile.path,
+                  //     height: 50,
+                  //     width: 50,
+                  //   ),
+                  // ),
+                  IconCircle(imagePath: Assets.images.profileIcon.path, size: 50),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         text(value: "Тавтай морил!", fontWeight: FontWeight.w900, fontSize: 15),
-                        if (context.read<AuthCubit>().state.userModel?.username != null && context.read<AuthCubit>().state.userModel?.username != "") text(value: context.read<AuthCubit>().state.userModel?.username ?? "", fontWeight: FontWeight.bold, fontSize: 12),
+                        if (context.read<AuthCubit>().state.userModel?.username != null && context.read<AuthCubit>().state.userModel?.username != "")
+                          text(value: context.read<AuthCubit>().state.userModel?.username ?? "", fontWeight: FontWeight.bold, fontSize: 12),
                       ],
                     ),
                   ),
