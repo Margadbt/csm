@@ -57,6 +57,8 @@ class InputWithPrefixIcon extends StatelessWidget {
         children: [
           SvgPicture.asset(
             prefixIconPath,
+            width: 18,
+            height: 18,
             colorFilter: ColorFilter.mode(
               ColorTheme.iconColor, // Replace with your color
               BlendMode.srcIn, // Ensures the color replaces the original SVG color

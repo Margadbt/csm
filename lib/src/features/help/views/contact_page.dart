@@ -78,7 +78,7 @@ class _ContactPageState extends State<ContactPage> {
                   children: [
                     const Icon(Icons.phone, color: Colors.green),
                     const SizedBox(width: 10),
-                    Text("88112233 руу залгах", style: TextStyle(color: ColorTheme.textColor)),
+                    Text("88112233 дугаартай холбогдох", style: TextStyle(color: ColorTheme.textColor)),
                   ],
                 ),
               ),

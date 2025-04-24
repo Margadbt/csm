@@ -9,6 +9,7 @@ import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path/path.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -20,11 +21,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _trackCodeController = TextEditingController();
-
-  final List<Map<String, dynamic>> profileItems = [
-    {"title": "Хэрэглэгчийн бүртгэл", "onTap": () {}},
-    {"title": "Өөрийн гэрийн хаяг", "onTap": () {}},
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,19 +41,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 MyCard(
                   padding: EdgeInsets.all(20),
                   child: Column(
-                    children: List.generate(profileItems.length, (index) {
-                      return Column(
-                        children: [
-                          buildRow(
-                            value: profileItems[index]["title"] as String,
-                            onTap: profileItems[index]["onTap"] as VoidCallback,
-                          ),
-                          if (index < profileItems.length - 1) const SizedBox(height: 12),
-                          if (index < profileItems.length - 1) Divider(color: ColorTheme.cardStroke),
-                          if (index < profileItems.length - 1) const SizedBox(height: 12),
-                        ],
-                      );
-                    }),
+                    children: [
+                      buildRow(
+                        value: "Хэрэглэгчийн бүртгэл",
+                        onTap: () {
+                          context.router.push(UserInfoRoute());
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      Divider(color: ColorTheme.cardStroke),
+                      const SizedBox(height: 12),
+                      buildRow(
+                        value: "Хүргэлт авах хаяг",
+                        onTap: () {
+                          context.router.push(AddressInfoRoute());
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 18),

@@ -24,13 +24,14 @@ class PackagesPage extends StatefulWidget {
 class _PackagesPageState extends State<PackagesPage> {
   final TextEditingController _trackCodeController = TextEditingController();
   final TextEditingController _searchController = TextEditingController();
-  int _selectedStatusIndex = 0;
+  late int _selectedStatusIndex;
   late Color _notSelectedColor;
 
   @override
   void initState() {
     super.initState();
     context.read<HomeCubit>().getPackages(); // Fetch packages
+    _selectedStatusIndex = context.read<HomeCubit>().state.packageScreenIndex ?? 0;
     _notSelectedColor = context.read<ThemeCubit>().state ? Colors.white : Colors.black;
   }
 
@@ -160,6 +161,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 setState(() {
                   _selectedStatusIndex = index;
                 });
+                context.read<HomeCubit>().changePackageScreenIndex(_selectedStatusIndex);
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),

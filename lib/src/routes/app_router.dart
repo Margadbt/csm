@@ -11,7 +11,9 @@ import 'package:csm/src/features/home/views/home_tab.dart';
 import 'package:csm/src/features/packages/views/package_detail.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/packages/views/payment_page.dart';
+import 'package:csm/src/features/profile/views/address_info.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
+import 'package:csm/src/features/profile/views/user_info.dart';
 import 'package:csm/src/features/settings/views/settings_page.dart';
 import 'package:flutter/material.dart';
 part 'app_router.gr.dart';
@@ -36,5 +38,7 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: ContactRoute.page, path: '/contact'),
     AutoRoute(page: TutorialRoute.page, path: '/tutorial'),
     AutoRoute(page: CalculatorRoute.page, path: '/calculator'),
+    AutoRoute(page: UserInfoRoute.page, path: '/user-info'),
+    AutoRoute(page: AddressInfoRoute.page, path: '/address-info'),
   ];
 }

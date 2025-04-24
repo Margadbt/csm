@@ -27,7 +27,7 @@ class StatusChips extends StatelessWidget {
                 label: "Бүртгэсэн",
                 color: ColorTheme.blue,
                 onTap: () {
-                  context.read<PackageCubit>().changeIndex(0);
+                  context.read<HomeCubit>().changePackageScreenIndex(0);
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
@@ -36,7 +36,7 @@ class StatusChips extends StatelessWidget {
                 label: "Агуулахад ирсэн",
                 color: ColorTheme.yellow,
                 onTap: () {
-                  context.read<PackageCubit>().changeIndex(1);
+                  context.read<HomeCubit>().changePackageScreenIndex(1);
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
@@ -45,7 +45,7 @@ class StatusChips extends StatelessWidget {
                 label: "Хүргэлтэнд гарсан",
                 color: ColorTheme.orange,
                 onTap: () {
-                  context.read<PackageCubit>().changeIndex(2);
+                  context.read<HomeCubit>().changePackageScreenIndex(2);
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
             _buildStatusChip(
@@ -54,7 +54,7 @@ class StatusChips extends StatelessWidget {
                 label: "Хүргэгдсэн",
                 color: ColorTheme.green,
                 onTap: () {
-                  context.read<PackageCubit>().changeIndex(3);
+                  context.read<HomeCubit>().changePackageScreenIndex(3);
                   context.read<HomeCubit>().changeHomeScreenIndex(1);
                 }),
           ],

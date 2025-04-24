@@ -104,6 +104,42 @@ class AuthCubit extends Cubit<AuthState> {
       print(">>>>>>>>> Failed to load user data: $e");
     }
   }
+
+  Future<void> updateUserInfo({
+    String? username,
+    String? phone,
+    String? password,
+  }) async {
+    try {
+      await _authRepository.updateUserProfile(
+        username: username,
+        phone: phone,
+        password: password,
+      );
+      UserModel? userModel = await _authRepository.getCurrentUser();
+      if (userModel != null) {
+        emit(AuthState.authenticated(userModel));
+        _saveUserToPrefs(userModel);
+        print(">>>>>>>>> User data loaded: ${userModel.email}");
+        print(">>>>>>>>> User data loaded: ${userModel.phone}");
+      } else {
+        emit(AuthState.error("User data not found"));
+        print(">>>>>>>>> User data not found.");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateUserAddress({
+    String? address,
+  }) async {
+    try {
+      await _authRepository.updateUserAddress(address: address);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
 
 // Auth State
@@ -125,6 +161,10 @@ class AuthState {
 
   // Loading state
   factory AuthState.loading() {
+    return AuthState(userModel: null, error: null, isLoading: true);
+  }
+
+  factory AuthState.loadingStop() {
     return AuthState(userModel: null, error: null, isLoading: true);
   }
 

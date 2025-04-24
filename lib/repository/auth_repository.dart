@@ -69,4 +69,48 @@ class AuthRepository {
     }
     return null;
   }
+
+  Future<void> updateUserProfile({
+    String? username,
+    String? phone,
+    String? password,
+  }) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) throw Exception("User not logged in");
+
+    final uid = user.uid;
+
+    // Update Firestore (for username and phone)
+    if (username != null || phone != null) {
+      final userDoc = _firestore.collection('users').doc(uid);
+      final Map<String, dynamic> updates = {};
+      if (username != null) updates['username'] = username;
+      if (phone != null) updates['phone'] = phone;
+      await userDoc.update(updates);
+    }
+
+    // Update Firebase Auth password
+    if (password != null && password.isNotEmpty) {
+      await user.updatePassword(password);
+    }
+  }
+
+  Future<void> updateUserAddress({
+    String? address,
+  }) async {
+    final user = _firebaseAuth.currentUser;
+    if (user == null) throw Exception("User not logged in");
+
+    final uid = user.uid;
+
+    // Update Firestore (for username and phone)
+    if (address != null) {
+      final userDoc = _firestore.collection('users').doc(uid);
+      final Map<String, dynamic> updates = {};
+      if (address != null) updates['address'] = address;
+      await userDoc.update(updates);
+    }
+
+    // Update Firebase Auth password
+  }
 }
