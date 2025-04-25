@@ -102,10 +102,8 @@ class PackageRepository {
 
   Future<List<PackageModel>> fetchAll() async {
     try {
-      // Now, fetch all packages for that user ID
       final querySnapshot = await _firestore.collection('packages').orderBy('added_date', descending: true).get();
 
-      // Map the documents into PackageModel and return them
       return querySnapshot.docs.map((doc) {
         return PackageModel.fromFirestore(doc);
       }).toList();

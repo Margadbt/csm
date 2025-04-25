@@ -35,10 +35,8 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getAllPackages() async {
     emit(HomeState.loading(homeScreenIndex: state.homeScreenIndex, packageScreenIndex: state.packageScreenIndex));
     try {
-      // Fetch packages using the repository
       final packages = await _packageRepository.fetchAll();
 
-      // Update the state with the fetched packages
       emit(HomeState.packagesLoaded(packages, homeScreenIndex: state.homeScreenIndex, packageScreenIndex: state.packageScreenIndex));
     } catch (e) {
       emit(HomeState.error(e.toString(), homeScreenIndex: state.homeScreenIndex, packageScreenIndex: state.packageScreenIndex));
