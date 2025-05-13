@@ -52,7 +52,7 @@ class StatusChips extends StatelessWidget {
             _buildStatusChip(
                 context: context,
                 icon: Assets.images.completed.path,
-                label: "Хүргэгдсэн",
+                label: "Авсан",
                 color: ColorTheme.green,
                 onTap: () {
                   context.read<HomeCubit>().changePackageScreenIndex(3);

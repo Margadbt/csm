@@ -5,7 +5,9 @@ import 'package:csm/models/status_model.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
+import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,19 +36,45 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
   File? _imageFile;
   bool _isUploading = false;
 
+  final List<String> _statusLabels = [
+    'Бүртгэсэн',
+    'Агуулахад ирсэн',
+    'Хүргэлтэд гарсан',
+    'Хүлээж авсан',
+  ];
+
+  late int _currentStatus;
+  late int _selectedStatus;
+  List<int> _availableStatusOptions = [];
+
   @override
   void initState() {
     super.initState();
     _trackCodeController.text = widget.trackCode;
 
-    bool registered = widget.statuses.any((s) => s.status == 0);
-    bool inWareHouse = widget.statuses.any((s) => s.status == 1);
-    bool isDelivered = widget.statuses.any((s) => s.status == 2);
+    // bool registered = widget.statuses.any((s) => s.status == 0);
+    // bool inWareHouse = widget.statuses.any((s) => s.status == 1);
+    // bool isDelivered = widget.statuses.any((s) => s.status == 2);
 
-    _statusController.text = 'Бүртгэсэн';
-    if (registered) _statusController.text = 'Агуулахад ирсэн';
-    if (inWareHouse) _statusController.text = 'Хүргэлтэд гарсан';
-    if (isDelivered) _statusController.text = 'Хүргэгдсэн';
+    // _statusController.text = 'Бүртгэсэн';
+    // if (registered) _statusController.text = 'Агуулахад ирсэн';
+    // if (inWareHouse) _statusController.text = 'Хүргэлтэд гарсан';
+    // if (isDelivered) _statusController.text = 'Хүргэгдсэн';
+
+    super.initState();
+    _currentStatus = widget.statuses.fold(-1, (prev, s) => s.status > prev ? s.status : prev);
+
+    if (_currentStatus < 3 && _currentStatus != -1) {
+      _availableStatusOptions = [_currentStatus + 1, 3];
+      _selectedStatus = _availableStatusOptions.first;
+    } else if (_currentStatus == -1) {
+      _availableStatusOptions = [0, 3];
+      _selectedStatus = 0;
+      _currentStatus = _availableStatusOptions.first;
+    } else {
+      _availableStatusOptions = [];
+      _selectedStatus = 0;
+    }
   }
 
   Future<void> _pickImage() async {
@@ -73,14 +101,14 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
   }
 
   int _getStatusCode() {
-    switch (_statusController.text) {
+    switch (_selectedStatus) {
       case 'Бүртгэсэн':
         return 0;
       case 'Агуулахад ирсэн':
         return 1;
       case 'Хүргэлтэд гарсан':
         return 2;
-      case 'Хүргэгдсэн':
+      case 'Хүлээж авсан':
         return 3;
       default:
         return 404;
@@ -88,7 +116,8 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
   }
 
   void _onSubmit() async {
-    final statusCode = _getStatusCode();
+    // final statusCode = _getStatusCode();
+    final statusCode = _selectedStatus;
     if (statusCode == 404) return;
 
     String imgUrl = '';
@@ -123,7 +152,7 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Create a Package', style: const TextStyle(fontWeight: FontWeight.bold)),
+              text(value: 'Status нэмэх', fontWeight: FontWeight.bold),
               const SizedBox(height: 16),
               InputWithPrefixIcon(
                 hasBorder: true,
@@ -133,14 +162,51 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
                 onTap: () {},
               ),
               const SizedBox(height: 16),
-              InputWithPrefixIcon(
-                hasBorder: true,
-                controller: _statusController,
-                enabled: false,
-                placeholder: "Status",
-                prefixIconPath: Assets.images.package.path,
-                onTap: () {},
-              ),
+              // InputWithPrefixIcon(
+              //   hasBorder: true,
+              //   controller: _statusController,
+              //   enabled: false,
+              //   placeholder: "Status",
+              //   prefixIconPath: Assets.images.package.path,
+              //   onTap: () {},
+              // ),
+              if (_availableStatusOptions.isNotEmpty)
+                DropdownButtonFormField<int>(
+                  dropdownColor: ColorTheme.secondaryBg,
+                  value: _availableStatusOptions.contains(_selectedStatus) ? _selectedStatus : null,
+                  items: _availableStatusOptions.map((status) {
+                    return DropdownMenuItem<int>(
+                      value: status,
+                      child: text(value: _statusLabels[status], fontSize: 16),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        _selectedStatus = value;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    fillColor: ColorTheme.secondaryBg,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: defaultBorderRadius,
+                      borderSide: BorderSide(color: ColorTheme.cardStroke, width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: defaultBorderRadius,
+                      borderSide: BorderSide(color: ColorTheme.cardStroke, width: 1),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  ),
+                )
+              else
+                Text(
+                  "Төлөв бүрэн гүйцэд. Шинэ төлөв сонгох боломжгүй.",
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+
               const SizedBox(height: 16),
               if (_imageFile == null)
                 MyButton(
