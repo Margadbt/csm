@@ -172,7 +172,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? ColorTheme.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: Center(
                   child: text(
