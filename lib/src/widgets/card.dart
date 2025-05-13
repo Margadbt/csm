@@ -1,14 +1,15 @@
 import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyCard extends StatelessWidget {
-  const MyCard({super.key, this.padding = const EdgeInsets.all(16), this.child, this.radius = 10, this.hasBorder = true});
+  const MyCard({super.key, this.padding = const EdgeInsets.all(16), this.child, this.radius, this.hasBorder = true});
   final EdgeInsets padding;
   final Widget? child;
-  final double radius;
+  final double? radius;
   final bool hasBorder;
 
   @override
@@ -26,7 +27,7 @@ class MyCard extends StatelessWidget {
           ],
           border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
           color: ColorTheme.secondaryBg, // Background color
-          borderRadius: BorderRadius.circular(radius)),
+          borderRadius: radius != null ? BorderRadius.circular(radius!) : defaultBorderRadius),
       child: child,
     );
   }

@@ -78,6 +78,10 @@ class $AssetsImagesGen {
   SvgGenImage get simpleArrow =>
       const SvgGenImage('assets/images/simple_arrow.svg');
 
+  /// File path: assets/images/transaction.svg
+  SvgGenImage get transaction =>
+      const SvgGenImage('assets/images/transaction.svg');
+
   /// File path: assets/images/warehouse.svg
   SvgGenImage get warehouse => const SvgGenImage('assets/images/warehouse.svg');
 
@@ -102,6 +106,7 @@ class $AssetsImagesGen {
         search,
         settingsIcon,
         simpleArrow,
+        transaction,
         warehouse
       ];
 }

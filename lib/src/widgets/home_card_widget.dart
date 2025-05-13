@@ -32,8 +32,7 @@ class HomeCard extends StatelessWidget {
       onTap: () => onTap(),
       child: MyCard(
         hasBorder: false,
-        padding: EdgeInsets.all(18),
-        radius: 10,
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

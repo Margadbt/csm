@@ -9,7 +9,6 @@ import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:path/path.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -39,13 +38,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 12),
                 MyCard(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
                       buildRow(
                         value: "Хэрэглэгчийн бүртгэл",
                         onTap: () {
-                          context.router.push(UserInfoRoute());
+                          context.router.push(const UserInfoRoute());
                         },
                       ),
                       const SizedBox(height: 12),
@@ -54,7 +53,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       buildRow(
                         value: "Хүргэлт авах хаяг",
                         onTap: () {
-                          context.router.push(AddressInfoRoute());
+                          context.router.push(const AddressInfoRoute());
+                        },
+                      ),
+                      const SizedBox(height: 12),
+                      Divider(color: ColorTheme.cardStroke),
+                      const SizedBox(height: 12),
+                      buildRow(
+                        value: "Төлбөрийн түүх",
+                        onTap: () {
+                          context.router.push(const PaymentHistoryRoute());
                         },
                       ),
                     ],

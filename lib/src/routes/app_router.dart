@@ -12,6 +12,7 @@ import 'package:csm/src/features/packages/views/package_detail.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/packages/views/payment_page.dart';
 import 'package:csm/src/features/profile/views/address_info.dart';
+import 'package:csm/src/features/profile/views/payment_history_page.dart';
 import 'package:csm/src/features/profile/views/profile_page.dart';
 import 'package:csm/src/features/profile/views/user_info.dart';
 import 'package:csm/src/features/settings/views/settings_page.dart';
@@ -40,5 +41,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: CalculatorRoute.page, path: '/calculator'),
     AutoRoute(page: UserInfoRoute.page, path: '/user-info'),
     AutoRoute(page: AddressInfoRoute.page, path: '/address-info'),
+    AutoRoute(page: PaymentHistoryRoute.page, path: '/payment-history'),
   ];
 }

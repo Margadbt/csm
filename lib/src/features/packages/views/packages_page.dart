@@ -152,7 +152,7 @@ class _PackagesPageState extends State<PackagesPage> {
           )
         ],
         color: ColorTheme.secondaryBg,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: defaultBorderRadius,
         border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
       ),
       child: Row(
@@ -172,7 +172,7 @@ class _PackagesPageState extends State<PackagesPage> {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   color: isSelected ? ColorTheme.blue : Colors.transparent,
-                  borderRadius: BorderRadius.circular(6),
+                  borderRadius: BorderRadius.circular(16),
                 ),
                 child: Center(
                   child: text(

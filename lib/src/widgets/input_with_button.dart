@@ -1,6 +1,7 @@
 import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/widgets/icon_button.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,7 +40,7 @@ class InputWithButton extends StatelessWidget {
               ],
               border: context.read<ThemeCubit>().state ? Border.all(color: ColorTheme.cardStroke, width: 1) : null,
               color: ColorTheme.secondaryBg,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: defaultBorderRadius,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(

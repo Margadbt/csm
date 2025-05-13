@@ -1,5 +1,6 @@
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 
 class MyButton extends StatelessWidget {
@@ -23,7 +24,7 @@ class MyButton extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
             color: color ?? ColorTheme.blue, // Background color
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: defaultBorderRadius),
         child: text(value: title, color: Colors.black, fontWeight: FontWeight.bold),
       ),
     );

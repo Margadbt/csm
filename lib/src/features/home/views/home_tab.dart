@@ -139,8 +139,8 @@ class _HomeTabPageState extends State<HomeTabPage> {
                             ]),
                           ),
                         ],
-                        const SizedBox(height: 20),
-                        _buildHomeCards(),
+                        if (state.userModel!.role != "employee") const SizedBox(height: 20),
+                        if (state.userModel!.role != "employee") _buildHomeCards(),
                         if (state.userModel!.role != "employee") ...[
                           const SizedBox(height: 30),
                           Align(

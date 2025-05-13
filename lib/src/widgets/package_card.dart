@@ -5,6 +5,7 @@ import 'package:csm/src/widgets/icon_circle.dart';
 import 'package:csm/src/widgets/square_image.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
+import 'package:csm/utils/math_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -156,7 +157,7 @@ class PackageCard extends StatelessWidget {
               onTap: () => onTap?.call(),
               splashColor: properties['color'].withOpacity(0.2),
               highlightColor: properties['color'].withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10), // match MyCard radius
+              borderRadius: defaultBorderRadius, // match MyCard radius
               child: cardContent,
             ),
           )
