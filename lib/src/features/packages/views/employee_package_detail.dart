@@ -75,10 +75,25 @@ class _EmployeePackageDetailPageState extends State<EmployeePackageDetailPage> {
                             if (statuses.isNotEmpty)
                               Column(
                                 children: statuses.map((status) {
-                                  return StatusTile(
-                                    status: PackageStatus.values[status.status],
-                                    date: status.date,
-                                    imgUrl: status.imgUrl,
+                                  return Dismissible(
+                                    key: ValueKey(status.statusId),
+                                    direction: DismissDirection.endToStart,
+                                    onDismissed: (direction) {
+                                      context.read<PackageCubit>().deleteStatusFromPackage(
+                                            packageId: widget.packageId,
+                                            statusId: status.statusId,
+                                          );
+                                    },
+                                    background: Container(
+                                      alignment: Alignment.center,
+                                      color: Colors.red,
+                                      child: const Icon(Icons.delete, color: Colors.white),
+                                    ),
+                                    child: StatusTile(
+                                      status: PackageStatus.values[status.status],
+                                      date: status.date,
+                                      imgUrl: status.imgUrl,
+                                    ),
                                   );
                                 }).toList(),
                               ),

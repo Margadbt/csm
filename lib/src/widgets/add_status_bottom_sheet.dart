@@ -64,13 +64,16 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
     super.initState();
     _currentStatus = widget.statuses.fold(-1, (prev, s) => s.status > prev ? s.status : prev);
 
-    if (_currentStatus < 3 && _currentStatus != -1) {
+    if (_currentStatus < 2 && _currentStatus != -1) {
       _availableStatusOptions = [_currentStatus + 1, 3];
       _selectedStatus = _availableStatusOptions.first;
     } else if (_currentStatus == -1) {
       _availableStatusOptions = [0, 3];
       _selectedStatus = 0;
       _currentStatus = _availableStatusOptions.first;
+    } else if (_currentStatus == 2) {
+      _availableStatusOptions = [3];
+      _selectedStatus = _availableStatusOptions.first;
     } else {
       _availableStatusOptions = [];
       _selectedStatus = 0;

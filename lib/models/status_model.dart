@@ -5,12 +5,14 @@ class StatusModel {
   final int status;
   final String imgUrl;
   final String packageId;
+  final String statusId;
 
   StatusModel({
     required this.date,
     required this.status,
     required this.imgUrl,
     required this.packageId,
+    required this.statusId,
   });
 
   factory StatusModel.fromFirestore(DocumentSnapshot doc) {
@@ -21,6 +23,7 @@ class StatusModel {
       status: data['status'] ?? 0,
       imgUrl: data['img_url'] ?? '',
       packageId: data['package_id'] ?? '',
+      statusId: doc.id,
     );
   }
 }
