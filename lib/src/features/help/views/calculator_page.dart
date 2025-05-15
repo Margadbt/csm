@@ -3,7 +3,6 @@ import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/card.dart';
-import 'package:csm/src/widgets/in_development.dart';
 import 'package:csm/src/widgets/input_with_prefix_icon.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';

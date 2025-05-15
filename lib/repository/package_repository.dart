@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/package_model.dart';
 import 'package:csm/models/status_model.dart';
-import 'package:csm/utils/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PackageRepository {

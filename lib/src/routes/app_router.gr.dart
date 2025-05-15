@@ -39,6 +39,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ContactPage(),
       );
     },
+    EmployeeHomeTabRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EmployeeHomeTabPage(),
+      );
+    },
+    EmployeePackageDetailRoute.name: (routeData) {
+      final args = routeData.argsAs<EmployeePackageDetailRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EmployeePackageDetailPage(
+          key: args.key,
+          packageId: args.packageId,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -85,6 +101,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const PaymentPage(),
+      );
+    },
+    PaymentSuccessfulRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PaymentSuccessfulPage(),
       );
     },
     ProfileRoute.name: (routeData) {
@@ -176,6 +198,59 @@ class ContactRoute extends PageRouteInfo<void> {
   static const String name = 'ContactRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EmployeeHomeTabPage]
+class EmployeeHomeTabRoute extends PageRouteInfo<void> {
+  const EmployeeHomeTabRoute({List<PageRouteInfo>? children})
+      : super(
+          EmployeeHomeTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EmployeeHomeTabRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EmployeePackageDetailPage]
+class EmployeePackageDetailRoute
+    extends PageRouteInfo<EmployeePackageDetailRouteArgs> {
+  EmployeePackageDetailRoute({
+    Key? key,
+    required String packageId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EmployeePackageDetailRoute.name,
+          args: EmployeePackageDetailRouteArgs(
+            key: key,
+            packageId: packageId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EmployeePackageDetailRoute';
+
+  static const PageInfo<EmployeePackageDetailRouteArgs> page =
+      PageInfo<EmployeePackageDetailRouteArgs>(name);
+}
+
+class EmployeePackageDetailRouteArgs {
+  const EmployeePackageDetailRouteArgs({
+    this.key,
+    required this.packageId,
+  });
+
+  final Key? key;
+
+  final String packageId;
+
+  @override
+  String toString() {
+    return 'EmployeePackageDetailRouteArgs{key: $key, packageId: $packageId}';
+  }
 }
 
 /// generated route for
@@ -310,6 +385,20 @@ class PaymentRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'PaymentRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PaymentSuccessfulPage]
+class PaymentSuccessfulRoute extends PageRouteInfo<void> {
+  const PaymentSuccessfulRoute({List<PageRouteInfo>? children})
+      : super(
+          PaymentSuccessfulRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PaymentSuccessfulRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

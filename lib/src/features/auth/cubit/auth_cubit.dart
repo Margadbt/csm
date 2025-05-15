@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/user_model.dart';
 import 'package:csm/repository/auth_repository.dart';
+import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/utils/notification_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -51,7 +54,9 @@ class AuthCubit extends Cubit<AuthState> {
       print(">>>>>>>>> User registered: ${userModel.email}");
       print(">>>>>>>>> User registered: ${userModel.phone}");
       await _saveUserToPrefs(userModel);
-      await NotificationService.updateToken();
+      if (Platform.isAndroid) {
+        await NotificationService.updateToken();
+      }
       context.router.replaceAll([LoginRoute()]);
     } catch (e) {
       emit(AuthState.error(e.toString()));
@@ -71,18 +76,20 @@ class AuthCubit extends Cubit<AuthState> {
       print(">>>>>>>>> User logged in: ${userModel.email}");
       await _saveUserToPrefs(userModel);
       emit(AuthState.authenticated(userModel));
-      await NotificationService.updateToken();
+      if (Platform.isAndroid) {
+        await NotificationService.updateToken();
+      }
     } catch (e) {
       emit(AuthState.error(e.toString()));
       print(">>>>>>>>> Login failed: $e");
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
     print(">>>>>>>>> Logging out...");
+    emit(AuthState.initial());
     await _firebaseAuth.signOut();
     await _clearUserFromPrefs();
-    emit(AuthState.initial());
     print(">>>>>>>>> User logged out.");
   }
 

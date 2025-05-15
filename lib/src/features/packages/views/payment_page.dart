@@ -70,25 +70,44 @@ class _PackageDetailPageState extends State<PaymentPage> {
                         amount: state.package!.amount,
                         isPaid: state.package!.isPaid,
                       ),
-                      const SizedBox(height: 40),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: text(value: "Төлбөрийн сонголтоо хийнэ үү"),
-                      ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 20),
+                      // Align(
+                      //   alignment: Alignment.centerLeft,
+                      //   child: text(value: "Төлбөрийн сонголтоо хийнэ үү"),
+                      // ),
+                      // const SizedBox(height: 12),
+                      // MyCard(
+                      //   child: Row(
+                      //     children: [
+                      //       InkWell(
+                      //         child: Row(
+                      //           children: [
+                      //             Image.asset(
+                      //               Assets.images.byl.path,
+                      //               height: 50,
+                      //               width: 50,
+                      //             ),
+                      //             const SizedBox(width: 10),
+                      //             text(value: "Byl", fontWeight: FontWeight.bold)
+                      //           ],
+                      //         ),
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
                       MyCard(
                         child: Row(
                           children: [
                             InkWell(
-                              child: Row(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    Assets.images.byl.path,
-                                    height: 50,
-                                    width: 50,
-                                  ),
+                                  // const SizedBox(width: 10),
+                                  // const SizedBox(width: 10),
+                                  text(value: "Төлбөрийн дүн:", fontSize: 12),
                                   const SizedBox(width: 10),
-                                  text(value: "Byl", fontWeight: FontWeight.bold)
+                                  text(value: state.package!.amount.toString() + "₮", fontWeight: FontWeight.bold, fontSize: 25)
                                 ],
                               ),
                             )
@@ -99,13 +118,14 @@ class _PackageDetailPageState extends State<PaymentPage> {
                   ),
                 ),
                 MyButton(
-                    title: "Төлбөр шалгах",
+                    title: "Төлбөр төлөх",
                     onTap: () {
                       context.read<PackageCubit>().payPackage(context: context, packageId: state.package!.id);
-                      Future.delayed(const Duration(seconds: 1), () {
-                        context.router.popForced();
-                        context.router.popAndPush(PackageDetailRoute(packageId: state.package!.id));
-                      });
+                      context.router.push(PaymentSuccessfulRoute());
+                      // Future.delayed(const Duration(seconds: 1), () {
+                      //   context.router.popForced();
+                      //   context.router.popAndPush(PackageDetailRoute(packageId: state.package!.id));
+                      // });
                     }),
                 const SizedBox(
                   height: 20,

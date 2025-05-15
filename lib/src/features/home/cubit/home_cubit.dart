@@ -29,6 +29,7 @@ class HomeCubit extends Cubit<HomeState> {
     // }
     String? userPhone = await UserPrefs.getUserPhone();
     print("getPackages userId: $userPhone");
+    if (userPhone == null) return;
     await fetchPackagesByPhoneNumber(userPhone!);
   }
 
@@ -56,7 +57,11 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  void changeHomeScreenIndex(int index) {
+  void changeHomeScreenIndex(int index) async {
+    String? userPhone = await UserPrefs.getUserPhone();
+    if (index == 0 && userPhone != null) {
+      getPackages();
+    }
     emit(HomeState(
       homeScreenIndex: index,
       packageScreenIndex: state.packageScreenIndex,

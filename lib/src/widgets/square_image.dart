@@ -19,7 +19,6 @@ class SquareImageIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("imgPath: $imagePath");
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

@@ -1,27 +1,28 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
-import 'package:csm/src/features/packages/views/payment_page.dart';
-import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/package_card.dart';
+import 'package:csm/src/widgets/package_update_bottom_sheet.dart';
 import 'package:csm/src/widgets/status_tile.dart';
+import 'package:csm/src/widgets/status_tile_edit_button.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../home/views/widgets/header_widget.dart';
+import '../../../widgets/add_status_bottom_sheet.dart';
 
 @RoutePage()
-class PackageDetailPage extends StatefulWidget {
+class EmployeePackageDetailPage extends StatefulWidget {
   final String packageId;
-  const PackageDetailPage({super.key, required this.packageId});
+  const EmployeePackageDetailPage({super.key, required this.packageId});
 
   @override
-  State<PackageDetailPage> createState() => _PackageDetailPageState();
+  State<EmployeePackageDetailPage> createState() => _EmployeePackageDetailPageState();
 }
 
-class _PackageDetailPageState extends State<PackageDetailPage> {
+class _EmployeePackageDetailPageState extends State<EmployeePackageDetailPage> {
   @override
   void initState() {
     context.read<PackageCubit>().fetchPackageById(widget.packageId);
@@ -80,7 +81,24 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                                     imgUrl: status.imgUrl,
                                   );
                                 }).toList(),
-                              )
+                              ),
+                            if (statuses.any((s) => s.status == 3) != true)
+                              StatusTileEditButton(onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  enableDrag: true,
+                                  showDragHandle: true,
+                                  isScrollControlled: true,
+                                  backgroundColor: ColorTheme.secondaryBg,
+                                  builder: (context) {
+                                    return AddStatusBottomSheet(
+                                      trackCode: state.package!.trackCode,
+                                      packageId: state.package!.id,
+                                      statuses: state.statuses!,
+                                    );
+                                  },
+                                );
+                              })
                           ]),
                         ),
                       )
@@ -88,15 +106,24 @@ class _PackageDetailPageState extends State<PackageDetailPage> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (state.package!.amount > 0 && state.package!.isPaid != true) ...[
-                  MyButton(
-                    title: "Төлбөр төлөх",
-                    onTap: () {
-                      context.router.push(PaymentRoute());
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                ]
+                MyButton(
+                  title: "Шинэчлэх",
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      enableDrag: true,
+                      showDragHandle: true,
+                      isScrollControlled: true,
+                      backgroundColor: ColorTheme.secondaryBg,
+                      builder: (context) {
+                        return UpdatePackageBottomSheet(
+                          package: state.package!,
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           );

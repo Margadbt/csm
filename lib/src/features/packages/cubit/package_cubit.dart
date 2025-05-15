@@ -148,15 +148,19 @@ class PackageCubit extends Cubit<PackagesState> {
       await _repository.payPackage(
         packageId: packageId,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Амжилттай төлөгдлөө!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Амжилттай төлөгдлөө!'),
+      //     backgroundColor: Colors.green,
+      //   ),
+      // );
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
     }
+  }
+
+  Future<void> clearPackageCubit() async {
+    emit(PackagesState.initial());
   }
 }
 

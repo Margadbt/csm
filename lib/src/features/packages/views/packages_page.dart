@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
+import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:csm/src/features/home/cubit/home_cubit.dart';
 import 'package:csm/src/features/home/views/widgets/header_widget.dart';
 import 'package:csm/src/features/packages/cubit/package_cubit.dart';
 import 'package:csm/src/features/theme/cubit/theme_cubit.dart';
 import 'package:csm/src/routes/app_router.dart';
+import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/input_with_button.dart';
 import 'package:csm/src/widgets/package_card.dart';
 import 'package:csm/src/widgets/text.dart';
@@ -30,7 +32,9 @@ class _PackagesPageState extends State<PackagesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getPackages(); // Fetch packages
+    if (context.read<AuthCubit>().state.userModel != null) {
+      context.read<HomeCubit>().getPackages(); // Fetch packages
+    }
     // context.read<PackageCubit>().deleteAllDocumentsInCollection("packages");
     // context.read<PackageCubit>().deleteAllDocumentsInCollection("statuses");
     _selectedStatusIndex = context.read<HomeCubit>().state.packageScreenIndex ?? 0;
@@ -125,8 +129,26 @@ class _PackagesPageState extends State<PackagesPage> {
                           );
                         },
                       );
+                    } else {
+                      if (context.read<AuthCubit>().state.userModel != null) {
+                        return Center(child: text(value: 'Ачаа, бараа олдсонгүй.'));
+                      } else {
+                        return Column(
+                          children: [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Center(child: text(value: 'Та эхлээд нэвтэрнэ үү.')),
+                            SizedBox(height: 20),
+                            MyButton(
+                                title: "Нэвтрэх",
+                                onTap: () {
+                                  context.router.push(LoginRoute());
+                                })
+                          ],
+                        );
+                      }
                     }
-                    return Center(child: text(value: 'Ачаа, бараа олдсонгүй.'));
                   },
                 ),
               ),

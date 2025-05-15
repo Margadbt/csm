@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/models/package_model.dart';
+import 'package:csm/src/common/page/payment_successful_page.dart';
 import 'package:csm/src/features/auth/views/login_page.dart';
 import 'package:csm/src/features/auth/views/register_page.dart';
 import 'package:csm/src/features/help/views/calculator_page.dart';
 import 'package:csm/src/features/help/views/connect_address_page.dart';
 import 'package:csm/src/features/help/views/contact_page.dart';
 import 'package:csm/src/features/help/views/tutorial_page.dart';
+import 'package:csm/src/features/home/views/employee_home_tab.dart';
 import 'package:csm/src/features/home/views/home_page.dart';
 import 'package:csm/src/features/home/views/home_tab.dart';
+import 'package:csm/src/features/packages/views/employee_package_detail.dart';
 import 'package:csm/src/features/packages/views/package_detail.dart';
 import 'package:csm/src/features/packages/views/packages_page.dart';
 import 'package:csm/src/features/packages/views/payment_page.dart';
@@ -27,10 +30,10 @@ class AppRouter extends _$AppRouter {
   RouteType get defaultRouteType => const RouteType.material();
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: HomeRoute.page, path: '/home'),
+    AutoRoute(page: HomeRoute.page, path: '/home', initial: true),
     AutoRoute(page: PackagesRoute.page, path: '/packages'),
     AutoRoute(page: ProfileRoute.page, path: '/profile'),
-    AutoRoute(page: LoginRoute.page, path: '/login', initial: true),
+    AutoRoute(page: LoginRoute.page, path: '/login'),
     AutoRoute(page: RegisterRoute.page, path: '/register'),
     AutoRoute(page: PackageDetailRoute.page, path: '/package/detail'),
     AutoRoute(page: SettingsRoute.page, path: '/settings'),
@@ -42,5 +45,8 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: UserInfoRoute.page, path: '/user-info'),
     AutoRoute(page: AddressInfoRoute.page, path: '/address-info'),
     AutoRoute(page: PaymentHistoryRoute.page, path: '/payment-history'),
+    AutoRoute(page: PaymentSuccessfulRoute.page, path: '/payment-successful'),
+    AutoRoute(page: EmployeeHomeTabRoute.page, path: '/employee-home-tab'),
+    AutoRoute(page: EmployeePackageDetailRoute.page, path: '/employee-package-detail'),
   ];
 }

@@ -80,7 +80,7 @@ class _UpdatePackageBottomSheetState extends State<UpdatePackageBottomSheet> {
             ),
             const SizedBox(height: 16),
             MyButton(
-                title: "Нэмэх",
+                title: "Шинэчлэх",
                 onTap: () {
                   String trackCode = _trackCodeController.text.trim();
                   String phone = _phoneController.text.trim();

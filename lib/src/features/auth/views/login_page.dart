@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:csm/gen/assets.gen.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
+import 'package:csm/src/features/home/cubit/home_cubit.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/card.dart';
 import 'package:csm/src/widgets/icon_circle.dart';
@@ -24,7 +26,8 @@ class LoginPage extends StatelessWidget {
       body: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state.userModel != null && state.userModel!.userId.isNotEmpty) {
-            context.router.pushNamed('/home');
+            context.router.replaceAll([HomeRoute()]);
+            context.read<HomeCubit>().changeHomeScreenIndex(0);
           } else if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.error!)));
           }

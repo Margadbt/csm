@@ -116,9 +116,8 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
   }
 
   void _onSubmit() async {
-    // final statusCode = _getStatusCode();
     final statusCode = _selectedStatus;
-    if (statusCode == 404) return;
+    if (statusCode > 3) return;
 
     String imgUrl = '';
     if (_imageFile != null) {
@@ -198,7 +197,7 @@ class _AddStatusBottomSheetState extends State<AddStatusBottomSheet> {
                       borderRadius: defaultBorderRadius,
                       borderSide: BorderSide(color: ColorTheme.cardStroke, width: 1),
                     ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   ),
                 )
               else
