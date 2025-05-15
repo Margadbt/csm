@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/status_model.dart';
+import 'package:csm/models/transactions_model.dart';
 import 'package:csm/repository/package_repository.dart';
 import 'package:csm/src/features/auth/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
@@ -142,18 +143,12 @@ class PackageCubit extends Cubit<PackagesState> {
   Future<void> payPackage({
     required BuildContext context,
     required String packageId,
+    required String packageTrackCode,
+    required int amount,
   }) async {
     emit(state.copyWith(isLoading: true));
     try {
-      await _repository.payPackage(
-        packageId: packageId,
-      );
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text('Амжилттай төлөгдлөө!'),
-      //     backgroundColor: Colors.green,
-      //   ),
-      // );
+      await _repository.payPackage(packageId: packageId, amount: amount, packageTrackCode: packageTrackCode);
     } catch (e) {
       emit(state.copyWith(error: e.toString(), isLoading: false));
     }
@@ -161,6 +156,16 @@ class PackageCubit extends Cubit<PackagesState> {
 
   Future<void> clearPackageCubit() async {
     emit(PackagesState.initial());
+  }
+
+  Future<void> fetchTransactions() async {
+    try {
+      final transactions = await _repository.fetchTransaction();
+      emit(state.copyWith(transactions: transactions, isLoading: false, error: null));
+      print(" >>> Transactions loaded: ${state.transactions?.length}");
+    } catch (e) {
+      emit(state.copyWith(error: e.toString(), isLoading: false));
+    }
   }
 }
 
@@ -170,12 +175,14 @@ class PackagesState {
   final int? index;
   final PackageModel? package;
   final List<StatusModel>? statuses;
+  final List<TransactionsModel>? transactions;
 
   PackagesState({
     this.isLoading = false,
     this.error,
     this.package,
     this.statuses,
+    this.transactions,
     this.index = 0,
   });
 
@@ -209,6 +216,7 @@ class PackagesState {
     int? index,
     PackageModel? package,
     List<StatusModel>? statuses,
+    List<TransactionsModel>? transactions,
   }) {
     return PackagesState(
       isLoading: isLoading ?? this.isLoading,
@@ -216,6 +224,7 @@ class PackagesState {
       package: package ?? this.package,
       statuses: statuses ?? this.statuses,
       index: index ?? this.index,
+      transactions: transactions ?? this.transactions,
     );
   }
 }

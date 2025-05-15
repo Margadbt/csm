@@ -120,7 +120,7 @@ class _PackageDetailPageState extends State<PaymentPage> {
                 MyButton(
                     title: "Төлбөр төлөх",
                     onTap: () {
-                      context.read<PackageCubit>().payPackage(context: context, packageId: state.package!.id);
+                      context.read<PackageCubit>().payPackage(context: context, packageId: state.package!.id, amount: state.package!.amount, packageTrackCode: state.package!.trackCode);
                       context.router.push(PaymentSuccessfulRoute());
                       // Future.delayed(const Duration(seconds: 1), () {
                       //   context.router.popForced();

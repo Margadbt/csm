@@ -45,9 +45,7 @@ class _AddressInfoPageState extends State<AddressInfoPage> {
                 title: "Хадгалах",
                 onTap: () {
                   print("ha");
-                  context.read<AuthCubit>().updateUserAddress(
-                        address: _addressController.text.trim(),
-                      );
+                  context.read<AuthCubit>().updateUserAddress(address: _addressController.text.trim(), context: context);
                 })
           ],
         ),

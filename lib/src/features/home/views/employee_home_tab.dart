@@ -42,110 +42,116 @@ class _EmployeeHomeTabPageState extends State<EmployeeHomeTabPage> {
           bottom: false,
           child: Scaffold(
             backgroundColor: ColorTheme.background,
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    const Header(profile: true, settings: true),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: InputWithButton(
-                            controller: _trackCodeController,
-                            placeholder: 'Утасны дугаар',
-                            prefixIconPath: Assets.images.package.path,
-                            buttonIconPath: Assets.images.search.path,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                await context.read<HomeCubit>().getAllPackages();
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      const Header(profile: true, settings: true),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InputWithButton(
+                              controller: _trackCodeController,
+                              placeholder: 'Утасны дугаар',
+                              prefixIconPath: Assets.images.package.path,
+                              buttonIconPath: Assets.images.search.path,
+                              onTap: () {
+                                final phone = _trackCodeController.text.trim();
+                                if (phone.isNotEmpty) {
+                                  context.read<HomeCubit>().fetchPackagesByPhoneNumber(phone);
+                                } else {
+                                  context.read<HomeCubit>().getAllPackages();
+                                }
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          ButtonIcon(
+                            imagePath: Assets.images.plus.path,
+                            color: ColorTheme.primary,
+                            iconColor: Colors.black,
                             onTap: () {
-                              final phone = _trackCodeController.text.trim();
-                              if (phone.isNotEmpty) {
-                                context.read<HomeCubit>().fetchPackagesByPhoneNumber(phone);
-                              } else {
-                                context.read<HomeCubit>().getAllPackages();
-                              }
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                enableDrag: true,
+                                showDragHandle: true,
+                                backgroundColor: ColorTheme.secondaryBg,
+                                builder: (context) => EmployeeCreatePackageBottomSheet(),
+                              );
                             },
                           ),
-                        ),
-                        const SizedBox(width: 12),
-                        ButtonIcon(
-                          imagePath: Assets.images.plus.path,
-                          color: ColorTheme.primary,
-                          iconColor: Colors.black,
-                          onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              enableDrag: true,
-                              showDragHandle: true,
-                              backgroundColor: ColorTheme.secondaryBg,
-                              builder: (context) => EmployeeCreatePackageBottomSheet(),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: text(value: "Бүх тээврүүд:", fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8),
+                      BlocBuilder<HomeCubit, HomeState>(
+                        builder: (context, state) {
+                          if (state.isLoading) {
+                            return Center(child: CircularProgressIndicator(color: ColorTheme.blue));
+                          } else if (state.errorMessage != null) {
+                            return Center(child: text(value: state.errorMessage!, color: Colors.red));
+                          } else if (state.packages != null && state.packages!.isNotEmpty) {
+                            return Column(
+                              children: state.packages!
+                                  .take(20)
+                                  .map((package) => Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 6),
+                                        child: PackageCard(
+                                          isPaid: package.isPaid,
+                                          trackCode: package.trackCode,
+                                          date: package.addedDate,
+                                          amount: package.amount,
+                                          img: package.img,
+                                          description: package.description,
+                                          phone: package.phone,
+                                          status: PackageStatus.values[package.status],
+                                          id: package.id,
+                                          onTap: () {
+                                            context.router.push(EmployeePackageDetailRoute(packageId: package.id));
+                                          },
+                                        ),
+                                      ))
+                                  .toList(),
                             );
-                          },
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 30),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: text(value: "Бүх тээврүүд:", fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8),
-                    BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        if (state.isLoading) {
-                          return Center(child: CircularProgressIndicator(color: ColorTheme.blue));
-                        } else if (state.errorMessage != null) {
-                          return Center(child: text(value: state.errorMessage!, color: Colors.red));
-                        } else if (state.packages != null && state.packages!.isNotEmpty) {
-                          return Column(
-                            children: state.packages!
-                                .take(20)
-                                .map((package) => Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 6),
-                                      child: PackageCard(
-                                        isPaid: package.isPaid,
-                                        trackCode: package.trackCode,
-                                        date: package.addedDate,
-                                        amount: package.amount,
-                                        img: package.img,
-                                        description: package.description,
-                                        phone: package.phone,
-                                        status: PackageStatus.values[package.status],
-                                        id: package.id,
-                                        onTap: () {
-                                          context.router.push(EmployeePackageDetailRoute(packageId: package.id));
-                                        },
-                                      ),
-                                    ))
-                                .toList(),
-                          );
-                        } else {
-                          return Column(
-                            children: [
-                              const SizedBox(height: 100),
-                              text(value: "Ачаа, бараа олдсонгүй.", fontWeight: FontWeight.bold),
-                              const SizedBox(height: 12),
-                              MyButton(
-                                title: "Ачаа нэмэх",
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    enableDrag: true,
-                                    isScrollControlled: true,
-                                    showDragHandle: true,
-                                    backgroundColor: ColorTheme.secondaryBg,
-                                    builder: (context) => EmployeeCreatePackageBottomSheet(),
-                                  );
-                                },
-                              ),
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                    const SizedBox(height: 100),
-                  ],
+                          } else {
+                            return Column(
+                              children: [
+                                const SizedBox(height: 100),
+                                text(value: "Ачаа, бараа олдсонгүй.", fontWeight: FontWeight.bold),
+                                const SizedBox(height: 12),
+                                MyButton(
+                                  title: "Ачаа нэмэх",
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      enableDrag: true,
+                                      isScrollControlled: true,
+                                      showDragHandle: true,
+                                      backgroundColor: ColorTheme.secondaryBg,
+                                      builder: (context) => EmployeeCreatePackageBottomSheet(),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 100),
+                    ],
+                  ),
                 ),
               ),
             ),

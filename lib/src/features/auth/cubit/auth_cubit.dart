@@ -30,6 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
     await prefs.setString('userId', userModel.userId ?? '');
     await prefs.setString('userEmail', userModel.email ?? '');
     await prefs.setString('userPhone', userModel.phone ?? '');
+    await prefs.setString('userRole', userModel.role ?? '');
   }
 
 // Clear user info
@@ -116,12 +117,19 @@ class AuthCubit extends Cubit<AuthState> {
     String? username,
     String? phone,
     String? password,
+    required BuildContext context,
   }) async {
     try {
       await _authRepository.updateUserProfile(
         username: username,
         phone: phone,
         password: password,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Амжилттай шинэчлэгдлээ!'),
+          backgroundColor: Colors.green,
+        ),
       );
       UserModel? userModel = await _authRepository.getCurrentUser();
       if (userModel != null) {
@@ -138,11 +146,15 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> updateUserAddress({
-    String? address,
-  }) async {
+  Future<void> updateUserAddress({String? address, required BuildContext context}) async {
     try {
       await _authRepository.updateUserAddress(address: address);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Амжилттай шинэчлэгдлээ!'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } catch (e) {
       print(e);
     }

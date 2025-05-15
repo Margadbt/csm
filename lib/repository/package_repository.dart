@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csm/models/package_model.dart';
 import 'package:csm/models/status_model.dart';
+import 'package:csm/models/transactions_model.dart';
+import 'package:csm/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PackageRepository {
@@ -189,6 +191,8 @@ class PackageRepository {
 
   Future<void> payPackage({
     required String packageId,
+    required String packageTrackCode,
+    required int amount,
   }) async {
     final packageRef = FirebaseFirestore.instance.collection('packages').doc(packageId);
 
@@ -197,5 +201,28 @@ class PackageRepository {
     updatedData['is_paid'] = true;
 
     await packageRef.update(updatedData);
+
+    final userId = await UserPrefs.getUserId();
+
+    // Save to transactions collection
+    await FirebaseFirestore.instance.collection('transactions').add({
+      'package_id': packageId,
+      'user_id': userId,
+      'amount': amount,
+      'package_track_code': packageTrackCode,
+      'date': DateTime.now(),
+    });
+  }
+
+  Future<List<TransactionsModel>> fetchTransaction() async {
+    try {
+      final userId = await UserPrefs.getUserId();
+
+      final querySnapshot = await _firestore.collection('transactions').where('user_id', isEqualTo: userId).orderBy('date', descending: true).get();
+
+      return querySnapshot.docs.map((doc) => TransactionsModel.fromFirestore(doc)).toList();
+    } catch (e) {
+      throw Exception("Error fetching transactions: $e");
+    }
   }
 }

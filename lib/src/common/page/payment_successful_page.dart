@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:csm/src/routes/app_router.dart';
 import 'package:csm/src/widgets/button.dart';
 import 'package:csm/src/widgets/text.dart';
 import 'package:csm/theme/colors.dart';
@@ -91,10 +92,7 @@ class _PaymentSuccessfulPageState extends State<PaymentSuccessfulPage> with Sing
             MyButton(
                 title: "Нүүр хуудасруу буцах",
                 onTap: () {
-                  Future.delayed(const Duration(seconds: 1), () {
-                    context.router.popForced();
-                    context.router.popForced();
-                  });
+                  context.router.replaceAll([HomeRoute()]);
                 })
           ],
         ),

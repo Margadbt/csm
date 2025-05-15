@@ -84,6 +84,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         username: _usernameController.text.trim(),
                         phone: _phoneController.text.trim(),
                         password: _passwordController.text.trim(),
+                        context: context,
                       );
                 })
           ],

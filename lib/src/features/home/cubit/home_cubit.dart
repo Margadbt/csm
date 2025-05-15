@@ -59,8 +59,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   void changeHomeScreenIndex(int index) async {
     String? userPhone = await UserPrefs.getUserPhone();
+    String? userRole = await UserPrefs.getUserRole();
+    print("hahaha: ${userRole}");
     if (index == 0 && userPhone != null) {
-      getPackages();
+      if (userRole != "employee") {
+        getPackages();
+      } else {
+        getAllPackages();
+      }
     }
     emit(HomeState(
       homeScreenIndex: index,
