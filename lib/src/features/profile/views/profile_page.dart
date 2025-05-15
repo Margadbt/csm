@@ -75,7 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         value: "Бүртгэлээ гаргах",
                         onTap: () {
                           context.read<AuthCubit>().logout(context);
-                          context.pushRoute(LoginRoute());
+                          context.router.replaceAll([LoginRoute()]);
                         })),
               ],
             ),
