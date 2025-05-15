@@ -12,6 +12,8 @@ class NotificationService {
   static final FlutterLocalNotificationsPlugin _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
+    print("🚀 NotificationService.init called");
+
     // Local notification setup
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
     final iosInit = DarwinInitializationSettings(
@@ -47,6 +49,7 @@ class NotificationService {
     // Foreground message handler
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('🔔 Foreground message: ${message.notification?.title}');
+      print("📥 Notification: ${message.notification?.title}");
       if (message.notification != null) {
         _showLocalNotification(message);
       }
