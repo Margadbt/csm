@@ -26,7 +26,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> _saveUserToPrefs(UserModel userModel) async {
     final prefs = await SharedPreferences.getInstance();
-    print("><><><><><><> ${userModel.phone}");
+    print("user phone to saved prefs <><><><><><> ${userModel.phone}");
     await prefs.setString('userId', userModel.userId ?? '');
     await prefs.setString('userEmail', userModel.email ?? '');
     await prefs.setString('userPhone', userModel.phone ?? '');
